@@ -10,8 +10,10 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { FaUpload, FaDownload } from 'react-icons/fa';
+import { FaUpload, FaDownload, FaRegPlayCircle, FaRegStopCircle } from 'react-icons/fa';
 import { remote } from 'electron';
+import { GiHeartPlus } from 'react-icons/gi';
+
 import {
   runDockerComposeDeployment,
   runDockerComposeKill,
@@ -40,6 +42,7 @@ type Props = {
 const Deployment: React.FC<Props> = ({ currentFilePath, fileOpen }) => {
   const [deployState, setDeployState] = useState(DeploymentStatus.NoFile);
   const [errorMessage, setErrorMessage] = useState('');
+  const [ healthCheckRunning, setHealthCheckRunning ] = useState(false);
 
   useEffect(() => {
     if (currentFilePath !== '') deployCheck();
@@ -67,7 +70,12 @@ const Deployment: React.FC<Props> = ({ currentFilePath, fileOpen }) => {
       });
     }
   };
-
+  //function definitions
+  const toggleStart = (e: React.MouseEvent) => {
+    healthCheckRunning ? setHealthCheckRunning(false): setHealthCheckRunning(true);
+    console.log('toggleStart invoked...healthCheckRunning=', healthCheckRunning);
+    e.stopPropagation();
+  }
   const deployCompose: Void = () => {
     setDeployState(DeploymentStatus.Deploying);
     runDockerComposeDeployment(currentFilePath)
@@ -96,6 +104,10 @@ const Deployment: React.FC<Props> = ({ currentFilePath, fileOpen }) => {
   let title,
     onClick,
     icon = <FaUpload className="deployment-button" size={24} />;
+    const healthIcon = <GiHeartPlus className={`health-icon ${deployState === DeploymentStatus.Running ? '' : 'hidden'}`} size={20} />;
+    const startButton = <FaRegPlayCircle className={`start-button ${deployState === DeploymentStatus.Running ? '' : 'hidden'}`} size={20} onClick={toggleStart} />
+    const stopButton = <FaRegStopCircle className={`stop-button ${deployState === DeploymentStatus.Running ? '' : 'hidden'}`} size={20} onClick={toggleStart} />
+    const toggleButton = healthCheckRunning ? stopButton : startButton
 
   if (deployState === DeploymentStatus.NoFile) {
     title = 'Deploy Container';
@@ -159,6 +171,7 @@ const Deployment: React.FC<Props> = ({ currentFilePath, fileOpen }) => {
           {deployState === DeploymentStatus.NoFile ? inputButton : ''}
         </label>
         <div className="status-container">
+          {healthIcon}{toggleButton}
           <span
             className={`deployment-status status-healthy 
             ${

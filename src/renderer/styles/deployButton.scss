@@ -39,7 +39,6 @@
       transform: translate(14px, 12px);
       color: $primary-color;
     }
-  
     span {
       margin-right: 5px;
     }
@@ -59,9 +58,10 @@
 .status-container {
   display: flex;
   justify-content: space-evenly;
-  padding-left: 35%;
+  align-items: center;
+  padding-left: 20%;
   padding-right: 5%;
-  width: 8em;
+  width: 11em;
   color: white;
 }
 
@@ -80,6 +80,22 @@
   font-weight: bolder;
   align-items: center;
   justify-content: center;
+}
+
+.start-button {
+  color: red;
+  // padding-left: 4px;
+}
+.stop-button {
+  color: red;
+  // padding-left: 4px;
+}
+
+.health-icon {
+  color: $primary-color;
+  &.green {
+    color: rgb(6, 122, 6);
+  } 
 }
 
 .status-healthy {
@@ -124,4 +140,7 @@
 .button-container {
   display: flex;
   justify-content: center;
+}
+.hidden {
+  visibility: hidden;
 }

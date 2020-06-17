@@ -1,6 +1,25 @@
-/* eslint-disable */
 import child_process from 'child_process';
-import { shellResults } from '../renderer/App.d';
+import { shellResults } from '../renderer/App.d'
+
+const runDockerStats = (handleOnData: Function, containerNames: Array<string>) => {
+  runSpawn(handleOnData, 'docker', containerNames);
+}
+
+const runSpawn = (handleOnData: Function, cmd: string, args: Array<string>) => {
+  const sp = child_process.spawn('docker', args);
+
+  sp.stdout.on("data", data => {
+    handleOnData(data, sp.kill.bind(sp));
+  });
+
+  sp.stderr.on("data", data => {
+    console.log(`spawn stderr: ${data}`);
+  });
+
+  sp.on('error', (error) => {
+    console.log(`child process error: ${error.message}`);
+  });
+}
 
 const runDockerComposeKill = (filePath: string) =>
   runShell(`docker-compose -f ${filePath} kill`, false);
@@ -90,4 +109,6 @@ export {
   runLeaveSwarm,
   runCheckStack,
   runDockerSwarmDeployStack,
+  runSpawn,
+  runDockerStats
 };
