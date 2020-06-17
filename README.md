@@ -64,28 +64,40 @@
 
 ## Features
 
-### Open your Docker Compose file
+### Open multiple Docker Compose files
 
 <p align="center">
-  <img src="https://nautilusdev.com/assets/upload1.png" width=70%>
+  <img src="" width=70%>
 </p>
 
 ### Display your service's info, ports and volumes
 
 <p align="center">
-  <img src="https://nautilusdev.com/assets/options1.png" width=70%>
+  <img src="" width=70%>
 </p>
 
 ### View your services by a container dependent view
 
 <p align="center">
-  <img src="https://nautilusdev.com/assets/depends_view1.png" width=70%>
+  <img src="" width=70%>
 </p>
 
 ### View your services grouped by networks
 
 <p align="center">
-  <img src="https://nautilusdev.com/assets/networks_view1.png" width=70%>
+  <img src="" width=70%>
+</p>
+
+### Deploy your Docker Compose file
+
+<p align="center">
+  <img src="" width=70%>
+</p>
+
+### Initialize a single-node Swarm and deploy multiple stacks to it
+
+<p align="center">
+  <img src="" width=70%>
 </p>
 
 <!-- GETTING STARTED -->
