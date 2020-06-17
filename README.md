@@ -5,7 +5,7 @@
 <p align="center">
   A Docker Compose Charting Tool <br><br>
   An interactive D3 visualizing tool that dynamically renders essential Docker Compose properties onto an Electron GUI, built to reduce cognitive load and simplify the development environment for engineers.<br/>
-  <a href="https://nautilusdev.com">nautilusdev.com</a>
+  
 </p>
 
 <p align="center">
@@ -13,10 +13,10 @@
   <img src="https://img.shields.io/github/license/open-source-labs/nautilus?color=brown&label=license">
 
   <!-- Release -->
-  <img src="https://img.shields.io/badge/release-1.3.1-orange">
+  <img src="https://img.shields.io/badge/release-2.0.1-orange">
 
   <!-- Release Date -->
-  <img src="https://img.shields.io/badge/release%20date-4%2F9%2F20-yellow">
+  <img src="https://img.shields.io/badge/release%20date-6%2F18%2F20-yellow">
 
   <!-- Test -->
   <img src="https://img.shields.io/travis/com/open-source-labs/nautilus/master?color=green&label=test">
@@ -41,12 +41,6 @@
 
   <!-- Code Style -->
   <img src="https://img.shields.io/badge/code%20style-airbnb-violet">
-</p>
-
-<p align="center">
-  <sub> No nautili were harmed during the making of this application
-  <br>
-  - Aris, Danny, Josh, Michael, Tyler
 </p>
 
 <!-- TABLE OF CONTENTS -->
