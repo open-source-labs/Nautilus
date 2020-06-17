@@ -1,12 +1,10 @@
-
-
 .deploy-container {
   display: flex;
   flex-direction: column;
   justify-content: initial;
   color: white;
   width: 100%;
-  text-align: center; 
+  text-align: center;
   margin-bottom: 8%;
   align-items: center;
 
@@ -16,7 +14,7 @@
     padding-bottom: 7px;
     padding-top: 7px;
     padding-left: 0px;
-    padding-right:  0px;
+    padding-right: 0px;
     outline: none;
     font-size: 1.1em;
     width: 85%;
@@ -26,15 +24,15 @@
     transition: background-color 0.2s;
 
     .deployment-title {
-      font-size: 1em;    
+      font-size: 1em;
       padding-left: 0.5em;
-  }
-    .open-button{
+    }
+    .open-button {
       float: left;
       transform: translate(14px, 12px);
       color: $primary-color;
     }
-    .deployment-button{
+    .deployment-button {
       float: left;
       transform: translate(14px, 12px);
       color: $primary-color;
@@ -42,7 +40,7 @@
     span {
       margin-right: 5px;
     }
-  
+
     &:hover {
       cursor: hand;
       cursor: pointer;
@@ -57,14 +55,12 @@
 
 .status-container {
   display: flex;
-  justify-content: space-evenly;
   align-items: center;
   padding-left: 20%;
   padding-right: 5%;
   width: 11em;
   color: white;
 }
-
 
 #compose-deploy-div {
   margin-bottom: 8%;
@@ -84,38 +80,41 @@
 
 .start-button {
   color: red;
-  // padding-left: 4px;
+  margin-right: 0.9em;
+  margin-left: 0.1em;
 }
 .stop-button {
   color: red;
-  // padding-left: 4px;
+  margin-right: 0.9em;
+  margin-left: 0.1em;
 }
 
 .health-icon {
+  margin-left: 0.5em;
   color: $primary-color;
   &.green {
     color: rgb(6, 122, 6);
-  } 
+  }
 }
 
 .status-healthy {
-  border-color:  rgb(140,170,194);
-  background-color: rgb(140,170,194);
+  border-color: rgb(140, 170, 194);
+  background-color: rgb(140, 170, 194);
   &.status-active {
     background-color: rgb(9, 247, 9);
   }
 }
 
 .status-moderate {
-  border-color:  rgb(140,170,194);
-  background-color: rgb(140,170,194);
+  border-color: rgb(140, 170, 194);
+  background-color: rgb(140, 170, 194);
   &.status-active {
     background-color: rgb(246, 246, 8);
   }
 }
 .status-dead {
-  border-color:  rgb(140,170,194);
-  background-color: rgb(140,170,194);
+  border-color: rgb(140, 170, 194);
+  background-color: rgb(140, 170, 194);
   &.status-active {
     background-color: rgb(253, 7, 7);
   }
@@ -134,7 +133,7 @@
 
 .deployment-title:hover {
   cursor: hand;
-  cursor: pointer; 
+  cursor: pointer;
 }
 
 .button-container {

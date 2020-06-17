@@ -105,6 +105,7 @@ describe('Testing App Stateful Component', () => {
       expect(wrapper.state().view).toBe('networks');
     });
     it('should updated selectedNetwork to passed in string', () => {
+      wrapper.instance().selectNetwork('dummy-network');
       expect(wrapper.state().selectedNetwork).toBe('dummy-network');
     });
   });
@@ -114,9 +115,16 @@ describe('Testing App Stateful Component', () => {
 
     beforeAll(() => {
       yamlText = fs
-        .readFileSync(path.resolve(__dirname, '../samples/docker-compose1.yml'))
+        .readFileSync(
+          path.resolve(__dirname, '../samples/docker-compose.dur.yml'),
+        )
         .toString();
-      wrapper.instance().convertAndStoreYamlJSON(yamlText, '');
+      wrapper
+        .instance()
+        .convertAndStoreYamlJSON(
+          yamlText,
+          'C:/Users/davex/DocumentsLocal/Code/Codesmith/nautilus/samples/docker-compose.dur.yml)',
+        );
     });
 
     afterAll(() => {
