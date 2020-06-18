@@ -19,7 +19,11 @@
     "setupFilesAfterEnv": [
       "./src/setupTests.ts"
     ],
-    "testEnvironment": "enzyme"
+    "testEnvironment": "enzyme",
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/samples/"
+    ]
   },
   "build": {
     "appId": "com.nautilus.app",
