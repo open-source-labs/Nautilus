@@ -167,14 +167,14 @@ const Nodes: React.FC<Props> = ({
     });
   };
 
-  const removePorts: () => void = () => {
+  const removePorts = () => {
     boxPorts.forEach((node) => node.remove());
     boxPortTexts.forEach((node) => node.remove());
     setBoxPorts([]);
     setBoxPortTexts([]);
   };
 
-  const addPorts: () => void = () => {
+  const addPorts = () => {
     const rx = 3;
     // size of rectangle
     const pWidth = 78;
@@ -288,6 +288,9 @@ const Nodes: React.FC<Props> = ({
       .enter()
       .append('g')
       .attr('class', 'node')
+      .attr('id', (node: SNode) => {
+        return `container_${node.name}`;
+      })
       .on('click', (node: SNode) => {
         setSelectedContainer(node.name);
       })
@@ -321,6 +324,139 @@ const Nodes: React.FC<Props> = ({
       .attr('y', 133 / 2)
       .attr('text-anchor', 'middle')
       .call(wrap);
+
+    const statTextSize = '10px';
+    nodeContainers
+      .append('text')
+      .text((d: any) => 'CPU %')
+      .attr('class', 'cpu-stat-title')
+      .attr('x', 2)
+      .attr('y', 11)
+      .attr('style', 'white-space:pre')
+      .attr('font-size', statTextSize)
+      .style('fill', 'rgb(0,255,0)')
+      .style('display', 'none');
+
+    nodeContainers
+      .append('text')
+      .text((d: any) => 'x')
+      .attr('class', 'cpu-stat')
+      .attr('x', 2)
+      .attr('y', 21)
+      .attr('style', 'white-space:pre')
+      .attr('font-size', statTextSize)
+      .style('fill', 'rgb(0,255,0)')
+      .style('display', 'none');
+
+    nodeContainers
+      .append('text')
+      .text((d: any) => 'MEM USAGE/LIMIT')
+      .attr('class', 'mem-usage-stat-title')
+      .attr('x', 39)
+      .attr('y', 11)
+      .attr('style', 'white-space:pre')
+      .attr('font-size', statTextSize)
+      .style('fill', 'rgb(0,255,0)')
+      .style('display', 'none');
+
+    nodeContainers
+      .append('text')
+      .text((d: any) => 'x')
+      .attr('class', 'mem-usage-stat')
+      .attr('x', 39)
+      .attr('y', 21)
+      .attr('style', 'white-space:pre')
+      .attr('font-size', statTextSize)
+      .style('fill', 'rgb(0,255,0)')
+      .style('display', 'none');
+
+    nodeContainers
+      .append('text')
+      .text((d: any) => 'MEM %')
+      .attr('class', 'mem-percent-stat-title')
+      .attr('x', 2)
+      .attr('y', 33)
+      .attr('style', 'white-space:pre')
+      .attr('font-size', statTextSize)
+      .style('fill', 'rgb(0,255,0)')
+      .style('display', 'none');
+
+    nodeContainers
+      .append('text')
+      .text((d: any) => 'x')
+      .attr('class', 'mem-percent-stat')
+      .attr('x', 2)
+      .attr('y', 45)
+      .attr('style', 'white-space:pre')
+      .attr('font-size', statTextSize)
+      .style('fill', 'rgb(0,255,0)')
+      .style('display', 'none');
+
+    nodeContainers
+      .append('text')
+      .text((d: any) => 'NET I/O')
+      .attr('class', 'net-stat-title')
+      .attr('x', 39)
+      .attr('y', 33)
+      .attr('style', 'white-space:pre')
+      .attr('font-size', statTextSize)
+      .style('fill', 'rgb(0,255,0)')
+      .style('display', 'none');
+
+    nodeContainers
+      .append('text')
+      .text((d: any) => 'x')
+      .attr('class', 'net-stat')
+      .attr('x', 39)
+      .attr('y', 45)
+      .attr('style', 'white-space:pre')
+      .attr('font-size', statTextSize)
+      .style('fill', 'rgb(0,255,0)')
+      .style('display', 'none');
+
+    nodeContainers
+      .append('text')
+      .text((d: any) => 'BLOCK I/O')
+      .attr('class', 'block-stat-title')
+      .attr('x', 2)
+      .attr('y', 57)
+      .attr('style', 'white-space:pre')
+      .attr('font-size', statTextSize)
+      .style('fill', 'rgb(0,255,0)')
+      .style('display', 'none');
+
+    nodeContainers
+      .append('text')
+      .text((d: any) => 'x')
+      .attr('class', 'block-stat')
+      .attr('x', 2)
+      .attr('y', 68)
+      .attr('style', 'white-space:pre')
+      .attr('font-size', statTextSize)
+      .style('fill', 'rgb(0,255,0)')
+      .style('display', 'none');
+
+    nodeContainers
+      .append('text')
+      .text((d: any) => 'PIDS')
+      .attr('class', 'pids-stat-title')
+      .attr('x', 105)
+      .attr('y', 57)
+      .attr('style', 'white-space:pre')
+      .attr('font-size', statTextSize)
+      .style('fill', 'rgb(0,255,0)')
+      .style('display', 'none');
+
+    nodeContainers
+      .append('text')
+      .text((d: any) => 'x')
+      .attr('class', 'pids-stat')
+      .attr('x', 105)
+      .attr('y', 70)
+      .attr('style', 'white-space:pre')
+      .attr('font-size', statTextSize)
+      .style('fill', 'rgb(0,255,0)')
+      .style('display', 'none');
 
     if (options.ports) addPorts();
     if (options.volumes) addVolumes();
