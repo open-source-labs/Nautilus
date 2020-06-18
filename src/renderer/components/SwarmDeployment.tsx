@@ -258,6 +258,7 @@ const SwarmDeployment: React.FC<Props> = ({ currentFilePath }) => {
         </span>
         {swarmBtnTitle}
         <div className="status-container">
+          <div style={{ width: '4em' }}></div>
           <span
             className={`deployment-status status-healthy ${
               swarmDeployState === 3 ? 'status-active' : ''

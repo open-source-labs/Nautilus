@@ -64,7 +64,13 @@
 
 ## Features
 
-### Open multiple Docker Compose files
+### Open your Docker Compose file
+
+<p align="center">
+  <img src="" width=70%>
+</p>
+
+### View multiple Docker Compose files
 
 <p align="center">
   <img src="" width=70%>
