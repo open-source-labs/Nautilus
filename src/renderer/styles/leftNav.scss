@@ -17,6 +17,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      -webkit-user-select: none;
       .cls-1 {
         isolation: isolate;
       }
@@ -188,4 +189,3 @@
     color: $fifth-color;
   }
 }
-

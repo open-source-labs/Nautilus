@@ -3,7 +3,7 @@
   justify-content: center;
   // border-bottom: $border;
   padding: 1.3em;
-  background-color: #00325C;
+  background-color: #00325c;
   .views {
     flex: 1 1 0;
     justify-content: flex-end;
@@ -31,6 +31,7 @@
     h2 {
       color: $fourth-color;
       margin: 0em 0.5em 0em 0.3em;
+      -webkit-user-select: none;
     }
   }
 

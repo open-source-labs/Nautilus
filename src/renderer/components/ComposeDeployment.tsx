@@ -73,7 +73,6 @@ const Deployment: React.FC<Props> = ({ currentFilePath, fileOpen }) => {
   //function definitions
   const toggleStart = (e: React.MouseEvent) => {
     healthCheckRunning ? setHealthCheckRunning(false): setHealthCheckRunning(true);
-    console.log('toggleStart invoked...healthCheckRunning=', healthCheckRunning);
     e.stopPropagation();
   }
   const deployCompose: Void = () => {
@@ -85,7 +84,7 @@ const Deployment: React.FC<Props> = ({ currentFilePath, fileOpen }) => {
           setDeployState(DeploymentStatus.DeadError);
         } else setDeployState(DeploymentStatus.Running);
       })
-      .catch((err) => console.log('err', err));
+      .catch((err) => console.error('error setting DeployState to Running'));
   };
 
   const deployKill: Void = () => {
@@ -148,12 +147,10 @@ const Deployment: React.FC<Props> = ({ currentFilePath, fileOpen }) => {
       style={{ display: 'none' }}
       onChange={(event: React.SyntheticEvent<HTMLInputElement>) => {
         // make sure there was something selected
-        // console.log('FileSelector Event and event.currentTarget', event, event.currentTarget)
         if (event.currentTarget) {
           // make sure user opened a file
           if (event.currentTarget.files) {
             // fire fileOpen function on first file opened
-            // console.log('Event.currentTarget.file', event.currentTarget.files[0] )
             setDeployState(DeploymentStatus.OpeningFile);
             fileOpen(event.currentTarget.files[0]);
           }

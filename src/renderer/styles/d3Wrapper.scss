@@ -50,7 +50,6 @@
             opacity: 0.9;
           }
           .ports-text {
-
             tspan {
               font-family: 'Sen-Bold' !important;
               fill: $primary-color;
@@ -107,6 +106,7 @@
       h2 {
         color: white;
         margin: 0.75em 0 0.5em 0;
+        -webkit-user-select: none;
       }
 
       hr {
@@ -121,7 +121,7 @@
 
         p {
           margin: 0 0 0 0;
-          word-break:break-all;
+          word-break: break-all;
           width: 175px;
         }
 

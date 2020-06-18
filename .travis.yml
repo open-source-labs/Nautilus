@@ -17,11 +17,11 @@ cache:
 
 # install dependenices
 before-script:
-  - yarn
+  - npm install
 
 # on PRs and merges to master and prod run tests and build the app
 script:
-  - yarn test
+  - npm run test
 
 # only run this script on pull requests and merges into
 # the 'master' branches

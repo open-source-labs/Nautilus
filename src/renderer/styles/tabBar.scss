@@ -1,15 +1,15 @@
 .tab-bar {
   display: flex;
-  background-color: rgb(0,50,92);;
+  background-color: rgb(0, 50, 92);
   height: 2.2em;
   align-items: bottom;
   overflow-y: hidden;
   overflow-x: scroll;
   .tab {
-    width: 12em;
+    width: auto;
     height: 2.2em;
     color: darken($secondary-color, 10%);
-    background-color: rgb(0,50,92);
+    background-color: rgb(0, 50, 92);
     color: white;
     overflow: hidden;
     display: flex;
@@ -21,18 +21,21 @@
       overflow: hidden;
       font-size: 0.95em;
     }
+    .tab-text:hover {
+      cursor: pointer;
+    }
     .close-btn {
-      color: rgb(184,184,189);
+      color: rgb(184, 184, 189);
       font-size: 0.77em;
       border: none;
-      background-color: rgba(0, 0, 0, 0.0);
+      background-color: rgba(0, 0, 0, 0);
     }
     .close-btn:hover {
       color: white;
     }
   }
   .active-tab {
-    background-color: rgb(11,94,181);
+    background-color: rgb(11, 94, 181);
     color: white;
   }
 }

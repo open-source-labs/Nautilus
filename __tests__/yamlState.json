@@ -1,5 +1,6 @@
 {
   "fileOpened": true,
+  "filePath": "",
   "services": {
     "db": {
       "image": "postgres",

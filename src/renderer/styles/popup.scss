@@ -1,12 +1,10 @@
-
 //pop-up div
 .popup-div {
-  position: absolute; 
-  width: 30em; 
-  height: 15em; 
+  position: absolute;
+  width: 35em;
   top: 40%;
   left: 40%;
-  background-color: #DfE9FD;
+  background-color: #dfe9fd;
   border: solid 1px #013874;
   // border-radius: 20px;
   border-bottom-left-radius: 1em;
@@ -27,7 +25,6 @@
     background-color: red;
     color: white;
     font-size: 1.5em;
-    
   }
   .exit-popup-div {
     background-color: $primary-color;
@@ -52,14 +49,14 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      
+
       .stack-name-label {
         color: teal;
         font-size: 1.5em;
         margin-top: 0.2em;
         padding: 7px;
       }
-    
+
       .stack-name {
         border-radius: 10px;
         height: 1.5rem;
@@ -67,17 +64,20 @@
         padding: 5px;
         margin-bottom: 6px;
       }
-    
-      .stack-name:focus, textarea:focus, select:focus {
+
+      .stack-name:focus,
+      textarea:focus,
+      select:focus {
         outline: none;
       }
-    
+
       .create-swarm {
         background-color: teal;
         color: white;
         font-size: 1.2em;
         width: 50%;
         border-radius: 10px;
+        margin-bottom: 1em;
       }
     }
     .success-msg-spans {
@@ -105,15 +105,24 @@
     }
 
     .success-div {
-      width: 100%;
-      height: 105%;
+      width: 105%;
+      height: 110%;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-  
+
       .success-p {
         color: green;
         font-size: 1.1em;
+      }
+
+      .success-msg-spans {
+        color: lighten($color: green, $amount: 10%);
+      }
+
+      .join-token-p {
+        color: green;
+        font-size: 0.8em;
       }
 
       .add-stack-div {
@@ -134,13 +143,11 @@
           background-color: teal;
           color: white;
           font-size: 1em;
-          width: 50%;
+          width: 40%;
           border-radius: 10px;
           margin: 1em;
         }
       }
     }
   }
-
 }
-
