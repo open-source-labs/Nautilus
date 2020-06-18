@@ -4,7 +4,7 @@
 
 <p align="center">
   A Docker Compose Charting Tool <br><br>
-  An interactive D3 visualizing tool that dynamically renders essential Docker Compose properties onto an Electron GUI, built to reduce cognitive load and simplify the development environment for engineers.<br/>
+  An interactive D3 visualizing tool that dynamically renders essential Docker Compose properties onto an Electron GUI, built to simplify the development environment for engineers.<br/>
   
 </p>
 
@@ -109,6 +109,12 @@
 
 <p align="center">
   <img src="static/screenshots/deploy-to-swarm.gif" width=70%>
+</p>
+
+### Monitor resource usage
+
+<p align="center">
+  <img src="static/screenshots/healthvid.gif" width=70%>
 </p>
 
 <!-- GETTING STARTED -->
@@ -235,8 +241,8 @@ This command is ideal when working on a particular component to streamline devel
 
 ## Contributors to this Project
 
-V2.0: David, Yevgeniy, Kim, Linda
-V1.0: Aris, Danny, Josh, Michael, Tyler,
+- V2.0: David, Yevgeniy, Kim, Linda
+- V1.0: Aris, Danny, Josh, Michael, Tyler,
 
 <!-- TECHNOLOGIES USED -->
 
