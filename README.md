@@ -5,7 +5,7 @@
 <p align="center">
   A Docker Compose Charting Tool <br><br>
   An interactive D3 visualizing tool that dynamically renders essential Docker Compose properties onto an Electron GUI, built to reduce cognitive load and simplify the development environment for engineers.<br/>
-  <a href="https://nautilusdev.com">nautilusdev.com</a>
+  
 </p>
 
 <p align="center">
@@ -13,10 +13,10 @@
   <img src="https://img.shields.io/github/license/open-source-labs/nautilus?color=brown&label=license">
 
   <!-- Release -->
-  <img src="https://img.shields.io/badge/release-1.3.1-orange">
+  <img src="https://img.shields.io/badge/release-2.0.0-orange">
 
   <!-- Release Date -->
-  <img src="https://img.shields.io/badge/release%20date-4%2F9%2F20-yellow">
+  <img src="https://img.shields.io/badge/release%20date-6%2F18%2F20-yellow">
 
   <!-- Test -->
   <img src="https://img.shields.io/travis/com/open-source-labs/nautilus/master?color=green&label=test">
@@ -43,12 +43,6 @@
   <img src="https://img.shields.io/badge/code%20style-airbnb-violet">
 </p>
 
-<p align="center">
-  <sub> No nautili were harmed during the making of this application
-  <br>
-  - Aris, Danny, Josh, Michael, Tyler
-</p>
-
 <!-- TABLE OF CONTENTS -->
 
 ## Table of Contents
@@ -73,25 +67,43 @@
 ### Open your Docker Compose file
 
 <p align="center">
-  <img src="https://nautilusdev.com/assets/upload1.png" width=70%>
+  <img src="static/screenshots/open-file.png" width=70%>
 </p>
 
 ### Display your service's info, ports and volumes
 
 <p align="center">
-  <img src="https://nautilusdev.com/assets/options1.png" width=70%>
+  <img src="static/screenshots/info-ports-volumes.png" width=70%>
 </p>
 
 ### View your services by a container dependent view
 
 <p align="center">
-  <img src="https://nautilusdev.com/assets/depends_view1.png" width=70%>
+  <img src="static/screenshots/container-dependent-view.png" width=70%>
 </p>
 
 ### View your services grouped by networks
 
 <p align="center">
-  <img src="https://nautilusdev.com/assets/networks_view1.png" width=70%>
+  <img src="static/screenshots/network-view.png" width=70%>
+</p>
+
+### View multiple Docker Compose files
+
+<p align="center">
+  <img src="static/screenshots/view-multiple-files.gif" width=70%>
+</p>
+
+### Deploy your Docker Compose file
+
+<p align="center">
+  <img src="static/screenshots/deploy-container.gif" width=70%>
+</p>
+
+### Initialize a single-node Swarm and deploy multiple stacks to it
+
+<p align="center">
+  <img src="static/screenshots/deploy-to-swarm.gif" width=70%>
 </p>
 
 <!-- GETTING STARTED -->
