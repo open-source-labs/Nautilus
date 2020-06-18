@@ -4,7 +4,7 @@
 
 <p align="center">
   A Docker Compose Charting Tool <br><br>
-  An interactive D3 visualizing tool that dynamically renders essential Docker Compose properties onto an Electron GUI, built to reduce cognitive load and simplify the development environment for engineers.<br/>
+  An interactive D3 visualizing tool that dynamically renders essential Docker Compose properties onto an Electron GUI, built to simplify the development environment for engineers.<br/>
   
 </p>
 
