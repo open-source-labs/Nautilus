@@ -4,15 +4,23 @@ import { shellResults } from '../renderer/App.d';
 const runDockerStats = (
   handleOnData: Function,
   containerNames: Array<string>,
-) => {
-  runSpawn(handleOnData, 'docker', containerNames);
+): Function => {
+  return runSpawn(
+    (data: any) => handleOnData(data, containerNames),
+    'stats',
+    containerNames,
+  );
 };
 
-const runSpawn = (handleOnData: Function, cmd: string, args: Array<string>) => {
-  const sp = child_process.spawn('docker', args);
+const runSpawn = (
+  handleOnData: Function,
+  cmd: string,
+  args: Array<string>,
+): Function => {
+  const sp = child_process.spawn('docker', [cmd, ...args]);
 
   sp.stdout.on('data', (data) => {
-    handleOnData(data, sp.kill.bind(sp));
+    handleOnData(data);
   });
 
   sp.stderr.on('data', (data) => {
@@ -22,6 +30,7 @@ const runSpawn = (handleOnData: Function, cmd: string, args: Array<string>) => {
   sp.on('error', (error) => {
     console.log(`child process error: ${error.message}`);
   });
+  return sp.kill.bind(sp);
 };
 
 const runDockerComposeKill = (filePath: string) =>
