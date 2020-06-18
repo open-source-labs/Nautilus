@@ -235,8 +235,8 @@ This command is ideal when working on a particular component to streamline devel
 
 ## Contributors to this Project
 
-V2.0: David, Yevgeniy, Kim, Linda
-V1.0: Aris, Danny, Josh, Michael, Tyler,
+- V2.0: David, Yevgeniy, Kim, Linda
+- V1.0: Aris, Danny, Josh, Michael, Tyler,
 
 <!-- TECHNOLOGIES USED -->
 
