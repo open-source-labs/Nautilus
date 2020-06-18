@@ -70,12 +70,6 @@
   <img src="" width=70%>
 </p>
 
-### View multiple Docker Compose files
-
-<p align="center">
-  <img src="" width=70%>
-</p>
-
 ### Display your service's info, ports and volumes
 
 <p align="center">
@@ -89,6 +83,12 @@
 </p>
 
 ### View your services grouped by networks
+
+<p align="center">
+  <img src="" width=70%>
+</p>
+
+### View multiple Docker Compose files
 
 <p align="center">
   <img src="" width=70%>
