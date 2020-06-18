@@ -2,7 +2,7 @@ echo "Processing deploy.sh"
 # set env variables
 source './_secrets/aws_secret.env'
 # set s3 bucket as env variable
-S3_BUCKET=nautilusdev.com
+# S3_BUCKET=nautilusdev.com
 # set the default region for aws
 aws configure set default.region us-west-1
 # set aws_access_key id
