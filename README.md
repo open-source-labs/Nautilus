@@ -43,6 +43,11 @@
   <img src="https://img.shields.io/badge/code%20style-airbnb-violet">
 </p>
 
+<p align="center">
+  <sub> No nautili were harmed during the making of this application
+  <br>
+</p>
+
 <!-- TABLE OF CONTENTS -->
 
 ## Table of Contents
@@ -129,9 +134,9 @@ Once you're sure you have the Docker CLI tools installed, download the Nautilus 
 
 <b>Nautilus Download Links</b>
 
-- [Mac](https://nautilusdev.com/release/Nautilus-1.3.1.dmg)
-- [Windows](https://nautilusdev.com/release/Nautilus%20Setup%201.3.1.exe)
-- [Linux](https://nautilusdev.com/release/Nautilus-1.3.1.AppImage)
+- [Mac]Coming Soon
+- [Windows]Coming Soon
+- [Linux]Coming Soon
 
 We are currently in the process of getting appropriate certifications/signatures so you may need to bypass some security warnings to run our application, but rest assured Nautilus does not make any network calls (and the project is 100% open source).
 
@@ -227,6 +232,11 @@ yarn test-f <test-filename>
 ```
 
 This command is ideal when working on a particular component to streamline development. No need to run tests for the whole application when only touching one file.
+
+## Contributors to this Project
+
+V2.0: David, Yevgeniy, Kim, Linda
+V1.0: Aris, Danny, Josh, Michael, Tyler,
 
 <!-- TECHNOLOGIES USED -->
 
