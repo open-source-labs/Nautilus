@@ -111,6 +111,12 @@
   <img src="static/screenshots/deploy-to-swarm.gif" width=70%>
 </p>
 
+### Monitor resource usage
+
+<p align="center">
+  <img src="static/screenshots/healthvid.gif" width=70%>
+</p>
+
 <!-- GETTING STARTED -->
 
 ## Getting Started
