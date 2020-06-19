@@ -179,7 +179,7 @@ Contributions are what make the open source community such an amazing place to b
 
 ### **Development**
 
-When developing, you'll probably want to run the dev version of our application. Nautilus development is fully integrated with webpack HMR, typescript and sass loaders and Electron. To start the development environment.
+When developing, you'll probably want to run the dev version of our application. Nautilus development is fully integrated with webpack HMR, typescript and sass loaders and Electron. To start the development environment. Note: Have Eslint and Prettier installed, with your code editor set to format on save. In VSCode, you can add a rule to the settings.json "editor.
 
 ```
 yarn dev
