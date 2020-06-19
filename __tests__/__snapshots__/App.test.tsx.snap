@@ -20,7 +20,7 @@ exports[`Testing App Stateful Component renders correctly 1`] = `
           src="http://localhost/nautilus_logo.svg"
         />
         <h1>
-          Nautilus
+          Nautilus2
         </h1>
       </div>
     </div>
