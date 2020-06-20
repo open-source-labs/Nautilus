@@ -40,8 +40,6 @@ const SwarmDeployment: React.FC<Props> = ({ currentFilePath }) => {
   const stackNameRef = useRef(stackName);
 
   // if there is no active file, ask user to open a file to deploy
-  // TO DO - have different message from default error message
-  // currently using default, but would be best to have a 'please open a file' message
   useEffect(() => {
     if (currentFilePath && !swarmExists && !success) {
       setSwarmDeployState(1);
@@ -247,7 +245,7 @@ const SwarmDeployment: React.FC<Props> = ({ currentFilePath }) => {
       leaveSwarm();
     };
   }
-  //exit-swarm-deploy-div
+  
   return (
     <div className="deploy-container">
       <button className="deploy-btn" onClick={swarmOnClick}>
