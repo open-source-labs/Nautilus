@@ -18,7 +18,7 @@ import {
   FaRegPlayCircle,
   FaRegStopCircle,
 } from 'react-icons/fa';
-import { remote } from 'electron';
+const remote = require('@electron/remote');
 import { GiHeartPlus } from 'react-icons/gi';
 
 import {
