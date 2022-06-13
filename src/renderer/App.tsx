@@ -150,6 +150,7 @@ class App extends Component<{}, State> {
       /* TODO: refactor error handling */
       runDockerComposeValidation(file.path).then((validationResults: any) => {
         if (validationResults.error) {
+          console.log('broken here in app.tsx line 153. Error here: ', validationResults.error)
           this.handleFileOpenError(validationResults.error);
         } else {
           // event listner to run after the file has been read as text
