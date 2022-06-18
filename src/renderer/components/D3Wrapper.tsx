@@ -67,16 +67,16 @@ const D3Wrapper: React.FC<Props> = ({
        * else display visualizer
        * (yes, this is nested terinary operator)
        */}
-      {!fileOpened ? (
-        <div className="error-open-wrapper">
-          {openErrors.length > 0 ? (
-            <ErrorDisplay openErrors={openErrors} />
-          ) : (
+      {!fileOpened ? ( //if no file has been opened...
+        <div className="error-open-wrapper"> 
+          {openErrors.length > 0 ? ( //check if there are any errors
+            <ErrorDisplay openErrors={openErrors} /*if there are, render ErrorDisplay *//>
+          ) : ( //if there aren't any errors, display the option to open a file
             <></>
           )}
           <FileSelector fileOpen={fileOpen} />
         </div>
-      ) : (
+      ) : ( //if the file has been opened with no errors, display this:
         <>
           <div className="services-wrapper">
             <View

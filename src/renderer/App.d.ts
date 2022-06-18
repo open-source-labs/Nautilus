@@ -130,7 +130,6 @@ export type SetSelectedContainer = {
 
 export type SwitchTab = {
   (filePath: string, openFiles?: Array<string>): void;
-
 };
 
 export type Void = {

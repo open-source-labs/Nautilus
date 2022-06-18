@@ -106,6 +106,7 @@
   "dependencies": {
     "@babel/runtime-corejs3": "^7.10.2",
     "@electron/remote": "^2.0.8",
+    "@reduxjs/toolkit": "^1.8.2",
     "babel-polyfill": "^6.26.0",
     "css-hot-loader": "^1.4.4",
     "d3": "^5.15.0",
@@ -118,7 +119,9 @@
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-draggable": "^4.4.2",
-    "react-icons": "^3.9.0"
+    "react-icons": "^3.9.0",
+    "react-redux": "^8.0.2",
+    "redux-devtools-extension": "^2.13.9"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0-0",

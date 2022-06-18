@@ -44,6 +44,9 @@ const runDockerComposeDeployment = (filePath: string) =>
 
 const runDockerComposeValidation = (filePath: string) =>
   runShell(`docker-compose -f ${filePath} config`, true);
+  //
+//https://docs.docker.com/compose/reference/
+//https://stackoverflow.com/questions/29225972/validating-docker-compose-yml-file
 
 const runDockerSwarmInit = (filePath: string) =>
   runShell(`docker swarm init`, false);
