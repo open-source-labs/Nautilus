@@ -1,4 +1,4 @@
-/**
+ /**
  * ************************************
  *
  * @module  setGlobalVars.ts
@@ -112,6 +112,11 @@ export const extractDependsOn: ExtractDependsOn = (services) => {
  * *************
  * adds dag properties a d3 array of nodes passed in and returns depth of tree
  */
+
+/*
+DAG: directed acyclic graph
+This means that it is impossible to traverse the entire graph starting at one edge. The edges of the directed graph only go one way.
+*/
 interface DagCreator {
   (nodesObject: SNode[], Links: Link[]): number;
 }
@@ -120,6 +125,7 @@ export const dagCreator: DagCreator = (nodes, links) => {
   const nodesObject: NodesObject = {};
   nodes.forEach((node) => {
     nodesObject[node.name] = node;
+    console.log(node);
   });
 
   const roots = JSON.parse(JSON.stringify(nodesObject));

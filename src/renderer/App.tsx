@@ -4,7 +4,7 @@
  * @module  App.tsx
  * @author Joshua Nordstrom
  * @date 3/7/20
- * @description start of the application
+ * @description start of the application, initializes state
  *
  * ************************************
  */
@@ -148,8 +148,15 @@ class App extends Component<{}, State> {
     // check for valid file path
     if (file.path) {
       /* TODO: refactor error handling */
-      runDockerComposeValidation(file.path).then((validationResults: any) => {
+      runDockerComposeValidation(file.path).then((validationResults: any) => { 
         if (validationResults.error) {
+          /** 
+           * @MUSTDO
+           * if validationResults.error is related to kubernetes yaml,
+           * run a composeValidation for the kubernetes file  
+           * if it succeeds, go to the else block;
+           * if it fails then display lines 156/157 
+           */
           console.log('broken here in app.tsx line 153. Error here: ', validationResults.error)
           this.handleFileOpenError(validationResults.error);
         } else {
@@ -329,9 +336,9 @@ class App extends Component<{}, State> {
           <D3Wrapper
             openErrors={this.state.openErrors}
             fileOpened={this.state.fileOpened}
-            fileOpen={this.fileOpen}
+            fileOpen={this.fileOpen} //this is getting passed from imported state
             services={this.state.services}
-            setSelectedContainer={this.setSelectedContainer}
+            setSelectedContainer={this.setSelectedContainer} //is defined locally as is 'selectedContainer'
             options={this.state.options}
             volumes={this.state.volumes}
             bindMounts={this.state.bindMounts}
