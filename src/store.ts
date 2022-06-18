@@ -12,12 +12,13 @@
  import { configureStore } from '@reduxjs/toolkit'; //this is the new way to create a store with RTK
 //  import { composeWithDevTools } from 'redux-devtools-extension'; //this was needed in old, 'createStore' method but seems to no longer be needed to create store
  import tabsReducer from './reducers/tabSlice';
- 
+ import optionsReducer from './reducers/optionSlice'
+
  // we are adding composeWithDevTools here to get easy access to the Redux dev tools
  const store = configureStore({
     reducer: {
       tab: tabsReducer,
-      
+      option: optionsReducer
     }
      
  });

@@ -44,28 +44,28 @@ const tabSlice = createSlice({
         window.d3State = setD3State(newState.services);
         state = {...newState};
       },
-      // closeTab (state, action: PayloadAction<SwitchTab>) {
-      //   // Grab current open files and remove the file path of the tab to be closed, assign the
-      //   // updated array to newOpenFiles
-      //   const { openFiles, options } = state;
-      //   const newOpenFiles = openFiles.filter((file) => file != action.payload.filePath);
-      //   // Remove the state object associated with the file path in localStorage
-      //   localStorage.removeItem(action.payload.filePath);
-      //   // If the tab to be closed is the active tab, reset d3 and delete "state" object from local
-      //   // storage and set state to the initial state with the updated open files array included.
-      //   if (action.payload.filePath === state.filePath) {
-      //     // Remove the 'state' localStorage item, which represents the
-      //     // services of the currently opened file.
-      //     localStorage.removeItem('state');
-      //     // Stop the simulation to prevent d3 transform errors related
-      //     // to 'tick' events
-      //     const { simulation } = window.d3State;
-      //     simulation.stop();
-      //     // If there are other open tabs, switch to the first open one
-      //     // If not, reset to initialState with selected options.
-      //     if (openFiles.length > 1) this.switchTab(newOpenFiles[0], newOpenFiles);
-      //     else this.setState({ ...initialState, options });
-      //   } else this.setState({ ...state, openFiles: newOpenFiles });
+      closeTab (state, action: PayloadAction<SwitchTab>) {
+        // Grab current open files and remove the file path of the tab to be closed, assign the
+        // updated array to newOpenFiles
+        const { openFiles, options } = state;
+        const newOpenFiles = openFiles.filter((file) => file != action.payload.filePath);
+        // Remove the state object associated with the file path in localStorage
+        localStorage.removeItem(action.payload.filePath);
+        // If the tab to be closed is the active tab, reset d3 and delete "state" object from local
+        // storage and set state to the initial state with the updated open files array included.
+        if (action.payload.filePath === state.filePath) {
+          // Remove the 'state' localStorage item, which represents the
+          // services of the currently opened file.
+          localStorage.removeItem('state');
+          // Stop the simulation to prevent d3 transform errors related
+          // to 'tick' events
+          const { simulation } = window.d3State;
+          simulation.stop();
+          // If there are other open tabs, switch to the first open one
+          // If not, reset to initialState with selected options.
+          if (openFiles.length > 1) this.switchTab(newOpenFiles[0], newOpenFiles);
+          else this.setState({ ...initialState, options });
+        } else this.setState({ ...state, openFiles: newOpenFiles });
       }
     }
 })
