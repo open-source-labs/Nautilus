@@ -12,6 +12,7 @@
 import React, { Component } from 'react';
 import yaml from 'js-yaml';
 import { ipcRenderer } from 'electron';
+import { useSelector, useDispatch } from 'react-redux'
 
 //IMPORT HELPER FUNCTIONS
 import convertYamlToState from './helpers/yamlParser';

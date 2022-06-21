@@ -8,7 +8,7 @@
  * 
  */
  import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { options } from "../../samples/react-express-mongodb/backend/server";
+// import { options } from "../../samples/react-express-mongodb/backend/server";
 
  interface Options {
     ports: boolean;
@@ -23,29 +23,21 @@ const optionSlice = createSlice({
     initialState,
     reducers: {
         updateOption (state, action: PayloadAction<Options>) {
-            const tempObj = action.payload; //variable created to pass in the payload because dot notation doesn't work after spread operator
             const newState = {
                 ...state,
-                action.paylod, //need to figure out how to pass in only the option that's being sent
-            }
+                ports: action.payload.ports,
+                volumes: action.payload.volumes,
+                selectAll: action.payload.selectAll
+              }
              // check if toggling select all on or off
-            if (action.payload.selectAll === 'selectAll') {
-                if (newState.action.payload.selectAll) {
-                newState.action.payload.ports = true;
-                newState.action.payload.volumes = true;
-                } else {
-                newState.action.payload.ports = false;
-                newState.action.payload.volumes = false;
-                }
-                // check if select all should be on or off
-            } else {
-                if (newState.action.payload.ports && newState.action.payload.volumes) {
-                newState.action.payload.selectAll = true;
-                } else {
-                newState.action.payload.selectAll = false;
-                }
+            if (action.payload.selectAll) {
+                newState.ports = true;
+                newState.volumes = true;
+            }else if (newState.ports && newState.volumes) {
+                  newState.selectAll = true;
             }
-            this.setState(newState);
+                // check if select all should be on or off
+            state = {...newState};
         }
     }
 })

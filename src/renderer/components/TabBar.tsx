@@ -13,14 +13,19 @@
 import React from 'react';
 import Tab from './Tab';
 import { SwitchTab } from '../App.d';
+import { connect } from 'tls';
 
-type Props = {
+interface TabProps {
+
+}
+
+const mapStateToProps = (state): TabProps => {
   activePath: string;
   openFiles: Array<string>;
   switchTab: SwitchTab;
   closeTab: SwitchTab;
 };
-const TabBar: React.FC<Props> = ({
+export const TabBar: React.FC<TabProps> = ({
   openFiles,
   switchTab,
   closeTab,
@@ -38,4 +43,5 @@ const TabBar: React.FC<Props> = ({
   ));
   return <div className="tab-bar">{tabs}</div>;
 };
-export default TabBar;
+
+export default connect(mapStateToProps);

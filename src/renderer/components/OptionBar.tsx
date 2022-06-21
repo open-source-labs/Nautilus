@@ -53,7 +53,7 @@ const OptionBar: React.FC<Props> = ({
   // calls the update option function with the specificed option from the click event
   const handleOptionUpdate: Handler = (e) => {
     const option = e.currentTarget.id as 'ports' | 'volumes' | 'selectAll';
-    updateOption(option);
+    updateOption(option)
   };
 
   // creates an array of jsx elements for each option

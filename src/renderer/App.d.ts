@@ -37,6 +37,23 @@ type DependsOn = {
   readonly children?: Array<DependsOn>;
 };
 
+export type Kind = "Deployement" | "Pod" | "Node" | "Service";
+
+export type Container = {
+  name: string;
+  image: string;
+  port: number;
+  volumes: ReadOnlyObj;
+};
+
+export interface KubeObj {
+  kind: Kind;
+  name?: string;
+  containers?: Container;
+  replica?: number;
+  selector?: string;
+}
+
 export type Services = {
   [service: string]: Service;
 };
