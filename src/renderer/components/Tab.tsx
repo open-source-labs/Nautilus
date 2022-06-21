@@ -1,17 +1,21 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { SwitchTab } from '../App.d';
+import { switchTab, closeTab } from '../../reducers/tabSlice';
+
+const dispatch = useDispatch();
 
 type Props = {
   activePath: string;
   filePath: string;
-  switchTab: SwitchTab;
-  closeTab: SwitchTab;
+  // switchTab: SwitchTab;
+  // closeTab: SwitchTab;
 };
 
 const Tab: React.FC<Props> = ({
   filePath,
-  switchTab,
-  closeTab,
+  // switchTab,
+  // closeTab,
   activePath,
 }) => {
   let fileSplit;
@@ -22,10 +26,10 @@ const Tab: React.FC<Props> = ({
   const tabClass = filePath === activePath ? 'tab active-tab' : 'tab';
   return (
     <div className={tabClass} id={filePath}>
-      <div className="tab-text" onClick={() => switchTab(filePath)}>
+      <div className="tab-text" onClick={() => dispatch(switchTab({filePath: filePath}))}>
         {splitName[0]}&#8209;{splitName[1]}
       </div>
-      <button className="close-btn" onClick={() => closeTab(filePath)}>
+      <button className="close-btn" onClick={() => dispatch(closeTab({filePath: filePath}))}>
         {' '}
         X
       </button>
