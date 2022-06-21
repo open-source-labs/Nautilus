@@ -11,9 +11,9 @@
 // import { options } from "../../samples/react-express-mongodb/backend/server";
 
  interface Options {
-    ports: boolean;
-    volumes: boolean;
-    selectAll: boolean;
+    ports?: boolean;
+    volumes?: boolean;
+    selectAll?: boolean;
   };
 
 const initialState = {ports: false, volumes: false, selectAll: false} as Options;
@@ -22,15 +22,15 @@ const optionSlice = createSlice({
     name: 'option',
     initialState,
     reducers: {
-        updateOption (state, action: PayloadAction<Options>) {
+        updateOption (state, action: PayloadAction<string>) {
+          // let option = action.payload.option;
             const newState = {
                 ...state,
-                ports: action.payload.ports,
-                volumes: action.payload.volumes,
-                selectAll: action.payload.selectAll
+                [action.payload]: true 
               }
+              // if (action.payload === 'ports') Object.assign(newState, newState[action.payload] = true)
              // check if toggling select all on or off
-            if (action.payload.selectAll) {
+            if (action.payload === 'selectAll') {
                 newState.ports = true;
                 newState.volumes = true;
             }else if (newState.ports && newState.volumes) {
@@ -38,6 +38,7 @@ const optionSlice = createSlice({
             }
                 // check if select all should be on or off
             state = {...newState};
+            
         }
     }
 })

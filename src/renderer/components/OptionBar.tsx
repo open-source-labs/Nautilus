@@ -10,13 +10,22 @@
  * ************************************
  */
 import React from 'react';
-
+import {useDispatch} from 'react-redux';
 import NetworksDropdown from './NetworksDropdown';
+import { updateViewStore } from '../../reducers/updateViewAndSelectNetworkSlice';
+import { updateOption } from '../../reducers/optionSlice';
+// import { AppDispatch } from '../../store';
+// import { useAppDispatch } from '../../hooks';
+
+// const dispatch = useDispatch();
+// const useAppDispatch: () => AppDispatch = useDispatch
+// const dispatch2 = useAppDispatch();
+const dispatch = useDispatch();
+
 
 import {
   ViewT,
   Options,
-  UpdateOption,
   UpdateView,
   SelectNetwork,
   ReadOnlyObj,
@@ -28,7 +37,6 @@ type Props = {
   options: Options;
   networks: ReadOnlyObj;
   updateView: UpdateView;
-  updateOption: UpdateOption;
   selectNetwork: SelectNetwork;
   selectedNetwork: string;
 };
@@ -37,8 +45,6 @@ const OptionBar: React.FC<Props> = ({
   view,
   options,
   networks,
-  updateView,
-  updateOption,
   selectNetwork,
   selectedNetwork,
 }) => {
@@ -47,13 +53,17 @@ const OptionBar: React.FC<Props> = ({
   // calls update function with the specified view from the click event
   const handleViewUpdate: Handler = (e) => {
     const view = e.currentTarget.id as 'networks' | 'depends_on';
-    updateView(view);
+    // updateView(view);
+    dispatch(updateViewStore({view:view}))
   };
 
   // calls the update option function with the specificed option from the click event
   const handleOptionUpdate: Handler = (e) => {
     const option = e.currentTarget.id as 'ports' | 'volumes' | 'selectAll';
-    updateOption(option)
+    // updateOption(option)
+    
+      // check if select all should be on or off
+    dispatch(updateOption(option));
   };
 
   // creates an array of jsx elements for each option
@@ -86,7 +96,6 @@ const OptionBar: React.FC<Props> = ({
       <div className="views flex">
         <NetworksDropdown
           networks={networks}
-          selectNetwork={selectNetwork}
           selectedNetwork={selectedNetwork}
         />
         <span

@@ -9,10 +9,10 @@
  * ************************************
  */
 //IMPORT LIBRARIES
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import yaml from 'js-yaml';
 import { ipcRenderer } from 'electron';
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux';
 
 //IMPORT HELPER FUNCTIONS
 import convertYamlToState from './helpers/yamlParser';
@@ -25,6 +25,15 @@ import LeftNav from './components/LeftNav';
 import OptionBar from './components/OptionBar';
 import D3Wrapper from './components/D3Wrapper';
 import TabBar from './components/TabBar';
+
+//IMPORT ACTIONS/REDUCERS
+// import { updateView, selectNetwork } from '../reducers/updateViewAndSelectNetworkSlice';
+// import { switchTab, closeTab } from '../reducers/tabSlice';
+// import { updateOption } from '../reducers/optionSlice';
+// import { yamlToState, fileOpenError } from '../reducers/fileSlice';
+//  updateViewStore , selecte
+
+// const dispatch = useDispatch();
 
 //IMPORT TYPES
 import {
@@ -61,55 +70,86 @@ const initialState: State = {
   version: '',
 };
 
+// function App (props){
+//   const [openFiles, setOpenFiles] = useState(props.openFiles || []);
+//   const [openErrors, setOpenErrors] = useState(props.openErrors || []);
+//   const [selectedContainer, setStateSelectedContainer] = useState(props.selectedContainer || '');
+//   const [fileOpened, setFileOpened] = useState(props.fileOpened || false);
+//   const [filePath, setFilePath] = useState(props.filePath || '');
+//   const [services, setServices] = useState(props.services || {});
+//   const [dependsOn, setDependsOn] = useState(props.dependsOn || {name: 'placeholder'});
+//   const [networks, setNetworks] = useState(props.networks || {});
+//   const [selectedNetwork, setSelectedNetwork] = useState(props.selectedNetwork || '');
+//   const [volumes, setVolumes] = useState(props.volumes || {});
+//   const [volumesClicked, setVolumesClicked] = useState(props.volumesClicked || {});
+//   const [bindMounts, setBindMounts] = useState(props.bindMounts || []);
+
+
+// }
+
+// const App: React.FC = ({/**state to be loaded for App */}) => {
+  
+//   const setSelectedContainer = (containerName: string) => {
+//     //need to write slice and dispatch
+//   };
+
+  
+// }
+
+//TODO: Add useSelector to optionBar, NetworksDropdown, tabBar
 class App extends Component<{}, State> {
   constructor(props: {}) {
     super(props);
     // Copy of initial state object
     this.state = { ...initialState };
+    // const state = useSelector((state) => state);
   }
 
-  setSelectedContainer = (containerName: string) => {
-    this.setState({ ...this.state, selectedContainer: containerName });
-  };
 
-  updateView: UpdateView = (view) => {
-    this.setState((state) => {
-      return {
-        ...state,
-        view,
-        selectedNetwork: '',
-      };
-    });
-  };
 
-  updateOption: UpdateOption = (option) => {
-    const newState: State = {
-      ...this.state,
-      options: { ...this.state.options, [option]: !this.state.options[option] },
-    };
-    // check if toggling select all on or off
-    if (option === 'selectAll') {
-      if (newState.options.selectAll) {
-        newState.options.ports = true;
-        newState.options.volumes = true;
-      } else {
-        newState.options.ports = false;
-        newState.options.volumes = false;
-      }
-      // check if select all should be on or off
-    } else {
-      if (newState.options.ports && newState.options.volumes) {
-        newState.options.selectAll = true;
-      } else {
-        newState.options.selectAll = false;
-      }
-    }
-    this.setState(newState);
-  };
+  // setSelectedContainer = (containerName: string) => {
+  //   this.setState({ ...this.state, selectedContainer: containerName });
+    
+  // };
 
-  selectNetwork: SelectNetwork = (network) => {
-    this.setState({ view: 'networks', selectedNetwork: network });
-  };
+  // updateView: UpdateView = (view) => {
+  //   this.setState((state) => {
+  //     return {
+  //       ...state,
+  //       view,
+  //       selectedNetwork: '',
+  //     };
+  //   });
+  // };
+
+  // updateOption: UpdateOption = (option) => {
+  //   const newState: State = {
+  //     ...this.state,
+  //     options: { ...this.state.options, [option]: !this.state.options[option] },
+  //   };
+  //   // check if toggling select all on or off
+  //   if (option === 'selectAll') {
+  //     if (newState.options.selectAll) {
+  //       newState.options.ports = true;
+  //       newState.options.volumes = true;
+  //     } else {
+  //       newState.options.ports = false;
+  //       newState.options.volumes = false;
+  //     }
+  //     // check if select all should be on or off
+  //   } else {
+  //     if (newState.options.ports && newState.options.volumes) {
+  //       newState.options.selectAll = true;
+  //     } else {
+  //       newState.options.selectAll = false;
+  //     }
+  //   }
+  //   this.setState(newState);
+  // };
+
+  // selectNetwork: SelectNetwork = (network) => {
+  //   this.setState({ view: 'networks', selectedNetwork: network });
+  // };
 
   convertAndStoreYamlJSON = (yamlText: string, filePath: string) => {
     // Convert Yaml to state object.
@@ -180,64 +220,66 @@ class App extends Component<{}, State> {
     }
   };
 
-  /**
-   * @param filePath -> string
-   * @returns void
-   * @description sets state to the state stored in localStorage of the file
-   * associated with the given filePath.
-   */
-  switchTab: SwitchTab = (filePath: string, openFiles?: Array<string>) => {
-    // Extract the desired tab state from localStorage
-    const tabState = JSON.parse(localStorage.getItem(filePath) || '{}');
-    // Create new state object with the returned tab state
-    let newState;
-    if (openFiles)
-      newState = {
-        ...this.state,
-        ...tabState,
-        openFiles,
-      };
-    else
-      newState = {
-        ...this.state,
-        ...tabState,
-      };
-    // Set the 'state' item in localStorage to the tab state. This means that tab is the current tab, which would be used if the app got reloaded.
-    localStorage.setItem('state', JSON.stringify(tabState));
+  // /**
+  //  * @param filePath -> string
+  //  * @returns void
+  //  * @description sets state to the state stored in localStorage of the file
+  //  * associated with the given filePath.
+  //  */
+  // switchTab: SwitchTab = (filePath: string, openFiles?: Array<string>) => {
+  //   // Extract the desired tab state from localStorage
+  //   const tabState = JSON.parse(localStorage.getItem(filePath) || '{}');
+  //   // Create new state object with the returned tab state
+  //   let newState;
+  //   if (openFiles)
+  //     newState = {
+  //       ...this.state,
+  //       ...tabState,
+  //       openFiles,
+  //     };
+  //   else
+  //     newState = {
+  //       ...this.state,
+  //       ...tabState,
+  //     };
+  //   // Set the 'state' item in localStorage to the tab state. This means that tab is the current tab, which would be used if the app got reloaded.
+  //   localStorage.setItem('state', JSON.stringify(tabState));
 
-    // Set the d3 state using the services extracted from the tabState and then setState
-    window.d3State = setD3State(newState.services);
-    this.setState(newState);
-  };
+  //   // Set the d3 state using the services extracted from the tabState and then setState
+  //   window.d3State = setD3State(newState.services);
+  //   this.setState(newState);
+  // };
 
-  /**
-   * @param filePath -> string
-   * @returns void
-   * @description removes the tab corresponding to the given file path
-   */
-  closeTab: SwitchTab = (filePath: string) => {
-    // Grab current open files and remove the file path of the tab to be closed, assign the
-    // updated array to newOpenFiles
-    const { openFiles, options } = this.state;
-    const newOpenFiles = openFiles.filter((file) => file != filePath);
-    // Remove the state object associated with the file path in localStorage
-    localStorage.removeItem(filePath);
-    // If the tab to be closed is the active tab, reset d3 and delete "state" object from local
-    // storage and set state to the initial state with the updated open files array included.
-    if (filePath === this.state.filePath) {
-      // Remove the 'state' localStorage item, which represents the
-      // services of the currently opened file.
-      localStorage.removeItem('state');
-      // Stop the simulation to prevent d3 transform errors related
-      // to 'tick' events
-      const { simulation } = window.d3State;
-      simulation.stop();
-      // If there are other open tabs, switch to the first open one
-      // If not, reset to initialState with selected options.
-      if (openFiles.length > 1) this.switchTab(newOpenFiles[0], newOpenFiles);
-      else this.setState({ ...initialState, options });
-    } else this.setState({ ...this.state, openFiles: newOpenFiles });
-  };
+  // /**
+  //  * @param filePath -> string
+  //  * @returns void
+  //  * @description removes the tab corresponding to the given file path
+  //  */
+  // closeTab: SwitchTab = (filePath: string) => {
+  //   // Grab current open files and remove the file path of the tab to be closed, assign the
+  //   // updated array to newOpenFiles
+  //   const openFiles = useSelector((state) => state.openFiles);
+  //   //pull options from state
+  //   const options = useSelector((state) => state.options)
+  //   const newOpenFiles = openFiles.filter((file) => file != filePath);
+  //   // Remove the state object associated with the file path in localStorage
+  //   localStorage.removeItem(filePath);
+  //   // If the tab to be closed is the active tab, reset d3 and delete "state" object from local
+  //   // storage and set state to the initial state with the updated open files array included.
+  //   if (filePath === this.state.filePath) {
+  //     // Remove the 'state' localStorage item, which represents the
+  //     // services of the currently opened file.
+  //     localStorage.removeItem('state');
+  //     // Stop the simulation to prevent d3 transform errors related
+  //     // to 'tick' events
+  //     const { simulation } = window.d3State;
+  //     simulation.stop();
+  //     // If there are other open tabs, switch to the first open one
+  //     // If not, reset to initialState with selected options.
+  //     if (openFiles.length > 1) this.switchTab(newOpenFiles[0], newOpenFiles);
+  //     else this.setState({ ...initialState, options });
+  //   } else this.setState({ ...this.state, openFiles: newOpenFiles });
+  // };
 
   /**
    * @param errorText -> string
@@ -323,8 +365,8 @@ class App extends Component<{}, State> {
             view={this.state.view}
             options={this.state.options}
             networks={this.state.networks}
-            updateView={this.updateView}
-            updateOption={this.updateOption}
+            // updateView={this.updateView}
+            // updateOption={this.updateOption}
             selectNetwork={this.selectNetwork}
             selectedNetwork={this.state.selectedNetwork}
           />
