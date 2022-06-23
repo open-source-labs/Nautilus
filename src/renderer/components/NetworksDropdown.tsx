@@ -3,7 +3,7 @@ import {  Handler } from '../App.d';
 import { selectNetwork } from '../../reducers/appSlice';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
-const dispatch = useAppDispatch();
+
 
 // type Props = {
 //   networks: ReadOnlyObj;
@@ -14,6 +14,7 @@ const NetworksDropDown: React.FC = ({
   // networks,
   // selectedNetwork,
 }) => {
+  const dispatch = useAppDispatch();
   const networks = useAppSelector(state => state.networks)
   const selectedNetwork = useAppSelector(state => state.selectedNetwork)
   const handleNetworkUpdate: Handler = e => {

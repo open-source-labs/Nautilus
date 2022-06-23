@@ -123,7 +123,8 @@ export type Options = {
 };
 
 export type FileOpen = {
-  (file: File): void;
+  // (file: File): string[] | (string | string[] | YamlState)[];
+  (file: File): any;
 };
 
 export type UpdateOption = {

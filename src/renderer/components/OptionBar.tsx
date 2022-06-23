@@ -19,7 +19,7 @@ import { updateViewStore, updateOption } from '../../reducers/appSlice';
 // const dispatch = useDispatch();
 // const useAppDispatch: () => AppDispatch = useDispatch
 // const dispatch2 = useAppDispatch();
-const dispatch = useAppDispatch();
+
 
 
 import {
@@ -32,6 +32,7 @@ import {
 } from '../App.d';
 
 const OptionBar: React.FC = () => {
+  const dispatch = useAppDispatch();
   const view = useAppSelector((state) => state.view);
   const options = useAppSelector((state) => state.options);
   const dependsOnClass = view === 'depends_on' ? 'option selected' : 'option';

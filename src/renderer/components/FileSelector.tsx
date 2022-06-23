@@ -21,7 +21,9 @@ import { FaUpload } from 'react-icons/fa';
 // import { yamlToState, fileOpenError, updateOption } from '../../reducers/appSlice';
 // import { switchTab } from '../../reducers/tabSlice';
 // import setD3State from '../helpers/setD3State';
+import { yamlToState, fileOpenError, switchTab } from "../../reducers/appSlice";
 import { fileOpen } from '../helpers/fileOpen'
+import { useAppDispatch } from '../../hooks';
 
 // const dispatch = useDispatch();
 
@@ -36,6 +38,7 @@ import { fileOpen } from '../helpers/fileOpen'
 
 
 const FileSelector: React.FC = () => {
+  const dispatch = useAppDispatch();
   return (
     <div className="file-open">
       <label htmlFor="files">
@@ -58,7 +61,14 @@ const FileSelector: React.FC = () => {
             if (event.currentTarget.files) {
               // fire fileOpen function on first file opened
               // console.log('Event.currentTarget.file', event.currentTarget.files[0] )
-              fileOpen(event.currentTarget.files[0]);
+              /** fileOpen cannot have hooks called inside because it's not a functional component
+               * To circumvent, we're returning the necessary, adjusted files into 'openedFile'
+               * If it's an array, than it's outputting a string of error messages and calling error reducer
+               * If it's an object, dispatch yamlState and switchTab reducers with object properties
+               */
+              const openedFile = fileOpen(event.currentTarget.files[0]);
+              console.log(openedFile);
+              Array.isArray(openedFile) ? dispatch(fileOpenError(openedFile)) : dispatch(yamlToState(openedFile.yamlState)), dispatch(switchTab({filePath: openedFile.filePath, openFiles: openedFile.openFiles}));
             }
           }
         }}
