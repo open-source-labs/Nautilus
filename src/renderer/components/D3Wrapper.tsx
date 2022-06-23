@@ -17,44 +17,57 @@ import View from './View';
 
 // IMPORT HELPER FUNCTIONS
 import colorSchemeIndex from '../helpers/colorSchemeIndex';
+import { useAppSelector } from '../../hooks';
+
 
 // IMPORT TYPES
-import {
-  FileOpen,
-  Services,
-  SetSelectedContainer,
-  Options,
-  ReadOnlyObj,
-  ViewT,
-} from '../App.d';
+// import {
+//   FileOpen,
+//   Services,
+//   SetSelectedContainer,
+//   Options,
+//   ReadOnlyObj,
+//   ViewT,
+// } from '../App.d';
 
-type Props = {
-  fileOpen: FileOpen;
-  setSelectedContainer: SetSelectedContainer;
-  fileOpened: boolean;
-  services: Services;
-  options: Options;
-  volumes: ReadOnlyObj;
-  bindMounts: Array<string>;
-  view: ViewT;
-  networks: ReadOnlyObj;
-  selectedNetwork: string;
-  openErrors: string[];
-};
+// type Props = {
+//   fileOpen: FileOpen;
+//   setSelectedContainer: SetSelectedContainer;
+//   fileOpened: boolean;
+//   services: Services;
+//   options: Options;
+//   volumes: ReadOnlyObj;
+//   bindMounts: Array<string>;
+//   view: ViewT;
+//   networks: ReadOnlyObj;
+//   selectedNetwork: string;
+//   openErrors: string[];
+// };
 
-const D3Wrapper: React.FC<Props> = ({
-  fileOpened,
-  fileOpen,
-  services,
-  setSelectedContainer,
-  options,
-  volumes,
-  bindMounts,
-  view,
-  networks,
-  selectedNetwork,
-  openErrors,
-}) => {
+const D3Wrapper: React.FC= (
+  // fileOpened,
+  // fileOpen,
+  // services,
+  // setSelectedContainer,
+  // options,
+  // volumes,
+  // bindMounts,
+  // view,
+  // networks,
+  // selectedNetwork,
+  // openErrors,
+) => {
+  
+  const fileOpened = useAppSelector((state) => state.fileOpened);
+  const services = useAppSelector((state) => state.services);
+  const options = useAppSelector((state) => state.options);
+  const volumes = useAppSelector((state) => state.volumes);
+  const bindMounts = useAppSelector((state) => state.bindMounts);
+  const networks = useAppSelector((state) => state.networks);
+  const selectedNetwork = useAppSelector((state) => state.selectedNetwork);
+  const openErrors = useAppSelector((state) => state.openErrors);
+  const view = useAppSelector((state) => state.view);
+   
   // invoke function that returns a function with the closure object for tracking colors
   const getColor = colorSchemeIndex();
 
@@ -74,14 +87,13 @@ const D3Wrapper: React.FC<Props> = ({
           ) : ( //if there aren't any errors, display the option to open a file
             <></>
           )}
-          <FileSelector fileOpen={fileOpen} />
+          <FileSelector />
         </div>
       ) : ( //if the file has been opened with no errors, display this:
         <>
           <div className="services-wrapper">
             <View
               services={services}
-              setSelectedContainer={setSelectedContainer}
               options={options}
               view={view}
               networks={networks}

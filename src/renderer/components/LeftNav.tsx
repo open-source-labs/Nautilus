@@ -16,38 +16,30 @@ import FileSelector from './FileSelector';
 import ComposeDeployment from './ComposeDeployment';
 import ClusterDeployment from './ClusterDeployment';
 import Title from './Title';
-import { FileOpen, Service } from '../App.d';
+// import { FileOpen, Service } from '../App.d';
+// import AppState from '../../store';
+import { useAppSelector } from '../../hooks';
 
-type Props = {
-  service: Service;
-  selectedContainer: string;
-  fileOpen: FileOpen;
-  fileOpened: boolean;
-  currentFilePath: string;
-};
+// type Props = {
+//   service: Service;
+//   selectedContainer: string;
+//   fileOpen: FileOpen;
+//   fileOpened: boolean;
+//   currentFilePath: string;
+// };
 
-const LeftNav: React.FC<Props> = ({
-  fileOpen,
-  fileOpened,
-  selectedContainer,
-  service,
-  currentFilePath,
+const LeftNav: React.FC = ({
 }) => {
+  const fileOpened = useAppSelector(state => state.fileOpened)
   return (
     <div className="left-nav">
       <div className="top-half">
         <Title />
-        {fileOpened ? <FileSelector fileOpen={fileOpen} /> : null}
+        {fileOpened ? <FileSelector  /> : null}
       </div>
-      <ServiceInfo selectedContainer={selectedContainer} service={service} />
-      <ComposeDeployment
-        currentFilePath={currentFilePath}
-        fileOpen={fileOpen}
-      />
-      <ClusterDeployment
-        currentFilePath={currentFilePath}
-        fileOpen={fileOpen}
-      />
+      <ServiceInfo  />
+      <ComposeDeployment/>
+      <ClusterDeployment/>
     </div>
   );
 };

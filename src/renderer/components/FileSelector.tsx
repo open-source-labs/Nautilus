@@ -10,14 +10,32 @@
  */
 import React from 'react';
 import { FaUpload } from 'react-icons/fa';
+// import { runDockerComposeValidation } from '../../common/runShellTasks';
+// import resolveEnvVariables from '../../common/resolveEnvVariables';
+// import convertYamlToState from '.././helpers/yamlParser';
+// import parseOpenError from '../helpers/parseOpenError';
+// import yaml from 'js-yaml';
+// import { useDispatch } from 'react-redux';
+// import { FileOpen } from '../App.d';
+// import RootState from '../../store'
+// import { yamlToState, fileOpenError, updateOption } from '../../reducers/appSlice';
+// import { switchTab } from '../../reducers/tabSlice';
+// import setD3State from '../helpers/setD3State';
+import { fileOpen } from '../helpers/fileOpen'
 
-import { FileOpen } from '../App.d';
+// const dispatch = useDispatch();
 
-type Props = {
-  fileOpen: FileOpen;
-};
 
-const FileSelector: React.FC<Props> = ({ fileOpen }) => {
+/**
+   * @param file: a File classed object
+   * @returns void
+   * @description validates the docker-compose file
+   * ** if no errors, passes file string along to convert and store yaml method
+   * ** if errors, passes error string to handle file open errors method
+   */
+
+
+const FileSelector: React.FC = () => {
   return (
     <div className="file-open">
       <label htmlFor="files">

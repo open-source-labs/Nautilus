@@ -1,19 +1,21 @@
 import React from 'react';
-import { ReadOnlyObj, Handler } from '../App.d';
-import { selectNetwork } from '../../reducers/updateViewAndSelectNetworkSlice';
-import {useDispatch} from 'react-redux';
+import {  Handler } from '../App.d';
+import { selectNetwork } from '../../reducers/appSlice';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 
-const dispatch = useDispatch();
+const dispatch = useAppDispatch();
 
-type Props = {
-  networks: ReadOnlyObj;
-  selectedNetwork: string;
-};
+// type Props = {
+//   networks: ReadOnlyObj;
+//   selectedNetwork: string;
+// };
 
-const NetworksDropDown: React.FC<Props> = ({
-  networks,
-  selectedNetwork,
+const NetworksDropDown: React.FC = ({
+  // networks,
+  // selectedNetwork,
 }) => {
+  const networks = useAppSelector(state => state.networks)
+  const selectedNetwork = useAppSelector(state => state.selectedNetwork)
   const handleNetworkUpdate: Handler = e => {
     const network = (e as React.ChangeEvent<HTMLSelectElement>).currentTarget
       .value;

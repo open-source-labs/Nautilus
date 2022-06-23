@@ -10,44 +10,30 @@
  * ************************************
  */
 import React from 'react';
-import {useDispatch} from 'react-redux';
+// import {useDispatch} from 'react-redux';
 import NetworksDropdown from './NetworksDropdown';
-import { updateViewStore } from '../../reducers/updateViewAndSelectNetworkSlice';
-import { updateOption } from '../../reducers/optionSlice';
 // import { AppDispatch } from '../../store';
-// import { useAppDispatch } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { updateViewStore, updateOption } from '../../reducers/appSlice';
 
 // const dispatch = useDispatch();
 // const useAppDispatch: () => AppDispatch = useDispatch
 // const dispatch2 = useAppDispatch();
-const dispatch = useDispatch();
+const dispatch = useAppDispatch();
 
 
 import {
-  ViewT,
-  Options,
-  UpdateView,
-  SelectNetwork,
-  ReadOnlyObj,
+  // ViewT,
+  // Options,
+  // UpdateView,
+  // SelectNetwork,
+  // ReadOnlyObj,
   Handler,
 } from '../App.d';
 
-type Props = {
-  view: ViewT;
-  options: Options;
-  networks: ReadOnlyObj;
-  updateView: UpdateView;
-  selectNetwork: SelectNetwork;
-  selectedNetwork: string;
-};
-
-const OptionBar: React.FC<Props> = ({
-  view,
-  options,
-  networks,
-  selectNetwork,
-  selectedNetwork,
-}) => {
+const OptionBar: React.FC = () => {
+  const view = useAppSelector((state) => state.view);
+  const options = useAppSelector((state) => state.options);
   const dependsOnClass = view === 'depends_on' ? 'option selected' : 'option';
 
   // calls update function with the specified view from the click event
@@ -94,10 +80,7 @@ const OptionBar: React.FC<Props> = ({
   return (
     <div className="option-bar">
       <div className="views flex">
-        <NetworksDropdown
-          networks={networks}
-          selectedNetwork={selectedNetwork}
-        />
+        <NetworksDropdown />
         <span
           className={dependsOnClass}
           id="depends_on"

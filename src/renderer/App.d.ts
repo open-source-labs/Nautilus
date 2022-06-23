@@ -104,7 +104,7 @@ type LongVolumeSyntax = Partial<{
 
 type VolumeType = string | LongVolumeSyntax;
 
-type ViewT = 'networks' | 'depends_on';
+type ViewT = 'networks' | 'depends_on' | undefined; //hack fix, shouldn't take undefined
 
 export type Options = {
   ports: boolean;
@@ -117,6 +117,11 @@ export type Options = {
  * APP METHOD FUNCTION TYPES
  * **********************
  */
+
+ export type SwitchTab = {
+  filePath: string, openFiles?: Array<string>;
+};
+
 export type FileOpen = {
   (file: File): void;
 };
@@ -145,9 +150,9 @@ export type SetSelectedContainer = {
   (containerName: string): void;
 };
 
-export type SwitchTab = {
-  (filePath: string, openFiles?: Array<string>): void;
-};
+// export type SwitchTab = {
+//   (filePath: string, openFiles?: Array<string>): void;
+// };
 
 export type Void = {
   ():void
@@ -200,3 +205,20 @@ export type shellResults = {
   out: string;
   envResolutionRequired: boolean;
 };
+
+export type YamlState = {
+  fileOpened: boolean;
+  kubeBool?: boolean;
+  kubeObj?: KubeObj;
+  services: Services;
+  filePath?: string;
+  dependsOn?: DependsOn;
+  networks?: ReadOnlyObj;
+  volumes?: ReadOnlyObj;
+  bindMounts?: Array<string>;
+};
+
+export interface ViewAndSelectNetwork {
+  view?: ViewT;
+  selectedNetwork?: string;
+}

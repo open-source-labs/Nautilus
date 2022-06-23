@@ -12,19 +12,12 @@
 
 import React from 'react';
 import Tab from './Tab';
-import { SwitchTab } from '../App.d';
+// import { SwitchTab } from '../App.d';
+import { useAppSelector } from '../../hooks'
 
-
-interface TabProps {
-  openFiles: Array<string>,
-  activePath: string,
-}
-
-
-const TabBar: React.FC<TabProps> = ({
-  openFiles,
-  activePath,
-}) => {
+const TabBar: React.FC = () => {
+  const openFiles = useAppSelector(state => state.openFiles);
+  const activePath = useAppSelector(state => state.filePath);
   // console.log(openFiles)
   const tabs = openFiles.map((filePath) => (
     <Tab

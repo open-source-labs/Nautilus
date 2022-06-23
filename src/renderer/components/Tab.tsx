@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { SwitchTab } from '../App.d';
-import { switchTab, closeTab } from '../../reducers/tabSlice';
+// import { SwitchTab } from '../App.d';
+import { switchTab, closeTab } from '../../reducers/appSlice';
 
 const dispatch = useDispatch();
 
