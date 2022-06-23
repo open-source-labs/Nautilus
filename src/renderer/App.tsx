@@ -13,11 +13,10 @@ import React, { useEffect } from 'react';
 
 import { ipcRenderer } from 'electron';
 import { useDispatch } from 'react-redux';
+import { useAppSelector } from '../hooks';
 
 //IMPORT HELPER FUNCTIONS
-
-import convertAndStoreYamlJSON from './components/FileSelector'
-import handleFileOpenError from './components/FileSelector'
+import {convertAndStoreYamlJSON, handleFileOpenError} from './helpers/fileOpen';
 import setD3State from './helpers/setD3State';
 
  
@@ -33,7 +32,7 @@ import TabBar from './components/TabBar';
 // import { updateOption } from '../reducers/optionSlice';
 // import { yamlToState, fileOpenError } from '../reducers/fileSlice';
 //  updateViewStore , selecte
-import { openYamlFiles } from '../reducers/appSlice';
+import { openYamlFiles, fileOpenError } from '../reducers/appSlice';
 
 
 // const dispatch = useDispatch();
@@ -98,10 +97,10 @@ const App: React.FC = ({/**state to be loaded for App */}) => {
   useEffect(() => {
     if (ipcRenderer) {
       ipcRenderer.on('file-open-error-within-electron', (event, arg) => {
-        handleFileOpenError(arg);
+        dispatch(fileOpenError(handleFileOpenError(arg)));
       });
       ipcRenderer.on('file-opened-within-electron', (event, arg) => {
-        convertAndStoreYamlJSON(arg, '');
+        convertAndStoreYamlJSON(arg, '', useAppSelector(state => state.openFiles));
       });
     }
     const stateJSON = localStorage.getItem('state');

@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux';
 // import { SwitchTab } from '../App.d';
 import { switchTab, closeTab } from '../../reducers/appSlice';
 
-const dispatch = useDispatch();
 
 type Props = {
   activePath: string;
@@ -18,6 +17,7 @@ const Tab: React.FC<Props> = ({
   // closeTab,
   activePath,
 }) => {
+  const dispatch = useDispatch();
   let fileSplit;
   if (process.platform === 'win32') fileSplit = filePath.split('\\');
   else fileSplit = filePath.split('/');

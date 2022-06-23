@@ -12,7 +12,8 @@
 import React, { useState, useEffect } from 'react';
 import * as d3 from 'd3';
 import { fileOpen } from '../helpers/fileOpen';
-import { useAppSelector} from '../../hooks';
+import { useAppSelector, useAppDispatch } from '../../hooks';
+import { yamlToState, fileOpenError } from "../../reducers/appSlice";
 
 import {
   FaUpload,
@@ -56,6 +57,7 @@ enum HealthCheck {
 
 const Deployment: React.FC = () => {
   const currentFilePath = useAppSelector((state) => state.filePath);
+  const dispatch = useAppDispatch();
   
   const [deployState, setDeployState] = useState(DeploymentStatus.NoFile);
   const [errorMessage, setErrorMessage] = useState('');
@@ -334,7 +336,8 @@ const Deployment: React.FC = () => {
           if (event.currentTarget.files) {
             // fire fileOpen function on first file opened
             setDeployState(DeploymentStatus.OpeningFile);
-            fileOpen(event.currentTarget.files[0]);
+            const openedFile = fileOpen(event.currentTarget.files[0]);
+            Array.isArray(openedFile) ? dispatch(fileOpenError(openedFile)) : dispatch(yamlToState(openedFile.yamlState));
           }
         }
       }}
