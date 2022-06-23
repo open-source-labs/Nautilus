@@ -11,6 +11,8 @@
 
 import React, { useState, useEffect } from 'react';
 import * as d3 from 'd3';
+import { fileOpen } from '../helpers/fileOpen';
+import { useAppSelector} from '../../hooks';
 
 import {
   FaUpload,
@@ -28,7 +30,7 @@ import {
   runDockerStats,
 } from '../../common/runShellTasks';
 
-import { FileOpen, Void } from '../App.d';
+import {  Void } from '../App.d';
 
 enum DeploymentStatus {
   OpeningFile = 0,
@@ -48,12 +50,13 @@ enum HealthCheck {
   On,
 }
 
-type Props = {
-  currentFilePath: string;
-  fileOpen: FileOpen;
-};
+// type Props = {
+//   currentFilePath: string;
+// };
 
-const Deployment: React.FC<Props> = ({ currentFilePath, fileOpen }) => {
+const Deployment: React.FC = () => {
+  const currentFilePath = useAppSelector((state) => state.filePath);
+  
   const [deployState, setDeployState] = useState(DeploymentStatus.NoFile);
   const [errorMessage, setErrorMessage] = useState('');
   const [healthCheck, setHealthCheck] = useState(HealthCheck.Off);

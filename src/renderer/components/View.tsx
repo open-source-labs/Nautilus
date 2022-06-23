@@ -25,7 +25,6 @@ import {
 import {
   Services,
   SNode,
-  SetSelectedContainer,
   Options,
   ReadOnlyObj,
   ViewT,
@@ -33,7 +32,7 @@ import {
 
 type Props = {
   services: Services;
-  setSelectedContainer: SetSelectedContainer;
+  // setSelectedContainer: SetSelectedContainer;
   options: Options;
   networks: ReadOnlyObj;
   view: ViewT;
@@ -43,7 +42,6 @@ type Props = {
 
 const View: React.FC<Props> = ({
   services,
-  setSelectedContainer,
   options,
   view,
   networks,
@@ -292,7 +290,7 @@ const View: React.FC<Props> = ({
       <div className="view-wrapper">
         <svg className="graph">
           <Nodes
-            setSelectedContainer={setSelectedContainer}
+            // setSelectedContainer={setSelectedContainer}
             services={services}
             options={options}
             getColor={getColor}

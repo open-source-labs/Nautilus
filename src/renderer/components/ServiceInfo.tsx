@@ -9,11 +9,17 @@
  * ************************************
  */
 import React from 'react';
+import { useAppSelector } from '../../hooks';
 
-type ReactProps = {
-  service?: any;
-  selectedContainer: string;
-};
+// type ReactProps = {
+//   service?: any;
+//   selectedContainer: string;
+// };
+
+// type serviceInfo = {
+//   service: any;
+  
+// }
 
 type DockerComposeCommands = {
   [prop: string]: string;
@@ -27,7 +33,7 @@ type TwoDimension = {
   [prop: string]: any;
 };
 
-const ServiceInfo: React.FC<ReactProps> = ({ service, selectedContainer }) => {
+const ServiceInfo: React.FC= () => {
   // Create an object to house text intros for each docker-compose property
   const dockerComposeCommands: DockerComposeCommands = {
     build: 'Build: ',
@@ -37,7 +43,10 @@ const ServiceInfo: React.FC<ReactProps> = ({ service, selectedContainer }) => {
     env_file: 'Env_file: ',
     ports: 'Ports: ',
   };
-
+  
+  const selectedContainer = useAppSelector((state) => state.selectedContainer)
+  const service: any = useAppSelector((state) => state.services[selectedContainer]); //not ideal solution but it works for now
+  
   // Objects to hold filtered 1D service Commands
   const serviceOverview: ServiceOverview = {};
 
@@ -55,7 +64,7 @@ const ServiceInfo: React.FC<ReactProps> = ({ service, selectedContainer }) => {
   // ENV_FILE: an env file can have a 1D string, so if it does, just set the key in serviceOverview equal to its value as passed down from state
   // If it's an array, loop through the env_file values, and push them into the env_file "cache" on line 46
   // PORTS: if ports incorrectly is given a string, just set the key in serviceOverview equal to its value as passed down from state
-  // Finally, for all commands with 1D values and no options (image and command), just set the key in serviceOverview equal to its value as passed down from state
+  // Finally, for all commands with 1D values and no options (image and cmmand), just set the key in serviceOverview equal to its value as passed down from state
   if (service) {
     Object.keys(service).forEach((command) => {
       if (dockerComposeCommands[command]) {

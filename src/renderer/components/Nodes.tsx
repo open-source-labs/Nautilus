@@ -19,14 +19,16 @@ import {
 import { getStatic } from '../helpers/static';
 
 // IMPORT TYPES
-import { SNode, SetSelectedContainer, Services, Options } from '../App.d';
+import { SNode, Services, Options } from '../App.d';
 import boxPath from '../../../static/boxPath';
+import { useDispatch } from 'react-redux';
+import { setSelectedContainers } from '../../reducers/appSlice';
 
 // IMPORT COMPONENTS
 
 type Props = {
   services: Services;
-  setSelectedContainer: SetSelectedContainer;
+  // setSelectedContainer: SetSelectedContainer;
   options: Options;
   getColor: any;
 };
@@ -68,11 +70,12 @@ function wrap(text: d3.Selection<SVGTextElement, SNode, d3.BaseType, unknown>) {
 }
 
 const Nodes: React.FC<Props> = ({
-  setSelectedContainer,
+  // setSelectedContainers,
   services,
   options,
   getColor,
 }) => {
+  const dispatch = useDispatch();
   const { simulation, serviceGraph, treeDepth } = window.d3State;
   const [boxPorts, setBoxPorts] = useState<
     d3.Selection<SVGRectElement, SNode, any, any>[] | []
@@ -292,7 +295,7 @@ const Nodes: React.FC<Props> = ({
         return `container_${node.name}`;
       })
       .on('click', (node: SNode) => {
-        setSelectedContainer(node.name);
+        dispatch(setSelectedContainers(node.name));
       })
       .on('dblclick', dblClick)
       .call(drag)
