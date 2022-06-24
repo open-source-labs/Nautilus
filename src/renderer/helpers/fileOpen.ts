@@ -1,4 +1,5 @@
 // import { useDispatch } from 'react-redux';
+// import {createApi} from '@reduxjs/toolkit/query/react';
 import yaml from 'js-yaml';
 import convertYamlToState from './yamlParser';
 import setD3State from './setD3State';
@@ -18,13 +19,27 @@ import {
     // SwitchTab,
   } from '../App.d'
 
-export const fileOpen: FileOpen = (file: File, openFiles = []) => {
+const readFileAsync = (file:File) => {
+  return new Promise((resolve, reject) => {
+    let reader = new FileReader();
+
+    reader.onload = () => {
+      resolve(reader.result);
+    };
+
+    reader.onerror = reject;
+
+    reader.readAsArrayBuffer(file);
+  })
+};
+
+export const fileOpen: FileOpen = async (file: File, openFiles = []): Promise<any> => {
     console.log('Opening file');
     const fileReader = new FileReader();
     // check for valid file path
     if (file.path) {
       /* TODO: refactor error handling */
-      runDockerComposeValidation(file.path).then((validationResults: any) => { 
+      await runDockerComposeValidation(file.path).then( async (validationResults: any) => { 
         if (validationResults.error) {
           /** 
            * @MUSTDO
@@ -38,22 +53,35 @@ export const fileOpen: FileOpen = (file: File, openFiles = []) => {
           fileReader.readAsText(file);
           return error;
         } else {
+          console.log('before filereader, this log will work');
           // event listner to run after the file has been read as text
-          fileReader.onload = () => {
+          // fileReader.onload = () => {
+            console.log('filereader is loading');
             // if successful read, invoke method to convert and store to state
-            if (fileReader.result) {
-              let yamlText = fileReader.result.toString();
+            // if (fileReader.result) {
+              let yamlText: any = await readFileAsync(file);
+              // yamlText = yamlText.toString();
+              // yamlText = new TextEncoder().encode(yamlText);
+              // console.log("regular: ", yamlText);
+              // console.log("First version: " , new TextEncoder().encode(yamlText));
+              // console.log("Second version: " , new TextDecoder().decode(yamlText));
+              yamlText = new TextDecoder().decode(yamlText);
+
+              // let yamlText = fileReader.result.toString();
               //if docker-compose uses env file, replace the variables with value from env file
               if (validationResults.envResolutionRequired) {
                 yamlText = resolveEnvVariables(yamlText, file.path);
               }
               const yaml = convertAndStoreYamlJSON(yamlText, file.path, openFiles);
-              fileReader.readAsText(file);
-              return yaml;
-            }
-          };
+              console.log("this is yaml : " ,yaml);
+              return new Promise((resolve,reject)=>{
+                resolve(yaml);
+              });
+            //}
+          //};
           // read the file
           
+          fileReader.readAsText(file);
         }
       });
     }
@@ -64,7 +92,7 @@ export const fileOpen: FileOpen = (file: File, openFiles = []) => {
     // Convert Yaml to state object.
     const yamlJSON = yaml.safeLoad(yamlText);
     const yamlState = convertYamlToState(yamlJSON, filePath);
-    console.log('yamlState in openFiles: ', yamlState);
+    // console.log('yamlState in openFiles: ', yamlState);
     // dispatch(yamlToState(yamlState));
   
     // Copy options and open files state
