@@ -24,6 +24,7 @@ import { FaUpload } from 'react-icons/fa';
 import { yamlToState, fileOpenError, switchTab } from "../../reducers/appSlice";
 import { fileOpen } from '../helpers/fileOpen'
 import { useAppDispatch } from '../../hooks';
+// import { createAsyncThunk } from '@reduxjs/toolkit';
 
 // const dispatch = useDispatch();
 
@@ -37,8 +38,20 @@ import { useAppDispatch } from '../../hooks';
    */
 
 
+
+
 const FileSelector: React.FC = () => {
   const dispatch = useAppDispatch();
+
+  // const someAsync = async (event: any) =>{
+  //   const response = await fileOpen(event.currentTarget.files[0]);
+  //   return response;
+  // };
+
+  // useEffect(() => {
+
+  // })
+  
   return (
     <div className="file-open">
       <label htmlFor="files">
@@ -53,7 +66,7 @@ const FileSelector: React.FC = () => {
         name="yaml"
         accept=".yml,.yaml"
         style={{ display: 'none' }}
-        onChange={(event: React.SyntheticEvent<HTMLInputElement>) => {
+        onChange={async (event: React.SyntheticEvent<HTMLInputElement>) => {
           // make sure there was something selected
           // console.log('FileSelector Event and event.currentTarget', event, event.currentTarget)
           if (event.currentTarget) {
@@ -66,9 +79,22 @@ const FileSelector: React.FC = () => {
                * If it's an array, than it's outputting a string of error messages and calling error reducer
                * If it's an object, dispatch yamlState and switchTab reducers with object properties
                */
-              const openedFile = fileOpen(event.currentTarget.files[0]);
-              console.log(openedFile);
-              Array.isArray(openedFile) ? dispatch(fileOpenError(openedFile)) : dispatch(yamlToState(openedFile.yamlState)), dispatch(switchTab({filePath: openedFile.filePath, openFiles: openedFile.openFiles}));
+
+              // const fetchInfoFromFile = createAsyncThunk(
+              //   'File',
+              //   async (file: File, thunkAPI)
+              // );
+
+              console.log(fileOpen(event.currentTarget.files[0]));
+              fileOpen(event.currentTarget.files[0]).then( (openedFile:any) =>{
+                console.log("THis is data: " ,openedFile);
+                Array.isArray(openedFile) ? dispatch(fileOpenError(openedFile)) : dispatch(yamlToState(openedFile.yamlState)), dispatch(switchTab({filePath: openedFile.filePath, openFiles: openedFile.openFiles}));
+              });
+
+
+              // const openedFile = await fileOpen(event.currentTarget.files[0]);
+              // console.log('after file open, we get this far', openedFile);
+              // Array.isArray(openedFile) ? dispatch(fileOpenError(openedFile)) : dispatch(yamlToState(openedFile.yamlState)), dispatch(switchTab({filePath: openedFile.filePath, openFiles: openedFile.openFiles}));
             }
           }
         }}
