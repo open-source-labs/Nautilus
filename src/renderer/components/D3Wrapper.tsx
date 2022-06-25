@@ -59,6 +59,7 @@ const D3Wrapper: React.FC= (
 ) => {
   
   const fileOpened = useAppSelector((state) => state.fileOpened);
+  console.log('fileOpened d3state:', fileOpened);
   const services = useAppSelector((state) => state.services);
   const options = useAppSelector((state) => state.options);
   const volumes = useAppSelector((state) => state.volumes);

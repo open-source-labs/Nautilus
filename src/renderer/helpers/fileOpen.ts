@@ -74,18 +74,38 @@ export const fileOpen: FileOpen = async (file: File, openFiles = []): Promise<an
               }
               const yaml = convertAndStoreYamlJSON(yamlText, file.path, openFiles);
               console.log("this is yaml : " ,yaml);
-              return new Promise((resolve,reject)=>{
-                resolve(yaml);
-              });
+              getCache(yaml);
+              
+              
+              // return new Promise((resolve,reject)=>{
+              //   resolve(yaml);
+              // });
             //}
           //};
           // read the file
           
-          fileReader.readAsText(file);
+          // fileReader.readAsText(file);
         }
       });
     }
   };
+  export function cacheFile (){
+    let pw = '123'
+    let cache:any = [];
+    
+    return function (password: any){
+      if (password === pw) return cache
+      else if (!cache.includes(password)){
+        
+        cache.unshift(password);
+        
+        
+    }
+  }
+}
+  export const getCache = cacheFile();
+
+
 
     
   export const convertAndStoreYamlJSON = (yamlText: string, filePath: string, openFiles: string[] = []) => {

@@ -22,9 +22,10 @@ import { FaUpload } from 'react-icons/fa';
 // import { switchTab } from '../../reducers/tabSlice';
 // import setD3State from '../helpers/setD3State';
 import { yamlToState, fileOpenError, switchTab } from "../../reducers/appSlice";
-import { fileOpen } from '../helpers/fileOpen'
+import { fileOpen, getCache } from '../helpers/fileOpen'
 import { useAppDispatch } from '../../hooks';
 // import { createAsyncThunk } from '@reduxjs/toolkit';
+
 
 // const dispatch = useDispatch();
 
@@ -39,7 +40,6 @@ import { useAppDispatch } from '../../hooks';
 
 
 
-
 const FileSelector: React.FC = () => {
   const dispatch = useAppDispatch();
 
@@ -51,7 +51,6 @@ const FileSelector: React.FC = () => {
   // useEffect(() => {
 
   // })
-  
   return (
     <div className="file-open">
       <label htmlFor="files">
@@ -85,11 +84,31 @@ const FileSelector: React.FC = () => {
               //   async (file: File, thunkAPI)
               // );
 
-              console.log(fileOpen(event.currentTarget.files[0]));
-              fileOpen(event.currentTarget.files[0]).then( (openedFile:any) =>{
-                console.log("THis is data: " ,openedFile);
-                Array.isArray(openedFile) ? dispatch(fileOpenError(openedFile)) : dispatch(yamlToState(openedFile.yamlState)), dispatch(switchTab({filePath: openedFile.filePath, openFiles: openedFile.openFiles}));
-              });
+            fileOpen(event.currentTarget.files[0]);
+              
+             
+              
+              
+              
+              
+              setTimeout(() => {
+                let result = getCache('123');
+              console.log('checking the cache', result[0]);
+                
+                let openedFile = result[0];
+                if (openedFile !== undefined){
+                  Array.isArray(openedFile) ? dispatch(fileOpenError(openedFile)) : dispatch(yamlToState(openedFile.yamlState)), dispatch(switchTab({filePath: openedFile.filePath, openFiles: openedFile.openFiles}));
+                }
+                else {
+                  console.log('error opening file, try again');
+                }
+              }, 500)
+              
+              
+              
+              
+             
+              
 
 
               // const openedFile = await fileOpen(event.currentTarget.files[0]);
