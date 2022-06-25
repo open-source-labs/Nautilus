@@ -8,7 +8,7 @@
  * 
  */
 
-import { createSlice, PayloadAction  } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import setD3State from "../renderer/helpers/setD3State";
 import {
     State,
@@ -58,6 +58,7 @@ const appSlice = createSlice({
           ...state, 
           ...action.payload
         };
+        console.log(JSON.stringify(state, undefined, 2));
       },
       switchTab (state: State, action: PayloadAction<SwitchTab>) {
         const tabState = JSON.parse(localStorage.getItem(action.payload.filePath) || '{}');
@@ -120,7 +121,9 @@ const appSlice = createSlice({
           state.fileOpened = false;
         },
         openYamlFiles (state: State, action: PayloadAction<string[]> ) {
-          state.openFiles.concat(action.payload)
+          console.log('openYamlFiles dispatch received by reducer')
+          state.openFiles.concat(action.payload);
+          console.log(state);
         },
         updateOption (state, action: PayloadAction<string>) {
           // let option = action.payload.option;
