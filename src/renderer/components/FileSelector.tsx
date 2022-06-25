@@ -65,7 +65,7 @@ const FileSelector: React.FC = () => {
         name="yaml"
         accept=".yml,.yaml"
         style={{ display: 'none' }}
-        onChange={async (event: React.SyntheticEvent<HTMLInputElement>) => {
+        onChange={(event: React.SyntheticEvent<HTMLInputElement>) => {
           // make sure there was something selected
           // console.log('FileSelector Event and event.currentTarget', event, event.currentTarget)
           if (event.currentTarget) {
@@ -80,10 +80,13 @@ const FileSelector: React.FC = () => {
                */
 
               // const fetchInfoFromFile = createAsyncThunk(
-              //   'File',
-              //   async (file: File, thunkAPI)
-              // );
+              //   'event/',
+              //   async (targetFile: File) => {
+              //     const openedFile = await fileOpen(targetFile); 
+              //     return await Array.isArray(openedFile) ? dispatch(fileOpenError(openedFile)) : dispatch(yamlToState(openedFile.yamlState)), dispatch(switchTab({filePath: openedFile.filePath, openFiles: openedFile.openFiles}));
+              //   });
 
+<<<<<<< HEAD
             fileOpen(event.currentTarget.files[0]);
               
              
@@ -112,8 +115,19 @@ const FileSelector: React.FC = () => {
 
 
               // const openedFile = await fileOpen(event.currentTarget.files[0]);
+=======
+              console.log(fileOpen(event.currentTarget.files[0]));
+              // fetchInfoFromFile(event.currentTarget.files[0]);
+              
+
+
+              Promise.resolve(fileOpen(event.currentTarget.files[0])).then( (openedFile:any) =>{
+                console.log("THis is data: " ,openedFile);
+                Array.isArray(openedFile) ? dispatch(fileOpenError(openedFile)) : dispatch(yamlToState(openedFile.yamlState)), dispatch(switchTab({filePath: openedFile.filePath, openFiles: openedFile.openFiles}));
+              });
+              // const openedFile = 
+>>>>>>> 8e3cf817909aa657f95878afa0cab6874d152581
               // console.log('after file open, we get this far', openedFile);
-              // Array.isArray(openedFile) ? dispatch(fileOpenError(openedFile)) : dispatch(yamlToState(openedFile.yamlState)), dispatch(switchTab({filePath: openedFile.filePath, openFiles: openedFile.openFiles}));
             }
           }
         }}
