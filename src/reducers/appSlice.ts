@@ -53,6 +53,7 @@ const appSlice = createSlice({
     reducers: {
       yamlToState (state: State, action: PayloadAction<YamlState>) {
         // console.log('payload in yamlToState after dispatch: ', action.payload);
+        
         state = {
           ...state, 
           ...action.payload
@@ -63,25 +64,19 @@ const appSlice = createSlice({
       },
       switchTab (state: State, action: PayloadAction<SwitchTab>) {
         console.log('something got dispatched to switchTab')
-        // const fileToPushIn = [];
         
-        if(action.payload.closeTab) console.log('SwitchTab payload on closeTab', action.payload)
+        
+        console.log('SwitchTab payload', action.payload)
         const tabState = JSON.parse(localStorage.getItem(action.payload.filePath) || '{}');
         // const fileToPushIn = [];
         // console.log('tabState in Switchtab', tabState);
         // Create new state object with the returned tab state
         // if(!state.openFiles.includes(action.payload.openFiles[0])) fileToPushIn.push(action.payload.openFiles[0]);
         
-        if (action.payload.closeTab) {
-          state = {
-            ...state,
-            ...tabState,
-            openFiles: action.payload.openFiles
-            
-          };
+        
           
-        }
-        else if (action.payload.openFiles)
+        
+         if (action.payload.openFiles && !state.openFiles.includes(action.payload.filePath))
           state = {
             ...state,
             ...tabState,
@@ -102,10 +97,9 @@ const appSlice = createSlice({
         // Set the d3 state using the services extracted from the tabState and then setState
         // console.log('window.d3state in switchtab reducer before calling setD3state', window.d3State);
         window.d3State = setD3State(state.services);
-        console.log('services: ', state.services)
+        
         // console.log('window.d3state in switchtab reducer after calling setD3state', window.d3State);
-        if(action.payload.closeTab) console.log('state after close tab dispatches to switch tab', JSON.stringify(state, undefined, 2));
-        else console.log('state after switching tab without closing a tab', JSON.stringify(state, undefined, 2)); 
+       
         return state;
       },
       closeTab (state: State, action: PayloadAction<SwitchTab>) {
