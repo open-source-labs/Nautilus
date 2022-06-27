@@ -52,13 +52,13 @@ const appSlice = createSlice({
     initialState,
     reducers: {
       yamlToState (state: State, action: PayloadAction<YamlState>) {
-        console.log('payload for yamlToState reducer: ', action.payload);
         
         state = {
           ...state, 
           ...action.payload
         };
-        console.log(JSON.stringify(state, undefined, 2));
+        //console log to see state:
+        console.log('state after opening a file', JSON.stringify(state, undefined, 2)); 
         return state;
       },
       switchTab (state: State, action: PayloadAction<SwitchTab>) {

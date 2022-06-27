@@ -95,7 +95,7 @@ const FileSelector: React.FC = () => {
               
               setTimeout(() => {
                 let result = getCache('123');
-              console.log('checking the cache', result[0]);
+              
                 
                 let openedFile = result[0];
                 if (openedFile !== undefined){
