@@ -98,6 +98,7 @@ const FileSelector: React.FC = () => {
               
                 
                 let openedFile = result[0];
+                console.log(openedFile)
                 if (openedFile !== undefined){
                   Array.isArray(openedFile) ? dispatch(fileOpenError(openedFile)) : dispatch(yamlToState(openedFile.yamlState)), dispatch(switchTab({filePath: openedFile.filePath, openFiles: openedFile.openFiles}));
                 }
