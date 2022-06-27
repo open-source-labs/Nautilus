@@ -142,7 +142,7 @@ const appSlice = createSlice({
             if (action.payload === 'selectAll') {
                 state.options.ports = !state.options.ports;
                 state.options.volumes = !state.options.volumes;
-            }else if (state.options.ports && state.volumes) {
+            }else if (state.options.ports && state.options.volumes) {
                   state.options.selectAll = true;
             }
                 // check if select all should be on or off
