@@ -323,7 +323,7 @@ const Deployment: React.FC = () => {
     onClick = deployKill;
   }
 
-  let inputButton = (
+  const inputButton = (
     <input
       type="file"
       name="yaml"
@@ -337,6 +337,7 @@ const Deployment: React.FC = () => {
             // fire fileOpen function on first file opened
             setDeployState(DeploymentStatus.OpeningFile);
             const openedFile = fileOpen(event.currentTarget.files[0]);
+            console.log('Composing deployment of current files ', openedFile.yamlState);
             Array.isArray(openedFile) ? dispatch(fileOpenError(openedFile)) : dispatch(yamlToState(openedFile.yamlState));
           }
         }

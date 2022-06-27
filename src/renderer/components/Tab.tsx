@@ -1,9 +1,9 @@
 import React from 'react'
-import { useEffect } from 'react';
+// import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 // import { SwitchTab } from '../App.d';
 import { switchTab, closeTab } from '../../reducers/appSlice';
-import { useAppSelector } from '../../hooks'
+// import { useAppSelector } from '../../hooks'
 
 type Props = {
   activePath: string;
@@ -20,9 +20,7 @@ const Tab: React.FC<Props> = ({
 }) => {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-
-  }, [useAppSelector(state => state.openFiles)])
+  
 
   let fileSplit;
   if (process.platform === 'win32') fileSplit = filePath.split('\\');

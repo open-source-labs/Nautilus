@@ -63,22 +63,30 @@ const appSlice = createSlice({
       },
       switchTab (state: State, action: PayloadAction<SwitchTab>) {
         console.log('something got dispatched to switchTab')
-        console.log('SwitchTab payload', action.payload)
+        // const fileToPushIn = [];
+        
+        if(action.payload.closeTab) console.log('SwitchTab payload on closeTab', action.payload)
         const tabState = JSON.parse(localStorage.getItem(action.payload.filePath) || '{}');
+        // const fileToPushIn = [];
         // console.log('tabState in Switchtab', tabState);
         // Create new state object with the returned tab state
+        // if(!state.openFiles.includes(action.payload.openFiles[0])) fileToPushIn.push(action.payload.openFiles[0]);
         
-        if (action.payload.openFiles)
-          state = {
-            ...state,
-            ...tabState,
-            openFiles: state.openFiles.concat(action.payload.openFiles),
-          };
-        else if (action.payload.closeTab)
+        if (action.payload.closeTab) {
           state = {
             ...state,
             ...tabState,
             openFiles: action.payload.openFiles
+            
+          };
+          
+        }
+        else if (action.payload.openFiles)
+          state = {
+            ...state,
+            ...tabState,
+            openFiles: state.openFiles.concat(action.payload.openFiles),
+            filePath: action.payload.filePath
           };
         else {
           state = {
@@ -94,22 +102,24 @@ const appSlice = createSlice({
         // Set the d3 state using the services extracted from the tabState and then setState
         // console.log('window.d3state in switchtab reducer before calling setD3state', window.d3State);
         window.d3State = setD3State(state.services);
+        console.log('services: ', state.services)
         // console.log('window.d3state in switchtab reducer after calling setD3state', window.d3State);
-        // console.log('state upon completion: ', state)
+        if(action.payload.closeTab) console.log('state after close tab dispatches to switch tab', JSON.stringify(state, undefined, 2));
+        else console.log('state after switching tab without closing a tab', JSON.stringify(state, undefined, 2)); 
         return state;
       },
       closeTab (state: State, action: PayloadAction<SwitchTab>) {
         // Grab current open files and remove the file path of the tab to be closed, assign the
         // updated array to newOpenFiles
         console.log('something got dispatched to closeTab');
-        console.log('action.paylaod in closeTab: ', action.payload)
+        console.log('action.payload in closeTab: ', action.payload)
         const { openFiles } = state;
-        console.log('openFiles: ', openFiles);
+        console.log('openFiles before filtering: ', openFiles);
         const newOpenFiles = openFiles.filter((file: string) => file != action.payload.filePath);
         // Remove the state object associated with the file path in localStorage
-        console.log('localstorage before clicking close button', localStorage)
+        
         localStorage.removeItem(action.payload.filePath);
-        console.log('localstorage after clicking close button', localStorage)
+        
         // If the tab to be closed is the active tab, reset d3 and delete "state" object from local
         // storage and set state to the initial state with the updated open files array included.
         if (action.payload.filePath === state.filePath) {
@@ -123,7 +133,17 @@ const appSlice = createSlice({
           // If there are other open tabs, switch to the first open one
           // If not, reset to initialState with selected options.
           if (openFiles.length > 1){
-            switchTab({ filePath: newOpenFiles[0], openFiles: newOpenFiles});
+            let newFilePath = newOpenFiles[0];
+            const tabState = JSON.parse(localStorage.getItem(newFilePath) || '{}');
+            localStorage.setItem('state', JSON.stringify(tabState));
+            console.log('tabState in closeTab: ', tabState);
+            console.log('new open files: ', newOpenFiles);
+            console.log('new file path: ', newFilePath);
+            // appSlice.caseReducers.switchTab(state, {payload: {filePath: newFilePath, openFiles: newOpenFiles, closeTab: true}, type: 'switchTab'});
+            state = {...state, ...tabState, openFiles: newOpenFiles}
+            console.log('state before returning: ', JSON.stringify(state, undefined, 2));
+            window.d3State = setD3State(state.services);
+            return state;
           }
           // else this.setState({ ...initialState, options });
           else return {...initialState };

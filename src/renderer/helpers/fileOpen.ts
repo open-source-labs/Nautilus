@@ -69,6 +69,7 @@ export const fileOpen: FileOpen = async (file: File, openFiles = []): Promise<an
                 yamlText = resolveEnvVariables(yamlText, file.path);
               }
               const yaml = convertAndStoreYamlJSON(yamlText, file.path, openFiles);
+              
               getCache(yaml);
               
               
