@@ -62,6 +62,7 @@ const appSlice = createSlice({
         return state;
       },
       switchTab (state: State, action: PayloadAction<SwitchTab>) {
+        console.log('something got dispatched to switchTab')
         const tabState = JSON.parse(localStorage.getItem(action.payload.filePath) || '{}');
         // Create new state object with the returned tab state
         let newState;
@@ -133,20 +134,20 @@ const appSlice = createSlice({
         },
         updateOption (state, action: PayloadAction<string>) {
           // let option = action.payload.option;
-            const newState = {
-                ...state,
-                [action.payload]: true 
-              }
+          console.log('option clicked: ', action.payload);
               // if (action.payload === 'ports') Object.assign(newState, newState[action.payload] = true)
              // check if toggling select all on or off
+            if (action.payload === 'ports') state.options.ports = !state.options.ports;
+            if (action.payload === 'volumes') state.options.volumes = !state.options.volumes;
             if (action.payload === 'selectAll') {
-                newState.options.ports = true;
-                newState.options.volumes = true;
-            }else if (newState.options.ports && newState.volumes) {
-                  newState.options.selectAll = true;
+                state.options.ports = !state.options.ports;
+                state.options.volumes = !state.options.volumes;
+            }else if (state.options.ports && state.volumes) {
+                  state.options.selectAll = true;
             }
                 // check if select all should be on or off
-            return state = {...newState};
+                console.log('state after changing option', JSON.stringify(state, undefined, 2));
+            return state;
         }
 
     }
