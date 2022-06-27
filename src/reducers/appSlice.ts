@@ -52,7 +52,7 @@ const appSlice = createSlice({
     initialState,
     reducers: {
       yamlToState (state: State, action: PayloadAction<YamlState>) {
-        
+        console.log('payload in yamlToState after dispatch: ', action.payload);
         state = {
           ...state, 
           ...action.payload
@@ -63,33 +63,44 @@ const appSlice = createSlice({
       },
       switchTab (state: State, action: PayloadAction<SwitchTab>) {
         console.log('something got dispatched to switchTab')
+        console.log('SwitchTab payload', action.payload)
         const tabState = JSON.parse(localStorage.getItem(action.payload.filePath) || '{}');
+        console.log('tabState in Switchtab', tabState);
         // Create new state object with the returned tab state
-        let newState;
+        
         if (action.payload.openFiles)
-          newState = {
+          state = {
             ...state,
             ...tabState,
-            openFiles: action.payload.openFiles,
+            openFiles: state.openFiles.concat(action.payload.openFiles),
           };
         else
-          newState = {
+          state = {
             ...state,
             ...tabState,
           };
         // Set the 'state' item in localStorage to the tab state. This means that tab is the current tab, which would be used if the app got reloaded.
+        console.log('local storage before calling setitem in SwitchTab reducer', localStorage)
         localStorage.setItem('state', JSON.stringify(tabState));
-    
+        console.log('local storage after calling setitem in SwitchTab reducer', localStorage)
+        
         // Set the d3 state using the services extracted from the tabState and then setState
-        window.d3State = setD3State(newState.services);
-        return state = {...newState};
+        console.log('window.d3state in switchtab reducer before calling setD3state', window.d3State);
+        window.d3State = setD3State(state.services);
+        console.log('window.d3state in switchtab reducer after calling setD3state', window.d3State);
+        console.log('state upon completion: ', state)
+        return state;
       },
       closeTab (state: State, action: PayloadAction<SwitchTab>) {
         // Grab current open files and remove the file path of the tab to be closed, assign the
         // updated array to newOpenFiles
+        console.log('something got dispatched to closeTab');
+        console.log('action.paylaod in closeTab: ', action.payload)
         const { openFiles } = state;
+        console.log('openFiles: ', openFiles);
         const newOpenFiles = openFiles.filter((file: string) => file != action.payload.filePath);
         // Remove the state object associated with the file path in localStorage
+        console.log('localstorage before clicking close button', localStorage)
         localStorage.removeItem(action.payload.filePath);
         // If the tab to be closed is the active tab, reset d3 and delete "state" object from local
         // storage and set state to the initial state with the updated open files array included.
