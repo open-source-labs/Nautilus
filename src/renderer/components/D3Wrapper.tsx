@@ -57,7 +57,7 @@ const D3Wrapper: React.FC= (
   // selectedNetwork,
   // openErrors,
 ) => {
-  
+  // console.log('this is state in d3Wrapper', state);
   const fileOpened = useAppSelector((state) => state.fileOpened);
   const services = useAppSelector((state) => state.services);
   const options = useAppSelector((state) => state.options);
@@ -68,15 +68,7 @@ const D3Wrapper: React.FC= (
   const openErrors = useAppSelector((state) => state.openErrors);
   const view = useAppSelector((state) => state.view);
 
-  console.log('fileOpened from d3wrapper: ', fileOpened)
-  console.log('services from d3wrapper: ', services)
-  console.log('options from d3wrapper: ',options)
-  console.log('volumes from d3wrapper: ',volumes)
-  console.log('bindMounts from d3wrapper: ',bindMounts)
-  console.log('networks from d3wrapper: ',networks)
-  console.log('selectedNetwork from d3wrapper: ',selectedNetwork)
-  console.log('openErrors from d3wrapper: ',openErrors)
-  console.log('view from d3wrapper: ',view)
+
    
   // invoke function that returns a function with the closure object for tracking colors
   const getColor = colorSchemeIndex();

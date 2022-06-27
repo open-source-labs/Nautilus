@@ -1,14 +1,10 @@
-// import { useDispatch } from 'react-redux';
-// import {createApi} from '@reduxjs/toolkit/query/react';
+
 import yaml from 'js-yaml';
 import convertYamlToState from './yamlParser';
 import setD3State from './setD3State';
 import parseOpenError from './parseOpenError';
 import resolveEnvVariables from '../../common/resolveEnvVariables';
 import { runDockerComposeValidation } from "../../common/runShellTasks";
-// import { yamlToState, switchTab, fileOpenError } from "../../reducers/appSlice";
-// import { useAppSelector, useAppDispatch } from '../../hooks';
-// const dispatch = useAppDispatch();
 
 import {
     // State,
@@ -73,16 +69,10 @@ export const fileOpen: FileOpen = async (file: File, openFiles = []): Promise<an
                 yamlText = resolveEnvVariables(yamlText, file.path);
               }
               const yaml = convertAndStoreYamlJSON(yamlText, file.path, openFiles);
-              console.log("this is yaml : " ,yaml);
               getCache(yaml);
               
               
-              // return new Promise((resolve,reject)=>{
-              //   resolve(yaml);
-              // });
-            //}
-          //};
-          // read the file
+        
           
           // fileReader.readAsText(file);
         }
@@ -125,10 +115,9 @@ export const fileOpen: FileOpen = async (file: File, openFiles = []): Promise<an
     // dispatch(switchTab({filePath, openFiles}));
   
     // Set global variables for d3 simulation
-    console.log('Calling setD3State from convertAndStoreYamlJson')
+    
     window.d3State = setD3State(yamlState.services);
-    console.log('window in convertAndSToreYamlJSON: ', window.d3State);
-  
+    
     // Store opened file state in localStorage under the current state item call "state" as well as an individual item using the filePath as the key.
     localStorage.setItem('state', JSON.stringify(yamlState));
     localStorage.setItem(`${filePath}`, JSON.stringify(yamlState));

@@ -125,7 +125,7 @@ export const dagCreator: DagCreator = (nodes, links) => {
   const nodesObject: NodesObject = {};
   nodes.forEach((node) => {
     nodesObject[node.name] = node;
-    console.log(node);
+    
   });
 
   const roots = JSON.parse(JSON.stringify(nodesObject));
@@ -234,7 +234,7 @@ const setD3State: SetD3State = (services) => {
     },
     simulation: d3.forceSimulation<SNode>(nodes),
   };
-  console.log('here is the whole d3state: ', d3State)
+  
   return d3State;
 };
 
