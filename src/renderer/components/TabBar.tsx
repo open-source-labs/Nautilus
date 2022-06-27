@@ -12,12 +12,17 @@
 
 import React from 'react';
 import Tab from './Tab';
+// import { useEffect } from 'react'
 // import { SwitchTab } from '../App.d';
 import { useAppSelector } from '../../hooks'
 
 const TabBar: React.FC = () => {
   const openFiles = useAppSelector(state => state.openFiles);
   const activePath = useAppSelector(state => state.filePath);
+
+  // useEffect(() => {
+
+  // }, [openFiles])
   // console.log(openFiles)
   const tabs = openFiles.map((filePath) => (
     <Tab

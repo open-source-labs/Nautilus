@@ -52,20 +52,20 @@ const appSlice = createSlice({
     initialState,
     reducers: {
       yamlToState (state: State, action: PayloadAction<YamlState>) {
-        console.log('payload in yamlToState after dispatch: ', action.payload);
+        // console.log('payload in yamlToState after dispatch: ', action.payload);
         state = {
           ...state, 
           ...action.payload
         };
         //console log to see state:
-        console.log('state after opening a file', JSON.stringify(state, undefined, 2)); 
+        // console.log('state after opening a file', JSON.stringify(state, undefined, 2)); 
         return state;
       },
       switchTab (state: State, action: PayloadAction<SwitchTab>) {
         console.log('something got dispatched to switchTab')
         console.log('SwitchTab payload', action.payload)
         const tabState = JSON.parse(localStorage.getItem(action.payload.filePath) || '{}');
-        console.log('tabState in Switchtab', tabState);
+        // console.log('tabState in Switchtab', tabState);
         // Create new state object with the returned tab state
         
         if (action.payload.openFiles)
@@ -74,21 +74,28 @@ const appSlice = createSlice({
             ...tabState,
             openFiles: state.openFiles.concat(action.payload.openFiles),
           };
-        else
+        else if (action.payload.closeTab)
+          state = {
+            ...state,
+            ...tabState,
+            openFiles: action.payload.openFiles
+          };
+        else {
           state = {
             ...state,
             ...tabState,
           };
+        }
         // Set the 'state' item in localStorage to the tab state. This means that tab is the current tab, which would be used if the app got reloaded.
-        console.log('local storage before calling setitem in SwitchTab reducer', localStorage)
+        // console.log('local storage before calling setitem in SwitchTab reducer', localStorage)
         localStorage.setItem('state', JSON.stringify(tabState));
-        console.log('local storage after calling setitem in SwitchTab reducer', localStorage)
+        // console.log('local storage after calling setitem in SwitchTab reducer', localStorage)
         
         // Set the d3 state using the services extracted from the tabState and then setState
-        console.log('window.d3state in switchtab reducer before calling setD3state', window.d3State);
+        // console.log('window.d3state in switchtab reducer before calling setD3state', window.d3State);
         window.d3State = setD3State(state.services);
-        console.log('window.d3state in switchtab reducer after calling setD3state', window.d3State);
-        console.log('state upon completion: ', state)
+        // console.log('window.d3state in switchtab reducer after calling setD3state', window.d3State);
+        // console.log('state upon completion: ', state)
         return state;
       },
       closeTab (state: State, action: PayloadAction<SwitchTab>) {
@@ -102,6 +109,7 @@ const appSlice = createSlice({
         // Remove the state object associated with the file path in localStorage
         console.log('localstorage before clicking close button', localStorage)
         localStorage.removeItem(action.payload.filePath);
+        console.log('localstorage after clicking close button', localStorage)
         // If the tab to be closed is the active tab, reset d3 and delete "state" object from local
         // storage and set state to the initial state with the updated open files array included.
         if (action.payload.filePath === state.filePath) {
@@ -114,9 +122,13 @@ const appSlice = createSlice({
           simulation.stop();
           // If there are other open tabs, switch to the first open one
           // If not, reset to initialState with selected options.
-          if (openFiles.length > 1) switchTab({filePath: newOpenFiles[0], openFiles: newOpenFiles});
+          if (openFiles.length > 1){
+            switchTab({ filePath: newOpenFiles[0], openFiles: newOpenFiles});
+          }
           // else this.setState({ ...initialState, options });
-        } else return { ...state, openFiles: newOpenFiles };
+          else return {...initialState };
+          console.log('newOpenFiles: ', newOpenFiles);
+        }  return { ...state, openFiles: newOpenFiles };
         },
         updateViewStore(state: State, action: PayloadAction<ViewAndSelectNetwork>){
           state.view = action.payload.view;
@@ -157,7 +169,7 @@ const appSlice = createSlice({
                   state.options.selectAll = true;
             }
                 // check if select all should be on or off
-                console.log('state after changing option', JSON.stringify(state, undefined, 2));
+                
             return state;
         }
 
