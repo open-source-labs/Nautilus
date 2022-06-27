@@ -59,6 +59,7 @@ const appSlice = createSlice({
           ...action.payload
         };
         console.log(JSON.stringify(state, undefined, 2));
+        return state;
       },
       switchTab (state: State, action: PayloadAction<SwitchTab>) {
         const tabState = JSON.parse(localStorage.getItem(action.payload.filePath) || '{}');
@@ -80,7 +81,7 @@ const appSlice = createSlice({
     
         // Set the d3 state using the services extracted from the tabState and then setState
         window.d3State = setD3State(newState.services);
-        state = {...newState};
+        return state = {...newState};
       },
       closeTab (state: State, action: PayloadAction<SwitchTab>) {
         // Grab current open files and remove the file path of the tab to be closed, assign the
@@ -108,22 +109,27 @@ const appSlice = createSlice({
         updateViewStore(state: State, action: PayloadAction<ViewAndSelectNetwork>){
           state.view = action.payload.view;
           state.selectedNetwork = '';
+          return state;
         },
         selectNetwork(state: State, action: PayloadAction<string>){
           state.selectedNetwork = action.payload;
           state.view = 'networks';
+          return state;
         },
         setSelectedContainers(state: State, action: PayloadAction<string>){
           state.selectedContainer = action.payload;
+          return state;
         },
         fileOpenError (state: State, action: PayloadAction<string[]>) {
           state.openErrors.concat(action.payload)
           state.fileOpened = false;
+          return state;
         },
         openYamlFiles (state: State, action: PayloadAction<string[]> ) {
           console.log('openYamlFiles dispatch received by reducer')
           state.openFiles.concat(action.payload);
           console.log(state);
+          return state;
         },
         updateOption (state, action: PayloadAction<string>) {
           // let option = action.payload.option;
@@ -140,8 +146,7 @@ const appSlice = createSlice({
                   newState.options.selectAll = true;
             }
                 // check if select all should be on or off
-            state = {...newState};
-            
+            return state = {...newState};
         }
 
     }

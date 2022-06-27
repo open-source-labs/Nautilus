@@ -125,7 +125,9 @@ export const fileOpen: FileOpen = async (file: File, openFiles = []): Promise<an
     // dispatch(switchTab({filePath, openFiles}));
   
     // Set global variables for d3 simulation
+    console.log('Calling setD3State from convertAndStoreYamlJson')
     window.d3State = setD3State(yamlState.services);
+    console.log('window in convertAndSToreYamlJSON: ', window.d3State);
   
     // Store opened file state in localStorage under the current state item call "state" as well as an individual item using the filePath as the key.
     localStorage.setItem('state', JSON.stringify(yamlState));
