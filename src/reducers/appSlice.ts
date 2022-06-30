@@ -21,6 +21,8 @@ import {
     YamlState,
     ViewAndSelectNetwork
   } from '../renderer/App.d';
+// import { convertAndStoreYamlJSON } from "../renderer/helpers/fileOpen";
+// import { act } from "react-test-renderer";
 
  const initialState: State =  {
   openFiles: [],
@@ -52,25 +54,36 @@ const appSlice = createSlice({
     initialState,
     reducers: {
       yamlToState (state: State, action: PayloadAction<YamlState>) {
-        
+        console.log('this is the action payload', action.payload)
         state = {
           ...state, 
           ...action.payload
         };
         //console log to see state:
-        console.log('state after opening a file', JSON.stringify(state, undefined, 2)); 
+        // console.log('state after opening a file', JSON.stringify(state, undefined, 2)); 
         return state;
       },
       switchTab (state: State, action: PayloadAction<SwitchTab>) {
-        console.log('something got dispatched to switchTab')
+        // console.log('this is the active tabs', state.openFiles);
+        console.log('something got dispatched to switchTab', action.payload.openFiles)
         const tabState = JSON.parse(localStorage.getItem(action.payload.filePath) || '{}');
+        const fileToPushIn = [];
+        // const newOpenFiles;
+        // if(!state.openFiles.includes(action.payload.openFiles[0]))
+        // const concatted = [action.payload.openFiles];
         // Create new state object with the returned tab state
+        // console.log(typeof action.payload.openFiles)
+        // if(state.openFiles.includes(...action.payload.openFiles)){
+        //   console.log('hi');
+        // }
+        if(!state.openFiles.includes(action.payload.openFiles[0])) fileToPushIn.push(action.payload.openFiles[0]);
+        // console.log('should', shouldIBePushed)
         let newState;
         if (action.payload.openFiles)
           newState = {
             ...state,
             ...tabState,
-            openFiles: action.payload.openFiles,
+            openFiles: state.openFiles.concat(fileToPushIn),
           };
         else
           newState = {

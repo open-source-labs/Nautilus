@@ -18,6 +18,7 @@ import { useAppSelector } from '../../hooks'
 const TabBar: React.FC = () => {
   const openFiles = useAppSelector(state => state.openFiles);
   const activePath = useAppSelector(state => state.filePath);
+  console.log(openFiles);
   // console.log(openFiles)
   const tabs = openFiles.map((filePath) => (
     <Tab

@@ -73,6 +73,10 @@ const D3Wrapper: React.FC= (
   // invoke function that returns a function with the closure object for tracking colors
   const getColor = colorSchemeIndex();
 
+<<<<<<< HEAD
+=======
+  
+>>>>>>> 69868cf... current feature build with minimal bugs
   return (
     
     <div className="d3-wrapper">

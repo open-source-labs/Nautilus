@@ -42,7 +42,7 @@ import { useAppDispatch } from '../../hooks';
 
 const FileSelector: React.FC = () => {
   const dispatch = useAppDispatch();
-
+  // const allOpenFiles = useAppSelector((state) => state.openFiles);
   // const someAsync = async (event: any) =>{
   //   const response = await fileOpen(event.currentTarget.files[0]);
   //   return response;
@@ -96,9 +96,15 @@ const FileSelector: React.FC = () => {
               
                 
                 let openedFile = result[0];
-                console.log(openedFile)
                 if (openedFile !== undefined){
-                  Array.isArray(openedFile) ? dispatch(fileOpenError(openedFile)) : dispatch(yamlToState(openedFile.yamlState)), dispatch(switchTab({filePath: openedFile.filePath, openFiles: openedFile.openFiles}));
+                  if (Array.isArray(openedFile)){
+                      dispatch(fileOpenError(openedFile))
+                    }
+                    else{
+                      console.log('openedfile', openedFile);
+                      dispatch(yamlToState(openedFile.yamlState))
+                      dispatch(switchTab({filePath: openedFile.filePath, openFiles: openedFile.openFiles}))
+                  };
                 }
                 else {
                   console.log('error opening file, try again');

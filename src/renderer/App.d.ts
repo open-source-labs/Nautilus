@@ -119,7 +119,7 @@ export type Options = {
  */
 
  export type SwitchTab = {
-  filePath: string, openFiles?: Array<string>;
+  filePath: string, openFiles?: any;
 };
 
 export type FileOpen = {
