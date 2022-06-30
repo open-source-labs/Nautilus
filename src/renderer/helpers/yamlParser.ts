@@ -11,6 +11,7 @@ type YamlState = {
 };
 
 const convertYamlToState = (file: any, filePath: string) => {
+  
   const services = file.services;
   const volumes = file.volumes ? file.volumes : {};
   const networks = file.networks ? file.networks : {};
@@ -20,6 +21,7 @@ const convertYamlToState = (file: any, filePath: string) => {
   );
   const bindMounts: string[] = [];
   // iterate through each service
+  console.log('this is the yamlState', state);
   Object.keys(services).forEach((name): void => {
     // IF SERVICE HAS VOLUMES PROPERTY
     if (services[name].volumes) {

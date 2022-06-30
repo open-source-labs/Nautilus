@@ -30,10 +30,11 @@ const readFileAsync = (file:File) => {
 };
 
 export const fileOpen: FileOpen = async (file: File, openFiles = []): Promise<any> => {
-    console.log('Opening file');
+    // console.log('Opening file');
     const fileReader = new FileReader();
     // check for valid file path
     if (file.path) {
+      console.log('this is the file ', file);
       /* TODO: refactor error handling */
       await runDockerComposeValidation(file.path).then( async (validationResults: any) => { 
         if (validationResults.error) {
@@ -44,15 +45,20 @@ export const fileOpen: FileOpen = async (file: File, openFiles = []): Promise<an
            * if it succeeds, go to the else block;
            * if it fails then display lines 156/157 
            */
+           let text:any = await readFileAsync(file);
+           text = new TextDecoder().decode(text);
+           console.log('this is text ', text);
+           const yamlText = convertAndStoreYamlJSON(text, file.path, openFiles);
+           console.log('yaml stored', yamlText)
           console.log('broken here in app.tsx line 153. Error here: ', validationResults.error)
           const error = handleFileOpenError(validationResults.error);
           fileReader.readAsText(file);
           return error;
         } else {
-          console.log('before filereader, this log will work');
+          // console.log('before filereader, this log will work');
           // event listner to run after the file has been read as text
           // fileReader.onload = () => {
-            console.log('filereader is loading');
+            // console.log('filereader is loading');
             // if successful read, invoke method to convert and store to state
             // if (fileReader.result) {
               let yamlText: any = await readFileAsync(file);
@@ -100,7 +106,9 @@ export const fileOpen: FileOpen = async (file: File, openFiles = []): Promise<an
     
   export const convertAndStoreYamlJSON = (yamlText: string, filePath: string, openFiles: string[] = []) => {
     // Convert Yaml to state object.
+    console.log('yaml text that went to cAndStoreYamlJson', yamlText)
     const yamlJSON = yaml.safeLoad(yamlText);
+    console.log(yamlJSON)
     const yamlState = convertYamlToState(yamlJSON, filePath);
     // console.log('yamlState in openFiles: ', yamlState);
     // dispatch(yamlToState(yamlState));
@@ -111,6 +119,7 @@ export const fileOpen: FileOpen = async (file: File, openFiles = []): Promise<an
     // const openFiles = useAppSelector((state) => state.openFiles);
     // const options = useAppSelector((state) => state.options);
     // Don't add a file that is already opened to the openFiles array
+    // console.log('these are the open files', openFiles);
     if (!openFiles.includes(filePath)) openFiles.push(filePath); 
     // dispatch(switchTab({filePath, openFiles}));
   
