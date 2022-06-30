@@ -47,6 +47,8 @@ import {
     selectAll: false,
   },
   version: '',
+  KubeObj: {},
+  KubeBool: false
 };
 
 const appSlice = createSlice({
@@ -157,9 +159,16 @@ const appSlice = createSlice({
                 state.options.volumes = !state.options.volumes;
             }else if (state.options.ports && state.options.volumes) {
                   state.options.selectAll = true;
+            } else {
+              state.options.selectAll = false;
             }
+<<<<<<< HEAD
                 // check if select all should be on or off
                 console.log('state after changing option', JSON.stringify(state, undefined, 2));
+=======
+              
+                
+>>>>>>> a5de77a... changed ui
             return state;
         }
 
