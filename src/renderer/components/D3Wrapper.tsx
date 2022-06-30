@@ -9,7 +9,6 @@
  * ************************************
  */
 import React from 'react';
-import { useEffect } from 'react';
 // IMPORT COMPONENTS
 import FileSelector from './FileSelector';
 import VolumesWrapper from './VolumesWrapper';
@@ -74,9 +73,7 @@ const D3Wrapper: React.FC= (
   // invoke function that returns a function with the closure object for tracking colors
   const getColor = colorSchemeIndex();
 
-  useEffect(() => {
-
-  }, [services])
+  
   return (
     
     <div className="d3-wrapper">
