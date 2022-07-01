@@ -13,16 +13,9 @@ import setD3State from "../renderer/helpers/setD3State";
 import {
     State,
     SwitchTab,
-    // FileOpen,
-    // UpdateOption,
-    // UpdateView,
-    // SelectNetwork,
-    // SetSelectedContainer,
     YamlState,
     ViewAndSelectNetwork
   } from '../renderer/App.d';
-// import { convertAndStoreYamlJSON } from "../renderer/helpers/fileOpen";
-// import { act } from "react-test-renderer";
 
  const initialState: State =  {
   openFiles: [],
@@ -47,22 +40,30 @@ import {
     selectAll: false,
   },
   version: '',
-  KubeObj: {},
-  KubeBool: false
+  kubeObj: {},
+  kubeBool: false
 };
 
 const appSlice = createSlice({
     name: 'app',
     initialState,
     reducers: {
+<<<<<<< HEAD
       yamlToState (state: State, action: PayloadAction<YamlState>) {
         console.log('this is the action payload', action.payload)
+=======
+      yamlToState (state: State, action: PayloadAction<YamlState>) {        
+>>>>>>> 0927d85... removed rendering of unnecessary buttons for kube files
         state = {
           ...state, 
           ...action.payload
         };
+<<<<<<< HEAD
         //console log to see state:
         // console.log('state after opening a file', JSON.stringify(state, undefined, 2)); 
+=======
+        state.services = action.payload;
+>>>>>>> 0927d85... removed rendering of unnecessary buttons for kube files
         return state;
       },
       switchTab (state: State, action: PayloadAction<SwitchTab>) {
@@ -76,6 +77,7 @@ const appSlice = createSlice({
         console.log('SwitchTab payload', action.payload)
 >>>>>>> 107eb90...  volumes wrapper rendering
         const tabState = JSON.parse(localStorage.getItem(action.payload.filePath) || '{}');
+<<<<<<< HEAD
         const fileToPushIn = [];
         // const newOpenFiles;
         // if(!state.openFiles.includes(action.payload.openFiles[0]))
@@ -99,14 +101,26 @@ const appSlice = createSlice({
           newState = {
 =======
           // console.log('this is tabState', tabState)
+=======
+         if (action.payload.openFiles && !state.openFiles.includes(action.payload.filePath)){
+          state = {
+            ...state,
+            ...tabState,
+            openFiles: state.openFiles.concat(action.payload.openFiles),
+            filePath: action.payload.filePath,
+          };
+          
+          console.log('this is tabState', tabState)
+>>>>>>> 0927d85... removed rendering of unnecessary buttons for kube files
         }
         else {
           // console.log('this is tabState in else', tabState)
           state = {
 >>>>>>> 107eb90...  volumes wrapper rendering
             ...state,
-            ...tabState,
+            ...tabState
           };
+<<<<<<< HEAD
         // Set the 'state' item in localStorage to the tab state. This means that tab is the current tab, which would be used if the app got reloaded.
         localStorage.setItem('state', JSON.stringify(tabState));
     
@@ -117,8 +131,26 @@ const appSlice = createSlice({
 =======
         // console.log('window.d3state in switchtab reducer before calling setD3state', window.d3State);
           // console.log('kubeBool true hit else condition in appSlice');
+=======
+          if (tabState.kubeBool){ 
+            console.log('kubeBool is true')
+            state.services = tabState.kubeObj;
+            state = {
+            ...state,
+            ...tabState,
+            kubeBool: true
+            }
+            state.filePath = action.payload.filePath;
+          }
+        }
+
+        // Set the 'state' item in localStorage to the tab state. This means that tab is the current tab, which would be used if the app got reloaded.
+        localStorage.setItem('state', JSON.stringify(tabState));
+        // Set the d3 state using the services extracted from the tabState and then setState
+        
+          console.log('kubeBool true hit else condition in appSlice');
+>>>>>>> 0927d85... removed rendering of unnecessary buttons for kube files
           window.d3State = setD3State(state.services);
-        // console.log('window.d3state in switchtab reducer after calling setD3state', window.d3State);
        
         return state;
 >>>>>>> 107eb90...  volumes wrapper rendering

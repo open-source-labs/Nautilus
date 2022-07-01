@@ -22,8 +22,8 @@ export type State = {
   view: ViewT;
   volumes: ReadOnlyObj;
   volumesClicked: Clicked;
-  KubeObj?: KubeObj;
-  KubeBool: Boolean;
+  kubeObj?: KubeObj;
+  kubeBool: Boolean;
 };
 
 type ReadOnlyObj = {

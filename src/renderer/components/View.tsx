@@ -49,7 +49,11 @@ const View: React.FC<Props> = ({
   getColor,
 }) => {
   const { treeDepth, simulation } = window.d3State;
+<<<<<<< HEAD
 
+=======
+  const kubeBool = useAppSelector((state) => state.kubeBool);
+>>>>>>> 0927d85... removed rendering of unnecessary buttons for kube files
   /**
    *********************
    * Depends On View

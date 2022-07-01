@@ -22,9 +22,7 @@ import {
 } from '../../common/runShellTasks';
 import { Void } from '../App.d';
 
-// type Props = {
-//   currentFilePath: string;
-// };
+
 
 const SwarmDeployment: React.FC = () => {
   const currentFilePath = useAppSelector((state) => state.filePath);
