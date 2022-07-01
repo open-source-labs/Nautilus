@@ -4,15 +4,8 @@ import { selectNetwork } from '../../reducers/appSlice';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
 
-
-// type Props = {
-//   networks: ReadOnlyObj;
-//   selectedNetwork: string;
-// };
-
 const NetworksDropDown: React.FC = ({
-  // networks,
-  // selectedNetwork,
+
 }) => {
   const dispatch = useAppDispatch();
   const networks = useAppSelector(state => state.networks)

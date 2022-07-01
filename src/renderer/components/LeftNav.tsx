@@ -15,22 +15,13 @@ import ServiceInfo from './ServiceInfo';
 import FileSelector from './FileSelector';
 import ComposeDeployment from './ComposeDeployment';
 import ClusterDeployment from './ClusterDeployment';
-// import OptionBar from './OptionBar';
 import Title from './Title';
 import NetworksDropDown from './NetworksDropdown';
-// import { FileOpen, Service } from '../App.d';
-// import AppState from '../../store';
+
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { updateOption, updateViewStore } from '../../reducers/appSlice';
-// type Props = {
-//   service: Service;
-//   selectedContainer: string;
-//   fileOpen: FileOpen;
-//   fileOpened: boolean;
-//   currentFilePath: string;
-// };
 import { Handler } from '../App.d';
-// import { color } from 'd3';
+
 
 const LeftNav: React.FC = ({
 }) => {
@@ -42,15 +33,12 @@ const LeftNav: React.FC = ({
 
   const handleViewUpdate: Handler = (e) => {
     const view = e.currentTarget.id as 'networks' | 'depends_on';
-    // updateView(view);
+    
     dispatch(updateViewStore({view:view}))
   };
 
   const handleOptionUpdate: Handler = (e) => {
     const option = e.currentTarget.id as 'ports' | 'volumes' | 'selectAll';
-    // updateOption(option)
-    
-      // check if select all should be on or off
     dispatch(updateOption(option));
   };
 
