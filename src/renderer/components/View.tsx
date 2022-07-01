@@ -14,6 +14,7 @@ import * as d3 from 'd3';
 // IMPORT COMPONENTS
 import Nodes from './Nodes';
 import Links from './Links';
+import { useAppSelector } from '../../hooks';
 
 //IMPORT HELPER FNS
 import {
@@ -49,7 +50,7 @@ const View: React.FC<Props> = ({
   getColor,
 }) => {
   const { treeDepth, simulation } = window.d3State;
-
+  const kubeBool = useAppSelector((state) => state.KubeBool);
   /**
    *********************
    * Depends On View
@@ -283,7 +284,7 @@ const View: React.FC<Props> = ({
         window.onresize = null;
       }
     };
-  }, [view, services, selectedNetwork]);
+  }, [view, services, selectedNetwork,kubeBool]);
 
   return (
     <>
