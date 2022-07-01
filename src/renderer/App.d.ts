@@ -54,6 +54,7 @@ export interface KubeObj {
   containers?: Container[]; 
   replica?: number;
   selector?: string;
+  ports?: []
 }
 
 export type Services = {

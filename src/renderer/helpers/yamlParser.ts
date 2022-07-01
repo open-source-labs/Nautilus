@@ -40,12 +40,16 @@ const convertYamlToState = (file: any, filePath: string) => {
   //check if file.apiVersion exists, if so Kube logic -> 
     //save kind as variable, execeute logic if deployement, service, pod
   if (file.apiVersion) {
-    // const kubeObj = kubeParser(file);
-    return {fileOpened: true, kubeBool: true, kubeObj: kubeParser(file)}
+   
+    return {fileOpened: true, kubeBool: true, kubeObj: kubeParser(file), filePath, services: {service: []}}
   }
   else {
+<<<<<<< HEAD
     console.log('file in ymal parser', file)
 >>>>>>> 5714a15... added Kube parser to Yamlparser
+=======
+    console.log('file in yaml parser', file)
+>>>>>>> 0797247... ready to merge to feature
   const services = file.services;
   const volumes = file.volumes ? file.volumes : {};
   const networks = file.networks ? file.networks : {};
