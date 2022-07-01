@@ -38,7 +38,7 @@ const convertYamlToState = (file: any, filePath: string) => {
     //save kind as variable, execeute logic if deployement, service, pod
   if (file.apiVersion) {
     // const kubeObj = kubeParser(file);
-    return {fileOpened: true, kubeBool: true, kubeObj: kubeParser(file)}
+    return {fileOpened: true, kubeBool: true, kubeObj: kubeParser(file), filePath}
   }
   else {
     console.log('file in ymal parser', file)
