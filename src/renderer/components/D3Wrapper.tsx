@@ -69,10 +69,12 @@ const D3Wrapper: React.FC= (
   const view = useAppSelector((state) => state.view);
 
 
-   
+   console.log('services in d3wrapper: ', services)
+   console.log('fileOpened', fileOpened);
   // invoke function that returns a function with the closure object for tracking colors
   const getColor = colorSchemeIndex();
 
+  
   return (
     
     <div className="d3-wrapper">

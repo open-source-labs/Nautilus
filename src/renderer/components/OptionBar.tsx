@@ -10,15 +10,11 @@
  * ************************************
  */
 import React from 'react';
-// import {useDispatch} from 'react-redux';
 import NetworksDropdown from './NetworksDropdown';
-// import { AppDispatch } from '../../store';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { updateViewStore, updateOption } from '../../reducers/appSlice';
 
-// const dispatch = useDispatch();
-// const useAppDispatch: () => AppDispatch = useDispatch
-// const dispatch2 = useAppDispatch();
+
 
 
 

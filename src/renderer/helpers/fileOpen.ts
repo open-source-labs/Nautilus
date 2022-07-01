@@ -31,7 +31,7 @@ const readFileAsync = (file:File) => {
 
 export const fileOpen: FileOpen = async (file: File, openFiles = []): Promise<any> => {
     // console.log('Opening file');
-    const fileReader = new FileReader();
+    // const fileReader = new FileReader();
     // check for valid file path
     if (file.path) {
       console.log('this is the file ', file);
@@ -49,11 +49,12 @@ export const fileOpen: FileOpen = async (file: File, openFiles = []): Promise<an
            text = new TextDecoder().decode(text);
            console.log('this is text ', text);
            const yamlText = convertAndStoreYamlJSON(text, file.path, openFiles);
+           getCache(yamlText);
            console.log('yaml stored', yamlText)
-          console.log('broken here in app.tsx line 153. Error here: ', validationResults.error)
-          const error = handleFileOpenError(validationResults.error);
-          fileReader.readAsText(file);
-          return error;
+          // console.log('broken here in app.tsx line 153. Error here: ', validationResults.error)
+          // const error = handleFileOpenError(validationResults.error);
+          // fileReader.readAsText(file);
+          // return error;
         } else {
           // console.log('before filereader, this log will work');
           // event listner to run after the file has been read as text
@@ -75,6 +76,7 @@ export const fileOpen: FileOpen = async (file: File, openFiles = []): Promise<an
                 yamlText = resolveEnvVariables(yamlText, file.path);
               }
               const yaml = convertAndStoreYamlJSON(yamlText, file.path, openFiles);
+              
               getCache(yaml);
               
               
@@ -124,8 +126,12 @@ export const fileOpen: FileOpen = async (file: File, openFiles = []): Promise<an
     // dispatch(switchTab({filePath, openFiles}));
   
     // Set global variables for d3 simulation
-    
-    window.d3State = setD3State(yamlState.services);
+    if(yamlState.kubeObj){
+      window.d3State = setD3State(yamlState.kubeObj);
+    }else{
+     window.d3State = setD3State(yamlState.services);
+    }
+    console.log('this is the windowD3 state', window.d3State)
     
     // Store opened file state in localStorage under the current state item call "state" as well as an individual item using the filePath as the key.
     localStorage.setItem('state', JSON.stringify(yamlState));
