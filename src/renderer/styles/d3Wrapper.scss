@@ -39,7 +39,7 @@
           }
           .nodeLabelStroke {
             font-family: 'Sen-Bold';
-            stroke: #006896;
+            stroke: #006896; //original: #006896
             stroke-width: 4;
             font-size: 16px;
             text-anchor: middle;
@@ -88,7 +88,7 @@
       width: 100%;
       height: 90%;
       background-color: $primary-color;
-      border-radius: 2em;
+      border-radius: .5em;
       display: flex;
       flex-direction: column;
       align-items: stretch;

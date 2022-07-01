@@ -47,6 +47,8 @@ import {
     selectAll: false,
   },
   version: '',
+  KubeObj: {},
+  KubeBool: false
 };
 
 const appSlice = createSlice({
@@ -60,7 +62,7 @@ const appSlice = createSlice({
           ...state, 
           ...action.payload
         };
-        state.services = {};
+        state.services = action.payload;
         //console log to see state:
         // console.log('state after opening a file', JSON.stringify(state, undefined, 2)); 
         return state;
@@ -86,25 +88,30 @@ const appSlice = createSlice({
             openFiles: state.openFiles.concat(action.payload.openFiles),
             filePath: action.payload.filePath
           };
-          // if (tabState.kubeBool) state.services = ;
+          console.log('this is tabState', tabState)
         }
         else {
+          console.log('this is tabState in else', tabState)
           state = {
             ...state,
             ...tabState,
           };
+          if (tabState.kubeBool){ 
+            console.log('kubeBool is true')
+            state.services = tabState.kubeObj;
+            state.filePath = action.payload.filePath;
+          }
         }
 
         // Set the 'state' item in localStorage to the tab state. This means that tab is the current tab, which would be used if the app got reloaded.
         // console.log('local storage before calling setitem in SwitchTab reducer', localStorage)
         localStorage.setItem('state', JSON.stringify(tabState));
         // console.log('local storage after calling setitem in SwitchTab reducer', localStorage)
-        
+
         // Set the d3 state using the services extracted from the tabState and then setState
         // console.log('window.d3state in switchtab reducer before calling setD3state', window.d3State);
-        window.d3State = setD3State(state.services);
-        console.log('d3 state', window.d3State);
-        
+          console.log('kubeBool true hit else condition in appSlice');
+          window.d3State = setD3State(state.services);
         // console.log('window.d3state in switchtab reducer after calling setD3state', window.d3State);
        
         return state;
@@ -188,8 +195,10 @@ const appSlice = createSlice({
                 state.options.volumes = !state.options.volumes;
             }else if (state.options.ports && state.options.volumes) {
                   state.options.selectAll = true;
+            } else {
+              state.options.selectAll = false;
             }
-                // check if select all should be on or off
+              
                 
             return state;
         }

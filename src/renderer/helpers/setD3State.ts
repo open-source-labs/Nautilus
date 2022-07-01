@@ -203,6 +203,7 @@ const setD3State: SetD3State = (services:any) => {
     // }
   });
   }else{
+    console.log('services in Setd3 if not a kube file', services)
     Object.keys(services).forEach((sName: string) => {
     if (services[sName].hasOwnProperty('depends_on')) {
       services[sName].depends_on!.forEach((el:any) => {
@@ -288,6 +289,7 @@ const setD3State: SetD3State = (services:any) => {
     simulation: d3.forceSimulation<SNode>(nodes),
   };
   // console.log('these are the nodes', nodes)
+  console.log('this is the D3 state', d3State)
   return d3State;
 };
 

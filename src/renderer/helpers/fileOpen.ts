@@ -38,6 +38,7 @@ export const fileOpen: FileOpen = async (file: File, openFiles = []): Promise<an
       /* TODO: refactor error handling */
       await runDockerComposeValidation(file.path).then( async (validationResults: any) => { 
         if (validationResults.error) {
+          
           /** 
            * @MUSTDO
            * if validationResults.error is related to kubernetes yaml,

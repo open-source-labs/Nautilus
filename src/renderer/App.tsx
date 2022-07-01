@@ -22,9 +22,10 @@ import setD3State from './helpers/setD3State';
  
 // IMPORT REACT CONTAINERS OR COMPONENTS
 import LeftNav from './components/LeftNav';
-import OptionBar from './components/OptionBar';
+// import OptionBar from './components/OptionBar';
 import D3Wrapper from './components/D3Wrapper';
 import TabBar from './components/TabBar';
+import OptionBar from './components/OptionBar';
 
 //IMPORT ACTIONS/REDUCERS
 // import { updateView, selectNetwork } from '../reducers/updateViewAndSelectNetworkSlice';
