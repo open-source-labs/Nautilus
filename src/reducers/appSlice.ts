@@ -45,6 +45,8 @@ import {
     selectAll: false,
   },
   version: '',
+  KubeObj: {},
+  KubeBool: false
 };
 
 const appSlice = createSlice({

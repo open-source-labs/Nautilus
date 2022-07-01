@@ -1,7 +1,7 @@
 
 import yaml from 'js-yaml';
 import convertYamlToState from './yamlParser';
-import setD3State from './setD3State';
+// import setD3State from './setD3State';
 import parseOpenError from './parseOpenError';
 import resolveEnvVariables from '../../common/resolveEnvVariables';
 import { runDockerComposeValidation } from "../../common/runShellTasks";
@@ -37,6 +37,7 @@ export const fileOpen: FileOpen = async (file: File, openFiles = []): Promise<an
       /* TODO: refactor error handling */
       await runDockerComposeValidation(file.path).then( async (validationResults: any) => { 
         if (validationResults.error) {
+          
           /** 
            * @MUSTDO
            * if validationResults.error is related to kubernetes yaml,
@@ -44,6 +45,8 @@ export const fileOpen: FileOpen = async (file: File, openFiles = []): Promise<an
            * if it succeeds, go to the else block;
            * if it fails then display lines 156/157 
            */
+          //REALLY BAD SOLUTION SHOULD BE CHANGED BUT NEED TO REWORK THESE FUNCTIONS:
+          
           console.log('broken here in app.tsx line 153. Error here: ', validationResults.error)
           const error = handleFileOpenError(validationResults.error);
           fileReader.readAsText(file);
@@ -116,8 +119,8 @@ export const fileOpen: FileOpen = async (file: File, openFiles = []): Promise<an
     // dispatch(switchTab({filePath, openFiles}));
   
     // Set global variables for d3 simulation
-    
-    window.d3State = setD3State(yamlState.services);
+    //check if file is Kubernetes, if yes setD3 with kubeObj else set with services
+    // yamlState.kubeBool? window.d3State = setD3State(yamlState.kubeObj):window.d3State = setD3State(yamlState.services);
     
     // Store opened file state in localStorage under the current state item call "state" as well as an individual item using the filePath as the key.
     localStorage.setItem('state', JSON.stringify(yamlState));
