@@ -42,7 +42,7 @@ import { useAppDispatch } from '../../hooks';
 
 const FileSelector: React.FC = () => {
   const dispatch = useAppDispatch();
-
+  // const allOpenFiles = useAppSelector((state) => state.openFiles);
   // const someAsync = async (event: any) =>{
   //   const response = await fileOpen(event.currentTarget.files[0]);
   //   return response;

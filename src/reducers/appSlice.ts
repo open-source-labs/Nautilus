@@ -21,6 +21,8 @@ import {
     YamlState,
     ViewAndSelectNetwork
   } from '../renderer/App.d';
+// import { convertAndStoreYamlJSON } from "../renderer/helpers/fileOpen";
+// import { act } from "react-test-renderer";
 
  const initialState: State =  {
   openFiles: [],
@@ -60,6 +62,7 @@ const appSlice = createSlice({
           ...state, 
           ...action.payload
         };
+        state.services = {};
         //console log to see state:
         // console.log('state after opening a file', JSON.stringify(state, undefined, 2)); 
         return state;
@@ -74,23 +77,26 @@ const appSlice = createSlice({
         // console.log('tabState in Switchtab', tabState);
         // Create new state object with the returned tab state
         // if(!state.openFiles.includes(action.payload.openFiles[0])) fileToPushIn.push(action.payload.openFiles[0]);
-        
+        // console.log('this tab state', tabState)
         
           
         
-         if (action.payload.openFiles && !state.openFiles.includes(action.payload.filePath))
+         if (action.payload.openFiles && !state.openFiles.includes(action.payload.filePath)){
           state = {
             ...state,
             ...tabState,
             openFiles: state.openFiles.concat(action.payload.openFiles),
             filePath: action.payload.filePath
           };
+          // if (tabState.kubeBool) state.services = ;
+        }
         else {
           state = {
             ...state,
             ...tabState,
           };
         }
+
         // Set the 'state' item in localStorage to the tab state. This means that tab is the current tab, which would be used if the app got reloaded.
         // console.log('local storage before calling setitem in SwitchTab reducer', localStorage)
         localStorage.setItem('state', JSON.stringify(tabState));
@@ -99,6 +105,7 @@ const appSlice = createSlice({
         // Set the d3 state using the services extracted from the tabState and then setState
         // console.log('window.d3state in switchtab reducer before calling setD3state', window.d3State);
         window.d3State = setD3State(state.services);
+        console.log('d3 state', window.d3State);
         
         // console.log('window.d3state in switchtab reducer after calling setD3state', window.d3State);
        

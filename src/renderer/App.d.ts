@@ -58,7 +58,7 @@ export interface KubeObj {
 }
 
 export type Services = {
-  [service: string]: Service;
+  [service: string]: any;
 };
 
 export type Service = {
@@ -176,7 +176,7 @@ interface SNode extends SimulationNodeDatum {
   id: number;
   name: string;
   ports: string[];
-  volumes: string[];
+  volumes?: string[];
   networks?: string[];
   row: number;
   column: number;
