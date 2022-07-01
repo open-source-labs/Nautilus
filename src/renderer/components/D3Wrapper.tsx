@@ -108,11 +108,13 @@ const D3Wrapper: React.FC= (
               getColor={getColor}
             />
           </div>
+          {services.kind || services.kubeBool ? null : 
           <VolumesWrapper
             bindMounts={bindMounts}
             volumes={volumes}
             getColor={getColor}
-          />
+          /> }
+          
         </>
       )}
     </div>

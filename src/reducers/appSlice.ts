@@ -66,8 +66,15 @@ const appSlice = createSlice({
         return state;
       },
       switchTab (state: State, action: PayloadAction<SwitchTab>) {
+<<<<<<< HEAD
         // console.log('this is the active tabs', state.openFiles);
         console.log('something got dispatched to switchTab', action.payload.openFiles)
+=======
+        
+        
+        
+        console.log('SwitchTab payload', action.payload)
+>>>>>>> 107eb90...  volumes wrapper rendering
         const tabState = JSON.parse(localStorage.getItem(action.payload.filePath) || '{}');
         const fileToPushIn = [];
         // const newOpenFiles;
@@ -87,8 +94,16 @@ const appSlice = createSlice({
             ...tabState,
             openFiles: state.openFiles.concat(fileToPushIn),
           };
+<<<<<<< HEAD
         else
           newState = {
+=======
+          // console.log('this is tabState', tabState)
+        }
+        else {
+          // console.log('this is tabState in else', tabState)
+          state = {
+>>>>>>> 107eb90...  volumes wrapper rendering
             ...state,
             ...tabState,
           };
@@ -96,12 +111,25 @@ const appSlice = createSlice({
         localStorage.setItem('state', JSON.stringify(tabState));
     
         // Set the d3 state using the services extracted from the tabState and then setState
+<<<<<<< HEAD
         window.d3State = setD3State(newState.services);
         return state = {...newState};
+=======
+        // console.log('window.d3state in switchtab reducer before calling setD3state', window.d3State);
+          // console.log('kubeBool true hit else condition in appSlice');
+          window.d3State = setD3State(state.services);
+        // console.log('window.d3state in switchtab reducer after calling setD3state', window.d3State);
+       
+        return state;
+>>>>>>> 107eb90...  volumes wrapper rendering
       },
       closeTab (state: State, action: PayloadAction<SwitchTab>) {
         // Grab current open files and remove the file path of the tab to be closed, assign the
         // updated array to newOpenFiles
+<<<<<<< HEAD
+=======
+        console.log('action.payload in closeTab: ', action.payload)
+>>>>>>> 107eb90...  volumes wrapper rendering
         const { openFiles } = state;
         const newOpenFiles = openFiles.filter((file: string) => file != action.payload.filePath);
         // Remove the state object associated with the file path in localStorage

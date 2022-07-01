@@ -52,11 +52,14 @@ const convertYamlToState = (file: any, filePath: string) => {
   }
   else {
 <<<<<<< HEAD
+<<<<<<< HEAD
     console.log('file in ymal parser', file)
 >>>>>>> 5714a15... added Kube parser to Yamlparser
 =======
     console.log('file in yaml parser', file)
 >>>>>>> 0797247... ready to merge to feature
+=======
+>>>>>>> 107eb90...  volumes wrapper rendering
   const services = file.services;
   const volumes = file.volumes ? file.volumes : {};
   const networks = file.networks ? file.networks : {};
