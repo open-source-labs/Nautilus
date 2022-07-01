@@ -22,6 +22,8 @@ export type State = {
   view: ViewT;
   volumes: ReadOnlyObj;
   volumesClicked: Clicked;
+  KubeObj?: KubeObj;
+  KubeBool: Boolean;
 };
 
 type ReadOnlyObj = {
@@ -37,7 +39,7 @@ type DependsOn = {
   readonly children?: Array<DependsOn>;
 };
 
-export type Kind = "Deployement" | "Pod" | "Node" | "Service";
+export type Kind = "Deployment" | "Pod" | "Node" | "Service";
 
 export type Container = {
   name: string;
@@ -47,9 +49,9 @@ export type Container = {
 };
 
 export interface KubeObj {
-  kind: Kind;
+  kind?: Kind;
   name?: string;
-  containers?: Container;
+  containers?: Container[]; 
   replica?: number;
   selector?: string;
 }
