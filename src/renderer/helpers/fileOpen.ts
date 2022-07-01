@@ -1,7 +1,7 @@
 
 import yaml from 'js-yaml';
 import convertYamlToState from './yamlParser';
-// import setD3State from './setD3State';
+import setD3State from './setD3State';
 import parseOpenError from './parseOpenError';
 import resolveEnvVariables from '../../common/resolveEnvVariables';
 import { runDockerComposeValidation } from "../../common/runShellTasks";
