@@ -181,8 +181,10 @@ const appSlice = createSlice({
                 state.options.volumes = !state.options.volumes;
             }else if (state.options.ports && state.options.volumes) {
                   state.options.selectAll = true;
+            } else {
+              state.options.selectAll = false;
             }
-                // check if select all should be on or off
+              
                 
             return state;
         }
