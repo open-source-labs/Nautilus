@@ -1,7 +1,7 @@
 
 import yaml from 'js-yaml';
 import convertYamlToState from './yamlParser';
-import setD3State from './setD3State';
+// import setD3State from './setD3State';
 import parseOpenError from './parseOpenError';
 import resolveEnvVariables from '../../common/resolveEnvVariables';
 import { runDockerComposeValidation } from "../../common/runShellTasks";
@@ -38,6 +38,7 @@ export const fileOpen: FileOpen = async (file: File, openFiles = []): Promise<an
       /* TODO: refactor error handling */
       await runDockerComposeValidation(file.path).then( async (validationResults: any) => { 
         if (validationResults.error) {
+          
           /** 
            * @MUSTDO
            * if validationResults.error is related to kubernetes yaml,

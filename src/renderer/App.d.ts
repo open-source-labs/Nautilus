@@ -22,6 +22,8 @@ export type State = {
   view: ViewT;
   volumes: ReadOnlyObj;
   volumesClicked: Clicked;
+  KubeObj?: KubeObj;
+  KubeBool: Boolean;
 };
 
 type ReadOnlyObj = {
@@ -47,11 +49,12 @@ export type Container = {
 };
 
 export interface KubeObj {
-  kind: Kind;
+  kind?: Kind;
   name?: string;
-  containers?: Container;
+  containers?: Container[]; 
   replica?: number;
   selector?: string;
+  ports?: []
 }
 
 export type Services = {
