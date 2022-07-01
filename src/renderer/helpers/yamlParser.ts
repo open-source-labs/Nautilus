@@ -26,11 +26,14 @@ const kubeParser = (file:any):any => {
   if (kube.kind === 'Service') {
     return {...kube, selector: file.spec.selector, ports: file.spec.ports}
   }
+<<<<<<< HEAD
   // else if (kube.kind === 'Node') {
   //   return {...kube, containers: file.spec.containers}
   // }"
   //somehow generate error about unsupported kind type for now console log
   console.log('Kubernetes kind not currently supported')
+=======
+>>>>>>> 036ec09... cleaned up app.d, option bar, service info, tab, tab bar, yamlParser
 }
 
 const convertYamlToState = (file: any, filePath: string) => {
@@ -40,8 +43,12 @@ const convertYamlToState = (file: any, filePath: string) => {
   //check if file.apiVersion exists, if so Kube logic -> 
     //save kind as variable, execeute logic if deployement, service, pod
   if (file.apiVersion) {
+<<<<<<< HEAD
    
     return {fileOpened: true, kubeBool: true, kubeObj: kubeParser(file), filePath, services: {service: []}}
+=======
+    return {fileOpened: true, kubeBool: true, kubeObj: kubeParser(file)}
+>>>>>>> 036ec09... cleaned up app.d, option bar, service info, tab, tab bar, yamlParser
   }
   else {
 <<<<<<< HEAD

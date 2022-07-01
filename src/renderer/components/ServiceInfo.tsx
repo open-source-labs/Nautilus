@@ -11,15 +11,6 @@
 import React from 'react';
 import { useAppSelector } from '../../hooks';
 
-// type ReactProps = {
-//   service?: any;
-//   selectedContainer: string;
-// };
-
-// type serviceInfo = {
-//   service: any;
-  
-// }
 
 type DockerComposeCommands = {
   [prop: string]: string;

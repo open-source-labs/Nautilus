@@ -1,20 +1,19 @@
+<<<<<<< HEAD
 import React from 'react';
+=======
+import React from 'react'
+>>>>>>> 036ec09... cleaned up app.d, option bar, service info, tab, tab bar, yamlParser
 import { useDispatch } from 'react-redux';
-// import { SwitchTab } from '../App.d';
 import { switchTab, closeTab } from '../../reducers/appSlice';
 
 
 type Props = {
   activePath: string;
   filePath: string;
-  // switchTab: SwitchTab;
-  // closeTab: SwitchTab;
 };
 
 const Tab: React.FC<Props> = ({
   filePath,
-  // switchTab,
-  // closeTab,
   activePath,
 }) => {
   const dispatch = useDispatch();

@@ -2,33 +2,17 @@
  * ************************************
  *
  * @module  FileSelector.tsx
- * @author Mike D
- * @date 3/11/20
- * @description Button to allow user to open docker-compose file
+ * @author Mike D, Michael Villamor, Nathan Lovell, Jordan Long, Giovanni Rodriguez
+ * @date 3/11/20 edited on 6/30/22
+ * @description Button to allow user to open docker-compose and kubernetes files
  *
  * ************************************
  */
 import React from 'react';
 import { FaUpload } from 'react-icons/fa';
-// import { runDockerComposeValidation } from '../../common/runShellTasks';
-// import resolveEnvVariables from '../../common/resolveEnvVariables';
-// import convertYamlToState from '.././helpers/yamlParser';
-// import parseOpenError from '../helpers/parseOpenError';
-// import yaml from 'js-yaml';
-// import { useDispatch } from 'react-redux';
-// import { FileOpen } from '../App.d';
-// import RootState from '../../store'
-// import { yamlToState, fileOpenError, updateOption } from '../../reducers/appSlice';
-// import { switchTab } from '../../reducers/tabSlice';
-// import setD3State from '../helpers/setD3State';
 import { yamlToState, fileOpenError, switchTab } from "../../reducers/appSlice";
 import { fileOpen, getCache } from '../helpers/fileOpen'
 import { useAppDispatch } from '../../hooks';
-// import { createAsyncThunk } from '@reduxjs/toolkit';
-
-
-// const dispatch = useDispatch();
-
 
 /**
    * @param file: a File classed object
@@ -42,15 +26,7 @@ import { useAppDispatch } from '../../hooks';
 
 const FileSelector: React.FC = () => {
   const dispatch = useAppDispatch();
-  // const allOpenFiles = useAppSelector((state) => state.openFiles);
-  // const someAsync = async (event: any) =>{
-  //   const response = await fileOpen(event.currentTarget.files[0]);
-  //   return response;
-  // };
-
-  // useEffect(() => {
-
-  // })
+ 
   return (
     <div className="file-open">
       <label htmlFor="files">
@@ -67,18 +43,17 @@ const FileSelector: React.FC = () => {
         style={{ display: 'none' }}
         onChange={async (event: React.SyntheticEvent<HTMLInputElement>) => {
           // make sure there was something selected
-          // console.log('FileSelector Event and event.currentTarget', event, event.currentTarget)
           if (event.currentTarget) {
             // make sure user opened a file
             if (event.currentTarget.files) {
               // fire fileOpen function on first file opened
-              // console.log('Event.currentTarget.file', event.currentTarget.files[0] )
               /** fileOpen cannot have hooks called inside because it's not a functional component
                * To circumvent, we're returning the necessary, adjusted files into 'openedFile'
                * If it's an array, than it's outputting a string of error messages and calling error reducer
                * If it's an object, dispatch yamlState and switchTab reducers with object properties
                */
 
+<<<<<<< HEAD
               // const fetchInfoFromFile = createAsyncThunk(
               //   'File',
               //   async (file: File, thunkAPI)
@@ -89,8 +64,18 @@ const FileSelector: React.FC = () => {
              
               
               
+=======
+            fileOpen(event.currentTarget.files[0]); //goes to helper function to process
+>>>>>>> a56fe83... cleaned up fileSelector, LeftNav, NetworksDropdown and Store
               
+
+            /*
+            
+              setTimeout solution because the result cannot return into this file.
+              Result from file open and subsequent parsing is added to a cache function
+              the setTimeout waits for the file to be read and grabs data from the cache
               
+            */
               setTimeout(() => {
                 let result = getCache('123');
               
@@ -110,6 +95,7 @@ const FileSelector: React.FC = () => {
                   console.log('error opening file, try again');
                 }
               }, 500)
+<<<<<<< HEAD
               
               
               
@@ -121,6 +107,8 @@ const FileSelector: React.FC = () => {
               // const openedFile = await fileOpen(event.currentTarget.files[0]);
               // console.log('after file open, we get this far', openedFile);
               // Array.isArray(openedFile) ? dispatch(fileOpenError(openedFile)) : dispatch(yamlToState(openedFile.yamlState)), dispatch(switchTab({filePath: openedFile.filePath, openFiles: openedFile.openFiles}));
+=======
+>>>>>>> a56fe83... cleaned up fileSelector, LeftNav, NetworksDropdown and Store
             }
           }
         }}
