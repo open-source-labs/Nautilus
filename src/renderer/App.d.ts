@@ -126,7 +126,6 @@ export type Options = {
 };
 
 export type FileOpen = {
-  // (file: File): string[] | (string | string[] | YamlState)[];
   (file: File): any;
 };
 
@@ -154,9 +153,6 @@ export type SetSelectedContainer = {
   (containerName: string): void;
 };
 
-// export type SwitchTab = {
-//   (filePath: string, openFiles?: Array<string>): void;
-// };
 
 export type Void = {
   ():void

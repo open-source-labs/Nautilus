@@ -1,21 +1,15 @@
 import React from 'react'
-// import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-// import { SwitchTab } from '../App.d';
 import { switchTab, closeTab } from '../../reducers/appSlice';
-// import { useAppSelector } from '../../hooks'
+
 
 type Props = {
   activePath: string;
   filePath: string;
-  // switchTab: SwitchTab;
-  // closeTab: SwitchTab;
 };
 
 const Tab: React.FC<Props> = ({
   filePath,
-  // switchTab,
-  // closeTab,
   activePath,
 }) => {
   const dispatch = useDispatch();
