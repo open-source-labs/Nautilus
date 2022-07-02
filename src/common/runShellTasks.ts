@@ -33,6 +33,7 @@ const runSpawn = (
   return sp.kill.bind(sp);
 };
 
+//docker compose commands
 const runDockerComposeKill = (filePath: string) =>
   runShell(`docker-compose -f ${filePath} kill`, false);
 
@@ -48,6 +49,7 @@ const runDockerComposeValidation = (filePath: string) =>
 //https://docs.docker.com/compose/reference/
 //https://stackoverflow.com/questions/29225972/validating-docker-compose-yml-file
 
+//docker swarm commands
 const runDockerSwarmInit = (filePath: string) =>
   runShell(`docker swarm init`, false);
 
@@ -72,6 +74,19 @@ const runDockerSwarmDeployment = async (
 
   return JSON.stringify({ init: initResult, stackDeploy: stackDeployResult });
 };
+
+//kubernetes commands
+const runKubeCtlApply = (filePath: string) =>
+  runShell(`kubectl apply -f ${filePath}`, false);
+
+const runGetKubeDeployStatus = (deploymentName: string) =>
+  runShell(`kubectl get deployment ${deploymentName} --subresource=status`, false);
+
+const runKubeCtlGetNode = () =>
+  runShell("kubectl get nodes", false);
+  
+const runKubeCtlDrainNode = (node: string) =>
+  runShell(`kubectl drain ${node}`, false);
 
 const runShell = (cmd: string, filter: boolean) =>
   // promise for the electron application
@@ -126,4 +141,8 @@ export {
   runDockerSwarmDeployStack,
   runSpawn,
   runDockerStats,
+  runKubeCtlApply,
+  runGetKubeDeployStatus,
+  runKubeCtlGetNode,
+  runKubeCtlDrainNode
 };
