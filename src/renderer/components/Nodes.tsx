@@ -19,14 +19,16 @@ import {
 import { getStatic } from '../helpers/static';
 
 // IMPORT TYPES
-import { SNode, SetSelectedContainer, Services, Options } from '../App.d';
+import { SNode, Services, Options } from '../App.d';
 import boxPath from '../../../static/boxPath';
+import { useDispatch } from 'react-redux';
+import { setSelectedContainers } from '../../reducers/appSlice';
 
 // IMPORT COMPONENTS
 
 type Props = {
   services: Services;
-  setSelectedContainer: SetSelectedContainer;
+  // setSelectedContainer: SetSelectedContainer;
   options: Options;
   getColor: any;
 };
@@ -68,11 +70,12 @@ function wrap(text: d3.Selection<SVGTextElement, SNode, d3.BaseType, unknown>) {
 }
 
 const Nodes: React.FC<Props> = ({
-  setSelectedContainer,
+  // setSelectedContainers,
   services,
   options,
   getColor,
 }) => {
+  const dispatch = useDispatch();
   const { simulation, serviceGraph, treeDepth } = window.d3State;
   const [boxPorts, setBoxPorts] = useState<
     d3.Selection<SVGRectElement, SNode, any, any>[] | []
@@ -108,12 +111,13 @@ const Nodes: React.FC<Props> = ({
     nodesWithVolumes = d3
       .select('.nodes')
       .selectAll<SVGGElement, SNode>('.node')
-      .filter((d: SNode) => d.volumes.length > 0);
+      .filter((d: SNode) => d.volumes ? d.volumes.length > 0 : false);
 
     // iterate through all nodes with volumes
     nodesWithVolumes.each(function (d: SNode) {
       const node = this;
       // iterate through all volumes of node
+      if(d.volumes){
       d.volumes.reverse().forEach((vString, i) => {
         let onClick = false;
         let onceClicked = false;
@@ -130,10 +134,10 @@ const Nodes: React.FC<Props> = ({
               ? getColor(slicedVString)
               : getColor(vString);
           })
-          .attr('width', width + (d.volumes.length - i) * 20)
-          .attr('height', height + (d.volumes.length - i) * 20)
-          .attr('x', x - (d.volumes.length - i) * 10)
-          .attr('y', y - (d.volumes.length - i) * 10)
+          .attr('width', width + (d.volumes ? d.volumes.length - i : 1) * 20)
+          .attr('height', height + (d.volumes ? d.volumes.length - i : 2) * 20)
+          .attr('x', x - (d.volumes ? d.volumes.length - i : 1) * 10)
+          .attr('y', y - (d.volumes ? d.volumes.length - i : 2) * 10)
           .on('mouseover', () => {
             return vText.style('visibility', 'visible');
           })
@@ -162,6 +166,7 @@ const Nodes: React.FC<Props> = ({
         // store d3 object in volumes text array
         volumeText.push(vText);
       });
+    }
       setBoxVolumes(volumes);
       setBoxVolumesTexts(volumeText);
     });
@@ -292,7 +297,7 @@ const Nodes: React.FC<Props> = ({
         return `container_${node.name}`;
       })
       .on('click', (node: SNode) => {
-        setSelectedContainer(node.name);
+        dispatch(setSelectedContainers(node.name));
       })
       .on('dblclick', dblClick)
       .call(drag)

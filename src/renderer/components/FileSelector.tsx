@@ -2,22 +2,31 @@
  * ************************************
  *
  * @module  FileSelector.tsx
- * @author Mike D
- * @date 3/11/20
- * @description Button to allow user to open docker-compose file
+ * @author Mike D, Michael Villamor, Nathan Lovell, Jordan Long, Giovanni Rodriguez
+ * @date 3/11/20 edited on 6/30/22
+ * @description Button to allow user to open docker-compose and kubernetes files
  *
  * ************************************
  */
 import React from 'react';
 import { FaUpload } from 'react-icons/fa';
+import { yamlToState, fileOpenError, switchTab } from "../../reducers/appSlice";
+import { fileOpen, getCache } from '../helpers/fileOpen'
+import { useAppDispatch } from '../../hooks';
 
-import { FileOpen } from '../App.d';
+/**
+   * @param file: a File classed object
+   * @returns void
+   * @description validates the docker-compose file
+   * ** if no errors, passes file string along to convert and store yaml method
+   * ** if errors, passes error string to handle file open errors method
+   */
 
-type Props = {
-  fileOpen: FileOpen;
-};
 
-const FileSelector: React.FC<Props> = ({ fileOpen }) => {
+
+const FileSelector: React.FC = () => {
+  const dispatch = useAppDispatch();
+ 
   return (
     <div className="file-open">
       <label htmlFor="files">
@@ -34,13 +43,39 @@ const FileSelector: React.FC<Props> = ({ fileOpen }) => {
         style={{ display: 'none' }}
         onChange={(event: React.SyntheticEvent<HTMLInputElement>) => {
           // make sure there was something selected
-          // console.log('FileSelector Event and event.currentTarget', event, event.currentTarget)
           if (event.currentTarget) {
             // make sure user opened a file
             if (event.currentTarget.files) {
               // fire fileOpen function on first file opened
-              // console.log('Event.currentTarget.file', event.currentTarget.files[0] )
-              fileOpen(event.currentTarget.files[0]);
+              /** fileOpen cannot have hooks called inside because it's not a functional component
+               * To circumvent, we're returning the necessary, adjusted files into 'openedFile'
+               * If it's an array, than it's outputting a string of error messages and calling error reducer
+               * If it's an object, dispatch yamlState and switchTab reducers with object properties
+               */
+
+            fileOpen(event.currentTarget.files[0]); //goes to helper function to process
+              
+
+            /*
+            
+              setTimeout solution because the result cannot return into this file.
+              Result from file open and subsequent parsing is added to a cache function
+              the setTimeout waits for the file to be read and grabs data from the cache
+              
+            */
+              setTimeout(() => {
+                let result = getCache('123');
+              
+                
+                let openedFile = result[0];
+                console.log('result from the cache: ', openedFile.openFiles)
+                if (openedFile !== undefined){
+                  Array.isArray(openedFile) ? dispatch(fileOpenError(openedFile)) : dispatch(yamlToState(openedFile.yamlState)), dispatch(switchTab({filePath: openedFile.filePath, openFiles: openedFile.openFiles, closeTab: false}));
+                }
+                else {
+                  console.log('error opening file, try again');
+                }
+              }, 500)
             }
           }
         }}

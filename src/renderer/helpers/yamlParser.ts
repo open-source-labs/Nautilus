@@ -1,22 +1,46 @@
-import { ReadOnlyObj, DependsOn, Services, VolumeType } from '../App.d';
+import { ReadOnlyObj, DependsOn, Services, VolumeType, KubeObj } from '../App.d';
 
 type YamlState = {
   fileOpened: boolean;
-  services: Services;
+  kubeBool?: boolean;
+  services?: Services;
   filePath?: string;
   dependsOn?: DependsOn;
   networks?: ReadOnlyObj;
   volumes?: ReadOnlyObj;
   bindMounts?: Array<string>;
+  kubeObj?: KubeObj;
 };
 
-const convertYamlToState = (file: any, filePath: string) => {
+const kubeParser = (file:any):any => {
+  const kube: KubeObj = {
+    kind: file.kind,
+    name: file.metadata.name
+  };
+  if (kube.kind === 'Pod') {
+    return {...kube, containers: file.spec.containers}
+  }
+  if (kube.kind === 'Deployment') {
+    return {...kube, containers: file.spec.template.spec.containers, replica: file.spec.replicas}
+  }
+  if (kube.kind === 'Service') {
+    return {...kube, selector: file.spec.selector, ports: file.spec.ports}
+  }
+}
+
+const convertYamlToState = (file: any, filePath: string):any => {
+  //check if file.apiVersion exists, if so Kube logic -> 
+    //save kind as variable, execeute logic if deployement, service, pod
+  if (file.apiVersion) {
+    return {fileOpened: true, kubeBool: true, kubeObj: kubeParser(file)}
+  }
+  else {
   const services = file.services;
   const volumes = file.volumes ? file.volumes : {};
   const networks = file.networks ? file.networks : {};
   const state: YamlState = Object.assign(
     {},
-    { fileOpened: true, services, volumes, networks, filePath },
+    { fileOpened: true, kubeBool: false, services, volumes, networks, filePath },
   );
   const bindMounts: string[] = [];
   // iterate through each service
@@ -45,5 +69,5 @@ const convertYamlToState = (file: any, filePath: string) => {
   state.bindMounts = bindMounts;
   return state;
 };
-
+}
 export default convertYamlToState;

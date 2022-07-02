@@ -14,6 +14,7 @@ import * as d3 from 'd3';
 // IMPORT COMPONENTS
 import Nodes from './Nodes';
 import Links from './Links';
+import { useAppSelector } from '../../hooks';
 
 //IMPORT HELPER FNS
 import {
@@ -25,7 +26,6 @@ import {
 import {
   Services,
   SNode,
-  SetSelectedContainer,
   Options,
   ReadOnlyObj,
   ViewT,
@@ -33,7 +33,7 @@ import {
 
 type Props = {
   services: Services;
-  setSelectedContainer: SetSelectedContainer;
+  // setSelectedContainer: SetSelectedContainer;
   options: Options;
   networks: ReadOnlyObj;
   view: ViewT;
@@ -43,7 +43,6 @@ type Props = {
 
 const View: React.FC<Props> = ({
   services,
-  setSelectedContainer,
   options,
   view,
   networks,
@@ -51,7 +50,7 @@ const View: React.FC<Props> = ({
   getColor,
 }) => {
   const { treeDepth, simulation } = window.d3State;
-
+  const kubeBool = useAppSelector((state) => state.kubeBool);
   /**
    *********************
    * Depends On View
@@ -278,21 +277,21 @@ const View: React.FC<Props> = ({
         .restart();
     }
 
-    console.log('view d3 render line 281 View.tsx');
+    console.log('services in view', services)
     return () => {
       // clear window resize if changing away from depends view
       if (view === 'depends_on') {
         window.onresize = null;
       }
     };
-  }, [view, services, selectedNetwork]);
+  }, [view, services, selectedNetwork,kubeBool]);
 
   return (
     <>
       <div className="view-wrapper">
         <svg className="graph">
           <Nodes
-            setSelectedContainer={setSelectedContainer}
+            // setSelectedContainer={setSelectedContainer}
             services={services}
             options={options}
             getColor={getColor}

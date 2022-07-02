@@ -1,4 +1,4 @@
-/**
+ /**
  * ************************************
  *
  * @module  setGlobalVars.ts
@@ -18,7 +18,7 @@ import {
   D3State,
   Volumes,
   Ports,
-  VolumeType,
+  VolumeType
 } from '../App.d';
 import * as d3 from 'd3';
 
@@ -97,7 +97,7 @@ export const extractDependsOn: ExtractDependsOn = (services) => {
 
   Object.keys(services).forEach((sName: string) => {
     if (services[sName].hasOwnProperty('depends_on')) {
-      services[sName].depends_on!.forEach((el) => {
+      services[sName].depends_on!.forEach((el:any) => {
         links.push({ source: el, target: sName });
       });
     }
@@ -112,6 +112,11 @@ export const extractDependsOn: ExtractDependsOn = (services) => {
  * *************
  * adds dag properties a d3 array of nodes passed in and returns depth of tree
  */
+
+/*
+DAG: directed acyclic graph
+This means that it is impossible to traverse the entire graph starting at one edge. The edges of the directed graph only go one way.
+*/
 interface DagCreator {
   (nodesObject: SNode[], Links: Link[]): number;
 }
@@ -120,6 +125,7 @@ export const dagCreator: DagCreator = (nodes, links) => {
   const nodesObject: NodesObject = {};
   nodes.forEach((node) => {
     nodesObject[node.name] = node;
+    
   });
 
   const roots = JSON.parse(JSON.stringify(nodesObject));
@@ -175,18 +181,71 @@ export const dagCreator: DagCreator = (nodes, links) => {
  * @param services
  * @returns an object with serviceGraph, simulation and treeDepth properties
  * ********************
+ * 
+ * GIO:
+ *  made SetD3State take a kubeObj or Service object
+ * yamlState: { Kind: ..., name: ... , containers: name: ...., image:...., port:.... }
  */
-const setD3State: SetD3State = (services) => {
+
+
+
+const setD3State: SetD3State = (services:any) => {
+  // if its a Kube Obj
   const links: Link[] = [];
-  Object.keys(services).forEach((sName: string) => {
+  // console.log('these are the services when setD3State is called', services['p'])
+  if(services.containers){
+  services.containers.forEach((sName: any) => {
+    // if (services.container[sName].hasOwnProperty('depends_on')) {
+      // services[sName].depends_on!.forEach((el: any) => {
+        console.log(services.name, sName.name)
+        links.push({ source: services.name, target: sName.name});
+    //   });
+    // }
+  });
+  }else{
+    console.log('services in Setd3 if not a kube file', services)
+    Object.keys(services).forEach((sName: string) => {
     if (services[sName].hasOwnProperty('depends_on')) {
-      services[sName].depends_on!.forEach((el) => {
+      services[sName].depends_on!.forEach((el:any) => {
         links.push({ source: el, target: sName });
       });
     }
   });
+  }
+  let nodes: any = [];
+  if(services.containers){
+    nodes = services.containers.map((sName:any, i:any) => {
+      const ports = services.containers[i].containerPort;
+      const node: SNode = {
+        id: i + 1,
+        name: sName.name,
+        ports,
+        volumes: [],
+        children: {},
+        row: 0,
+        rowLength: 0,
+        column: 0,
+      };
+      
+      // nodes[nodes.length-1] = 
+      
+      return node;
 
-  const nodes = Object.keys(services).map((sName: string, i) => {
+    })
+    const node: SNode = {
+      id: 10,
+      name: services.name,
+      ports: ['0000'],
+      volumes: [],
+      children: {},
+      row: 0,
+      rowLength: 0,
+      column: 0,
+    };
+    nodes[nodes.length] = node;
+    console.log('these are the nodes', nodes)
+  }else{
+  nodes = Object.keys(services).map((sName: string, i) => {
     // extract ports data if available
     const ports = services[sName].hasOwnProperty('ports')
       ? extractPorts(services[sName].ports as Ports)
@@ -210,8 +269,10 @@ const setD3State: SetD3State = (services) => {
       rowLength: 0,
       column: 0,
     };
+    
     return node;
   });
+}
 
   const treeDepth = dagCreator(nodes, links);
   /**
@@ -227,7 +288,8 @@ const setD3State: SetD3State = (services) => {
     },
     simulation: d3.forceSimulation<SNode>(nodes),
   };
-
+  // console.log('these are the nodes', nodes)
+  console.log('this is the D3 state', d3State)
   return d3State;
 };
 

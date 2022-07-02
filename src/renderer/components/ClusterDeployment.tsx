@@ -12,17 +12,11 @@
 import React from 'react';
 
 import SwarmDeployment from './SwarmDeployment';
-import { FileOpen } from '../App.d';
 
-type Props = {
-  fileOpen: FileOpen;
-  currentFilePath: string;
-};
-
-const ClusterDeployment: React.FC<Props> = ({ fileOpen, currentFilePath }) => {
+const ClusterDeployment: React.FC = () => {
   return (
     <div>
-      <SwarmDeployment currentFilePath={currentFilePath} />
+      <SwarmDeployment  />
       {/* <KubeDeployment currentFilePath={currentFilePath} /> */}
     </div>
   );
