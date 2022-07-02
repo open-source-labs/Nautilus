@@ -37,6 +37,10 @@ const ServiceInfo: React.FC= () => {
   
   const selectedContainer = useAppSelector((state) => state.selectedContainer)
   const service: any = useAppSelector((state) => state.services[selectedContainer]); //not ideal solution but it works for now
+  const kubeService: any = useAppSelector((state) => state.services);
+
+  console.log('this is kube service', kubeService)
+  console.log('this is selectedContainer', selectedContainer)
   
   // Objects to hold filtered 1D service Commands
   const serviceOverview: ServiceOverview = {};
@@ -56,8 +60,11 @@ const ServiceInfo: React.FC= () => {
   // If it's an array, loop through the env_file values, and push them into the env_file "cache" on line 46
   // PORTS: if ports incorrectly is given a string, just set the key in serviceOverview equal to its value as passed down from state
   // Finally, for all commands with 1D values and no options (image and cmmand), just set the key in serviceOverview equal to its value as passed down from state
+
   if (service) {
+    console.log('this is the service', service);
     Object.keys(service).forEach((command) => {
+      console.log('these are the commands', command)
       if (dockerComposeCommands[command]) {
         serviceOverview[command] = '';
         //  *********************

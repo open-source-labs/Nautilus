@@ -96,4 +96,4 @@ const App: React.FC = ({/**state to be loaded for App */}) => {
   
 }
 
-export default App;
+export default App

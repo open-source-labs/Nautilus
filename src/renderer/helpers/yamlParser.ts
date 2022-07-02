@@ -35,7 +35,6 @@ const convertYamlToState = (file: any, filePath: string):any => {
     return {fileOpened: true, kubeBool: true, kubeObj: kubeParser(file)}
   }
   else {
-    console.log('file in ymal parser', file)
   const services = file.services;
   const volumes = file.volumes ? file.volumes : {};
   const networks = file.networks ? file.networks : {};

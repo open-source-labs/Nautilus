@@ -29,6 +29,7 @@ const LeftNav: React.FC = ({
   const fileOpened = useAppSelector(state => state.fileOpened)
   const options = useAppSelector((state) => state.options);
   const view = useAppSelector((state) => state.view);
+  const services = useAppSelector((state) => state.services);
   const dependsOnClass = view === 'depends_on' ? 'option selected' : 'option';
 
   const handleViewUpdate: Handler = (e) => {
@@ -75,17 +76,14 @@ const LeftNav: React.FC = ({
         {fileOpened ? <FileSelector  /> : null}
       </div>
       <ServiceInfo  />
-      <NetworksDropDown/>
-      <span
+      { services.kind || services.kubeBool ? null :
+      <><NetworksDropDown /><span
           className={dependsOnClass}
           id="depends_on"
           onClick={handleViewUpdate}
         >
           <p>Depends On</p>
-        </span>
-      <div className="options-flex2">{optionsDisplay}</div>
-      <ComposeDeployment/>
-      <ClusterDeployment/>
+        </span><div className="options-flex2">{optionsDisplay}</div></> } <ComposeDeployment /><ClusterDeployment />
     </div>
   );
 };

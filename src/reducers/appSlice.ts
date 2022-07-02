@@ -68,7 +68,7 @@ const appSlice = createSlice({
         return state;
       },
       switchTab (state: State, action: PayloadAction<SwitchTab>) {
-        console.log('something got dispatched to switchTab')
+        
         
         
         console.log('SwitchTab payload', action.payload)
@@ -88,10 +88,10 @@ const appSlice = createSlice({
             openFiles: state.openFiles.concat(action.payload.openFiles),
             filePath: action.payload.filePath
           };
-          console.log('this is tabState', tabState)
+          // console.log('this is tabState', tabState)
         }
         else {
-          console.log('this is tabState in else', tabState)
+          // console.log('this is tabState in else', tabState)
           state = {
             ...state,
             ...tabState,
@@ -110,7 +110,7 @@ const appSlice = createSlice({
 
         // Set the d3 state using the services extracted from the tabState and then setState
         // console.log('window.d3state in switchtab reducer before calling setD3state', window.d3State);
-          console.log('kubeBool true hit else condition in appSlice');
+          // console.log('kubeBool true hit else condition in appSlice');
           window.d3State = setD3State(state.services);
         // console.log('window.d3state in switchtab reducer after calling setD3state', window.d3State);
        
@@ -119,7 +119,6 @@ const appSlice = createSlice({
       closeTab (state: State, action: PayloadAction<SwitchTab>) {
         // Grab current open files and remove the file path of the tab to be closed, assign the
         // updated array to newOpenFiles
-        console.log('something got dispatched to closeTab');
         console.log('action.payload in closeTab: ', action.payload)
         const { openFiles } = state;
         console.log('openFiles before filtering: ', openFiles);
