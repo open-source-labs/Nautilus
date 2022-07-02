@@ -57,7 +57,7 @@ const appSlice = createSlice({
         return state;
       },
       switchTab (state: State, action: PayloadAction<SwitchTab>) {
-        console.log('something got dispatched to switchTab')
+        
         
         
         console.log('SwitchTab payload', action.payload)
@@ -69,11 +69,10 @@ const appSlice = createSlice({
             openFiles: state.openFiles.concat(action.payload.openFiles),
             filePath: action.payload.filePath,
           };
-          
-          console.log('this is tabState', tabState)
+
         }
         else {
-          console.log('this is tabState in else', tabState)
+          // console.log('this is tabState in else', tabState)
           state = {
             ...state,
             ...tabState
@@ -93,8 +92,7 @@ const appSlice = createSlice({
         // Set the 'state' item in localStorage to the tab state. This means that tab is the current tab, which would be used if the app got reloaded.
         localStorage.setItem('state', JSON.stringify(tabState));
         // Set the d3 state using the services extracted from the tabState and then setState
-        
-          console.log('kubeBool true hit else condition in appSlice');
+
           window.d3State = setD3State(state.services);
        
         return state;
@@ -102,7 +100,6 @@ const appSlice = createSlice({
       closeTab (state: State, action: PayloadAction<SwitchTab>) {
         // Grab current open files and remove the file path of the tab to be closed, assign the
         // updated array to newOpenFiles
-        console.log('something got dispatched to closeTab');
         console.log('action.payload in closeTab: ', action.payload)
         const { openFiles } = state;
         console.log('openFiles before filtering: ', openFiles);

@@ -30,8 +30,10 @@ const LeftNav: React.FC = ({
   const fileOpened = useAppSelector(state => state.fileOpened)
   const options = useAppSelector((state) => state.options);
   const view = useAppSelector((state) => state.view);
+
   
   const kubeBool = useAppSelector((state) => state.kubeBool);
+
 
 
   const dependsOnClass = view === 'depends_on' ? 'option selected' : 'option';
@@ -80,21 +82,25 @@ const LeftNav: React.FC = ({
         {fileOpened ? <FileSelector  /> : null}
       </div>
       <ServiceInfo  />
+
       {!kubeBool && fileOpened  ? <NetworksDropDown/> : null}
       {!kubeBool && fileOpened ? <div>
         
         <span
+
           className={dependsOnClass}
           id="depends_on"
           onClick={handleViewUpdate}
         >
           <p>Depends On</p>
+
         </span>
       <div className="options-flex2">{optionsDisplay}</div> 
       </div> : null}
       
       <ComposeDeployment/>
       <ClusterDeployment/>
+
     </div>
   );
 };
