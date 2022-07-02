@@ -12,13 +12,6 @@
 import React from 'react';
 
 import SwarmDeployment from './SwarmDeployment';
-// import { FileOpen } from '../App.d';
-
-
-// type Props = {
-//   fileOpen: FileOpen;
-//   currentFilePath: string;
-// };
 
 const ClusterDeployment: React.FC = () => {
   return (

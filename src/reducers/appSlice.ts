@@ -13,16 +13,9 @@ import setD3State from "../renderer/helpers/setD3State";
 import {
     State,
     SwitchTab,
-    // FileOpen,
-    // UpdateOption,
-    // UpdateView,
-    // SelectNetwork,
-    // SetSelectedContainer,
     YamlState,
     ViewAndSelectNetwork
   } from '../renderer/App.d';
-// import { convertAndStoreYamlJSON } from "../renderer/helpers/fileOpen";
-// import { act } from "react-test-renderer";
 
  const initialState: State =  {
   openFiles: [],
@@ -47,24 +40,20 @@ import {
     selectAll: false,
   },
   version: '',
-  KubeObj: {},
-  KubeBool: false
+  kubeObj: {},
+  kubeBool: false
 };
 
 const appSlice = createSlice({
     name: 'app',
     initialState,
     reducers: {
-      yamlToState (state: State, action: PayloadAction<YamlState>) {
-        // console.log('payload in yamlToState after dispatch: ', action.payload);
-        
+      yamlToState (state: State, action: PayloadAction<YamlState>) {        
         state = {
           ...state, 
           ...action.payload
         };
         state.services = action.payload;
-        //console log to see state:
-        // console.log('state after opening a file', JSON.stringify(state, undefined, 2)); 
         return state;
       },
       switchTab (state: State, action: PayloadAction<SwitchTab>) {
@@ -73,46 +62,40 @@ const appSlice = createSlice({
         
         console.log('SwitchTab payload', action.payload)
         const tabState = JSON.parse(localStorage.getItem(action.payload.filePath) || '{}');
-        // const fileToPushIn = [];
-        // console.log('tabState in Switchtab', tabState);
-        // Create new state object with the returned tab state
-        // if(!state.openFiles.includes(action.payload.openFiles[0])) fileToPushIn.push(action.payload.openFiles[0]);
-        // console.log('this tab state', tabState)
-        
-          
-        
          if (action.payload.openFiles && !state.openFiles.includes(action.payload.filePath)){
           state = {
             ...state,
             ...tabState,
             openFiles: state.openFiles.concat(action.payload.openFiles),
-            filePath: action.payload.filePath
+            filePath: action.payload.filePath,
           };
+          
           console.log('this is tabState', tabState)
         }
         else {
           console.log('this is tabState in else', tabState)
           state = {
             ...state,
-            ...tabState,
+            ...tabState
           };
           if (tabState.kubeBool){ 
             console.log('kubeBool is true')
             state.services = tabState.kubeObj;
+            state = {
+            ...state,
+            ...tabState,
+            kubeBool: true
+            }
             state.filePath = action.payload.filePath;
           }
         }
 
         // Set the 'state' item in localStorage to the tab state. This means that tab is the current tab, which would be used if the app got reloaded.
-        // console.log('local storage before calling setitem in SwitchTab reducer', localStorage)
         localStorage.setItem('state', JSON.stringify(tabState));
-        // console.log('local storage after calling setitem in SwitchTab reducer', localStorage)
-
         // Set the d3 state using the services extracted from the tabState and then setState
-        // console.log('window.d3state in switchtab reducer before calling setD3state', window.d3State);
+        
           console.log('kubeBool true hit else condition in appSlice');
           window.d3State = setD3State(state.services);
-        // console.log('window.d3state in switchtab reducer after calling setD3state', window.d3State);
        
         return state;
       },

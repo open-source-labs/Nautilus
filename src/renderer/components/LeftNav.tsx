@@ -3,7 +3,7 @@
  *
  * @module  LeftNav.tsx
  * @author
- * @date 3/11/20
+ * @date 3/11/20 edited 6/30/22
  * @description container for the title, the service info and the file open
  *
  * ************************************
@@ -23,12 +23,17 @@ import { updateOption, updateViewStore } from '../../reducers/appSlice';
 import { Handler } from '../App.d';
 
 
+
 const LeftNav: React.FC = ({
 }) => {
   const dispatch = useAppDispatch();
   const fileOpened = useAppSelector(state => state.fileOpened)
   const options = useAppSelector((state) => state.options);
   const view = useAppSelector((state) => state.view);
+  
+  const kubeBool = useAppSelector((state) => state.kubeBool);
+
+
   const dependsOnClass = view === 'depends_on' ? 'option selected' : 'option';
 
   const handleViewUpdate: Handler = (e) => {
@@ -75,15 +80,19 @@ const LeftNav: React.FC = ({
         {fileOpened ? <FileSelector  /> : null}
       </div>
       <ServiceInfo  />
-      <NetworksDropDown/>
-      <span
+      {!kubeBool && fileOpened  ? <NetworksDropDown/> : null}
+      {!kubeBool && fileOpened ? <div>
+        
+        <span
           className={dependsOnClass}
           id="depends_on"
           onClick={handleViewUpdate}
         >
           <p>Depends On</p>
         </span>
-      <div className="options-flex2">{optionsDisplay}</div>
+      <div className="options-flex2">{optionsDisplay}</div> 
+      </div> : null}
+      
       <ComposeDeployment/>
       <ClusterDeployment/>
     </div>
