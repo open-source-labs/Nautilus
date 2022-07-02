@@ -183,7 +183,7 @@ const appSlice = createSlice({
           console.log(state);
           return state;
         },
-        updateOption (state, action: PayloadAction<string>) {
+        updateOption (state: State, action: PayloadAction<string>) {
           // let option = action.payload.option;
           console.log('option clicked: ', action.payload);
               // if (action.payload === 'ports') Object.assign(newState, newState[action.payload] = true)
