@@ -51,10 +51,6 @@ enum HealthCheck {
   On,
 }
 
-// type Props = {
-//   currentFilePath: string;
-// };
-
 const Deployment: React.FC = () => {
   const currentFilePath = useAppSelector((state) => state.filePath);
   const dispatch = useAppDispatch();

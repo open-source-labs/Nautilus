@@ -50,7 +50,7 @@ const View: React.FC<Props> = ({
   getColor,
 }) => {
   const { treeDepth, simulation } = window.d3State;
-  const kubeBool = useAppSelector((state) => state.KubeBool);
+  const kubeBool = useAppSelector((state) => state.kubeBool);
   /**
    *********************
    * Depends On View
