@@ -37,9 +37,10 @@
    
    const selectedContainer = useAppSelector((state) => state.selectedContainer)
   let service: any = useAppSelector((state) => state.services[selectedContainer]); //not ideal solution but it works for now
-  let services: any = useAppSelector((state) => state.services);
-  let isKube: boolean = false;
+  // let services: any = useAppSelector((state) => state.services);
+  // let isKube: boolean = false;
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 
 type DockerComposeCommands = {
@@ -166,6 +167,13 @@ const ServiceInfo: React.FC= () => {
 >>>>>>> 0927d85... removed rendering of unnecessary buttons for kube files
   }
   if (isKube) console.log('service if its a kube: ', service);
+=======
+  // if(services.kubeBool){
+  //   service = services.kubeObj;
+  //   isKube = true;
+  // }
+  // if (isKube) console.log('service if its a kube: ', service);
+>>>>>>> 73a352c... fixed bugs related to closing a kubernetes tab and app crashing upon load of kubernetes file
    
    // Objects to hold filtered 1D service Commands
    const serviceOverview: ServiceOverview = {};

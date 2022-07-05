@@ -67,9 +67,15 @@ const D3Wrapper: React.FC= (
   const selectedNetwork = useAppSelector((state) => state.selectedNetwork);
   const openErrors = useAppSelector((state) => state.openErrors);
   const view = useAppSelector((state) => state.view);
+  const kubeBool = useAppSelector((state) => state.kubeBool);
+  console.log('errors in d3wrapper: ', openErrors);
 
-
+<<<<<<< HEAD
    
+=======
+  //  console.log('services in d3wrapper: ', services)
+  //  console.log('fileOpened', fileOpened);
+>>>>>>> 73a352c... fixed bugs related to closing a kubernetes tab and app crashing upon load of kubernetes file
   // invoke function that returns a function with the closure object for tracking colors
   const getColor = colorSchemeIndex();
 
@@ -108,7 +114,7 @@ const D3Wrapper: React.FC= (
               getColor={getColor}
             />
           </div>
-          {services.kind || services.kubeBool ? null : 
+          {kubeBool ? null : 
           <VolumesWrapper
             bindMounts={bindMounts}
             volumes={volumes}

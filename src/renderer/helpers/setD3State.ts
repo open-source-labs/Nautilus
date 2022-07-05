@@ -182,9 +182,32 @@ export const dagCreator: DagCreator = (nodes, links) => {
  * @returns an object with serviceGraph, simulation and treeDepth properties
  * ********************
  */
+<<<<<<< HEAD
 const setD3State: SetD3State = (services) => {
   const links: Link[] = [];
   Object.keys(services).forEach((sName: string) => {
+=======
+
+
+
+const setD3State: SetD3State = (services:any = {}) => {
+  // if its a Kube Obj
+  const links: Link[] = [];
+  // console.log('these are the services when setD3State is called', services['p'])
+  
+  if(services.containers){
+  services.containers.forEach((sName: any) => {
+    // if (services.container[sName].hasOwnProperty('depends_on')) {
+      // services[sName].depends_on!.forEach((el: any) => {
+        // console.log(services.name, sName.name)
+        links.push({ source: services.name, target: sName.name});
+    //   });
+    // }
+  });
+  }else{
+    // console.log('services in Setd3 if not a kube file', services)
+    Object.keys(services).forEach((sName: string) => {
+>>>>>>> 73a352c... fixed bugs related to closing a kubernetes tab and app crashing upon load of kubernetes file
     if (services[sName].hasOwnProperty('depends_on')) {
       services[sName].depends_on!.forEach((el) => {
         links.push({ source: el, target: sName });
@@ -192,7 +215,25 @@ const setD3State: SetD3State = (services) => {
     }
   });
 
+<<<<<<< HEAD
   const nodes = Object.keys(services).map((sName: string, i) => {
+=======
+    })
+    const node: SNode = {
+      id: 10,
+      name: services.name,
+      ports: ['0000'],
+      volumes: [],
+      children: {},
+      row: 0,
+      rowLength: 0,
+      column: 0,
+    };
+    nodes[nodes.length] = node;
+    // console.log('these are the nodes', nodes)
+  }else{
+  nodes = Object.keys(services).map((sName: string, i) => {
+>>>>>>> 73a352c... fixed bugs related to closing a kubernetes tab and app crashing upon load of kubernetes file
     // extract ports data if available
     const ports = services[sName].hasOwnProperty('ports')
       ? extractPorts(services[sName].ports as Ports)
@@ -234,7 +275,12 @@ const setD3State: SetD3State = (services) => {
     },
     simulation: d3.forceSimulation<SNode>(nodes),
   };
+<<<<<<< HEAD
   
+=======
+  // console.log('these are the nodes', nodes)
+  // console.log('this is the D3 state', d3State)
+>>>>>>> 73a352c... fixed bugs related to closing a kubernetes tab and app crashing upon load of kubernetes file
   return d3State;
 };
 

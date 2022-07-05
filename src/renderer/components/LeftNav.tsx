@@ -89,20 +89,26 @@ const LeftNav: React.FC = ({
       <><NetworksDropDown /><span
 =======
       {!kubeBool && fileOpened  ? <NetworksDropDown/> : null}
-      {!kubeBool && fileOpened ? <div>
+      {!kubeBool && fileOpened ? <div className = 'views'>
         
         <span
+<<<<<<< HEAD
 >>>>>>> 0927d85... removed rendering of unnecessary buttons for kube files
+=======
+>>>>>>> 0e56383... added file error functionality
           className={dependsOnClass}
           id="depends_on"
           onClick={handleViewUpdate}
         >
           <p>Depends On</p>
 <<<<<<< HEAD
+<<<<<<< HEAD
         </span><div className="options-flex2">{optionsDisplay}</div></> } <ComposeDeployment /><ClusterDeployment />
 =======
+=======
+>>>>>>> 0e56383... added file error functionality
         </span>
-      <div className="options-flex2">{optionsDisplay}</div> 
+        <div className="options-flex2">{optionsDisplay}</div> 
       </div> : null}
       
       <ComposeDeployment/>
