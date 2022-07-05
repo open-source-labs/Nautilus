@@ -67,6 +67,7 @@ const D3Wrapper: React.FC= (
   const selectedNetwork = useAppSelector((state) => state.selectedNetwork);
   const openErrors = useAppSelector((state) => state.openErrors);
   const view = useAppSelector((state) => state.view);
+  const kubeBool = useAppSelector((state) => state.kubeBool);
 
 
    console.log('services in d3wrapper: ', services)
@@ -106,7 +107,7 @@ const D3Wrapper: React.FC= (
               getColor={getColor}
             />
           </div>
-          {services.kind || services.kubeBool ? null : 
+          {kubeBool ? null : 
           <VolumesWrapper
             bindMounts={bindMounts}
             volumes={volumes}
