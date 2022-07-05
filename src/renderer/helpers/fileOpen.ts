@@ -32,7 +32,7 @@ const readFileAsync = (file:File) => {
 export const fileOpen: FileOpen = async (file: File, openFiles = []): Promise<any> => {
     // check for valid file path
     if (file.path) {
-      console.log('this is the file ', file);
+      // console.log('this is the file ', file);
       await runDockerComposeValidation(file.path).then( async (validationResults: any) => { 
         if (validationResults.error) {
           
@@ -42,10 +42,15 @@ export const fileOpen: FileOpen = async (file: File, openFiles = []): Promise<an
            * run a composeValidation for the kubernetes file  
            * if it succeeds, go to the else block;
            */
+          if (validationResults.error.message.includes('apiVersion') || validationResults.error.message.includes('kind')){
            let text:any = await readFileAsync(file);
            text = new TextDecoder().decode(text);
            const yamlText = convertAndStoreYamlJSON(text, file.path, openFiles);
            getCache(yamlText);
+          }
+          else {
+            handleFileOpenError(validationResults.error)
+          }
         } else {
             let yamlText: any = await readFileAsync(file);
             yamlText = new TextDecoder().decode(yamlText);
@@ -60,7 +65,8 @@ export const fileOpen: FileOpen = async (file: File, openFiles = []): Promise<an
       });
     }
   };
-  //Makeshift solution to get async file read working when called from fileSelector - without putting read file text in some sort of cache the call in fileSelector was returning undefined
+  //Makeshift solution to get async file read working when called from fileSelector
+  //without putting read file text in some sort of cache the call in fileSelector was returning undefined
   export function cacheFile (){
     let pw = '123'
     let cache:any = [];
@@ -72,13 +78,29 @@ export const fileOpen: FileOpen = async (file: File, openFiles = []): Promise<an
     }
   }
 }
+  export function cacheError(){
+    let pw = '123'
+    let cache:any = [];
+
+    return function(password: any){
+      if (password === pw) return cache
+      else if (password === 'reset'){
+        cache = [];
+      }
+      else {
+        cache = [];
+        cache.push(password);
+      }
+    }
+  }
   export const getCache = cacheFile();
+  export const cacheErrors = cacheError();
 
   export const convertAndStoreYamlJSON = (yamlText: string, filePath: string, openFiles: string[] = []) => {
     // Convert Yaml to state object.
-    console.log('yaml text that went to cAndStoreYamlJson', yamlText)
+    // console.log('yaml text that went to cAndStoreYamlJson', yamlText)
     const yamlJSON = yaml.safeLoad(yamlText);
-    console.log(yamlJSON)
+    // console.log(yamlJSON)
     const yamlState = convertYamlToState(yamlJSON, filePath);
     
     // Don't add a file that is already opened to the openFiles array
@@ -90,7 +112,7 @@ export const fileOpen: FileOpen = async (file: File, openFiles = []): Promise<an
     }else{
      window.d3State = setD3State(yamlState.services);
     }
-    console.log('this is the windowD3 state', window.d3State)
+    // console.log('this is the windowD3 state', window.d3State)
     
     // Store opened file state in localStorage under the current state item call "state" as well as an individual item using the filePath as the key.
     localStorage.setItem('state', JSON.stringify(yamlState));
@@ -110,5 +132,7 @@ export const fileOpen: FileOpen = async (file: File, openFiles = []): Promise<an
     simulation.stop();
     // Grab the current openFiles array so that we don't lose them when setting state.
     const openErrors = parseOpenError(errorText);
+    console.log('openError in handleFileOpenError: ', openErrors);
+    cacheErrors(openErrors);
     return openErrors;
   };

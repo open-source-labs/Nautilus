@@ -84,18 +84,16 @@ const LeftNav: React.FC = ({
       <ServiceInfo  />
 
       {!kubeBool && fileOpened  ? <NetworksDropDown/> : null}
-      {!kubeBool && fileOpened ? <div>
+      {!kubeBool && fileOpened ? <div className = 'views'>
         
         <span
-
           className={dependsOnClass}
           id="depends_on"
           onClick={handleViewUpdate}
         >
           <p>Depends On</p>
-
         </span>
-      <div className="options-flex2">{optionsDisplay}</div> 
+        <div className="options-flex2">{optionsDisplay}</div> 
       </div> : null}
       
       <ComposeDeployment/>

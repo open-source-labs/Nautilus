@@ -11,7 +11,7 @@
 import React from 'react';
 import { FaUpload } from 'react-icons/fa';
 import { yamlToState, fileOpenError, switchTab } from "../../reducers/appSlice";
-import { fileOpen, getCache } from '../helpers/fileOpen'
+import { fileOpen, getCache, cacheErrors } from '../helpers/fileOpen'
 import { useAppDispatch } from '../../hooks';
 
 /**
@@ -43,6 +43,8 @@ const FileSelector: React.FC = () => {
         style={{ display: 'none' }}
         onChange={(event: React.SyntheticEvent<HTMLInputElement>) => {
           // make sure there was something selected
+          dispatch(fileOpenError(['reset']));
+          cacheErrors('reset');
           if (event.currentTarget) {
             // make sure user opened a file
             if (event.currentTarget.files) {
@@ -52,7 +54,7 @@ const FileSelector: React.FC = () => {
                * If it's an array, than it's outputting a string of error messages and calling error reducer
                * If it's an object, dispatch yamlState and switchTab reducers with object properties
                */
-
+            
             fileOpen(event.currentTarget.files[0]); //goes to helper function to process
               
 
@@ -65,15 +67,21 @@ const FileSelector: React.FC = () => {
             */
               setTimeout(() => {
                 let result = getCache('123');
-              
+                let errors = cacheErrors('123');
                 
                 let openedFile = result[0];
-                console.log('result from the cache: ', openedFile.openFiles)
-                if (openedFile !== undefined){
+                let dispatchError;
+                if(errors.length){
+                   dispatchError = errors[0];
+                }
+                // console.log('result from the cache: ', openedFile.openFiles)
+                console.log('result from errors: ', errors);
+                if (openedFile !== undefined && !errors.length){
                   Array.isArray(openedFile) ? dispatch(fileOpenError(openedFile)) : dispatch(yamlToState(openedFile.yamlState)), dispatch(switchTab({filePath: openedFile.filePath, openFiles: openedFile.openFiles, closeTab: false}));
                 }
-                else {
+                else if (dispatchError) {
                   console.log('error opening file, try again');
+                  dispatch(fileOpenError(dispatchError));
                 }
               }, 500)
             }

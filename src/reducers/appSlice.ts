@@ -107,9 +107,9 @@ const appSlice = createSlice({
         // Remove the state object associated with the file path in localStorage
         
         localStorage.removeItem(action.payload.filePath);
-        
         // If the tab to be closed is the active tab, reset d3 and delete "state" object from local
         // storage and set state to the initial state with the updated open files array included.
+        // console.log(`APaylod: ${action.payload.filePath} and stateFP: ${state.filePath}`); //to determine if the filepaths are the same
         if (action.payload.filePath === state.filePath) {
           // Remove the 'state' localStorage item, which represents the
           // services of the currently opened file.
@@ -123,20 +123,23 @@ const appSlice = createSlice({
           if (openFiles.length > 1){
             let newFilePath = newOpenFiles[0];
             const tabState = JSON.parse(localStorage.getItem(newFilePath) || '{}');
+            if (tabState.kubeBool) tabState.filePath = newFilePath;
             localStorage.setItem('state', JSON.stringify(tabState));
             console.log('tabState in closeTab: ', tabState);
             console.log('new open files: ', newOpenFiles);
             console.log('new file path: ', newFilePath);
             // appSlice.caseReducers.switchTab(state, {payload: {filePath: newFilePath, openFiles: newOpenFiles, closeTab: true}, type: 'switchTab'});
             state = {...state, ...tabState, openFiles: newOpenFiles}
-            console.log('state before returning: ', JSON.stringify(state, undefined, 2));
+            if (tabState.kubeBool){
+              state.services = tabState.kubeObj;
+            }
             window.d3State = setD3State(state.services);
             return state;
           }
-          // else this.setState({ ...initialState, options });
           else return {...initialState };
           console.log('newOpenFiles: ', newOpenFiles);
-        }  return { ...state, openFiles: newOpenFiles };
+        }
+        return { ...state, openFiles: newOpenFiles };
         },
         updateViewStore(state: State, action: PayloadAction<ViewAndSelectNetwork>){
           state.view = action.payload.view;
@@ -153,8 +156,20 @@ const appSlice = createSlice({
           return state;
         },
         fileOpenError (state: State, action: PayloadAction<string[]>) {
-          state.openErrors.concat(action.payload)
-          state.fileOpened = false;
+          if(action.payload[0] === 'reset'){
+            console.log('recognizes the reset call');
+            state = {...state, openErrors: []};
+            return state;
+          }
+          console.log('hit fileOpenError:', action.payload);
+          // state.openErrors.concat(action.payload)
+          let newOpenErrors = [];
+          newOpenErrors.push(action.payload[0]);
+          console.log('new open errors after adding action payload:', newOpenErrors);
+          // state.fileOpened = false;
+          
+          state = {...state, openErrors: newOpenErrors, fileOpened: false };
+          console.log('state after accounting for open errors:', JSON.stringify(state, undefined, 2));
           return state;
         },
         openYamlFiles (state: State, action: PayloadAction<string[]> ) {

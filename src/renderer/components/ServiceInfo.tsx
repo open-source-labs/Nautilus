@@ -37,14 +37,14 @@
    
    const selectedContainer = useAppSelector((state) => state.selectedContainer)
   let service: any = useAppSelector((state) => state.services[selectedContainer]); //not ideal solution but it works for now
-  let services: any = useAppSelector((state) => state.services);
-  let isKube: boolean = false;
+  // let services: any = useAppSelector((state) => state.services);
+  // let isKube: boolean = false;
 
-  if(services.kubeBool){
-    service = services.kubeObj;
-    isKube = true;
-  }
-  if (isKube) console.log('service if its a kube: ', service);
+  // if(services.kubeBool){
+  //   service = services.kubeObj;
+  //   isKube = true;
+  // }
+  // if (isKube) console.log('service if its a kube: ', service);
    
    // Objects to hold filtered 1D service Commands
    const serviceOverview: ServiceOverview = {};
