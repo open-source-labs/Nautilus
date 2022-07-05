@@ -68,7 +68,7 @@ const D3Wrapper: React.FC= (
   const openErrors = useAppSelector((state) => state.openErrors);
   const view = useAppSelector((state) => state.view);
   const kubeBool = useAppSelector((state) => state.kubeBool);
-
+  console.log('errors in d3wrapper: ', openErrors);
 
   //  console.log('services in d3wrapper: ', services)
   //  console.log('fileOpened', fileOpened);

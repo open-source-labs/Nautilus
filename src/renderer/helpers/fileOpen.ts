@@ -42,10 +42,15 @@ export const fileOpen: FileOpen = async (file: File, openFiles = []): Promise<an
            * run a composeValidation for the kubernetes file  
            * if it succeeds, go to the else block;
            */
+          if (validationResults.error.message.includes('apiVersion') || validationResults.error.message.includes('kind')){
            let text:any = await readFileAsync(file);
            text = new TextDecoder().decode(text);
            const yamlText = convertAndStoreYamlJSON(text, file.path, openFiles);
            getCache(yamlText);
+          }
+          else {
+            handleFileOpenError(validationResults.error)
+          }
         } else {
             let yamlText: any = await readFileAsync(file);
             yamlText = new TextDecoder().decode(yamlText);
@@ -73,7 +78,23 @@ export const fileOpen: FileOpen = async (file: File, openFiles = []): Promise<an
     }
   }
 }
+  export function cacheError(){
+    let pw = '123'
+    let cache:any = [];
+
+    return function(password: any){
+      if (password === pw) return cache
+      else if (password === 'reset'){
+        cache = [];
+      }
+      else {
+        cache = [];
+        cache.push(password);
+      }
+    }
+  }
   export const getCache = cacheFile();
+  export const cacheErrors = cacheError();
 
   export const convertAndStoreYamlJSON = (yamlText: string, filePath: string, openFiles: string[] = []) => {
     // Convert Yaml to state object.
@@ -111,5 +132,7 @@ export const fileOpen: FileOpen = async (file: File, openFiles = []): Promise<an
     simulation.stop();
     // Grab the current openFiles array so that we don't lose them when setting state.
     const openErrors = parseOpenError(errorText);
+    console.log('openError in handleFileOpenError: ', openErrors);
+    cacheErrors(openErrors);
     return openErrors;
   };

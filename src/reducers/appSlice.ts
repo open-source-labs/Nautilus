@@ -156,8 +156,20 @@ const appSlice = createSlice({
           return state;
         },
         fileOpenError (state: State, action: PayloadAction<string[]>) {
-          state.openErrors.concat(action.payload)
-          state.fileOpened = false;
+          if(action.payload[0] === 'reset'){
+            console.log('recognizes the reset call');
+            state = {...state, openErrors: []};
+            return state;
+          }
+          console.log('hit fileOpenError:', action.payload);
+          // state.openErrors.concat(action.payload)
+          let newOpenErrors = [];
+          newOpenErrors.push(action.payload[0]);
+          console.log('new open errors after adding action payload:', newOpenErrors);
+          // state.fileOpened = false;
+          
+          state = {...state, openErrors: newOpenErrors, fileOpened: false };
+          console.log('state after accounting for open errors:', JSON.stringify(state, undefined, 2));
           return state;
         },
         openYamlFiles (state: State, action: PayloadAction<string[]> ) {
