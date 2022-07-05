@@ -32,7 +32,7 @@ const readFileAsync = (file:File) => {
 export const fileOpen: FileOpen = async (file: File, openFiles = []): Promise<any> => {
     // check for valid file path
     if (file.path) {
-      console.log('this is the file ', file);
+      // console.log('this is the file ', file);
       await runDockerComposeValidation(file.path).then( async (validationResults: any) => { 
         if (validationResults.error) {
           
@@ -60,7 +60,8 @@ export const fileOpen: FileOpen = async (file: File, openFiles = []): Promise<an
       });
     }
   };
-  //Makeshift solution to get async file read working when called from fileSelector - without putting read file text in some sort of cache the call in fileSelector was returning undefined
+  //Makeshift solution to get async file read working when called from fileSelector
+  //without putting read file text in some sort of cache the call in fileSelector was returning undefined
   export function cacheFile (){
     let pw = '123'
     let cache:any = [];
@@ -76,9 +77,9 @@ export const fileOpen: FileOpen = async (file: File, openFiles = []): Promise<an
 
   export const convertAndStoreYamlJSON = (yamlText: string, filePath: string, openFiles: string[] = []) => {
     // Convert Yaml to state object.
-    console.log('yaml text that went to cAndStoreYamlJson', yamlText)
+    // console.log('yaml text that went to cAndStoreYamlJson', yamlText)
     const yamlJSON = yaml.safeLoad(yamlText);
-    console.log(yamlJSON)
+    // console.log(yamlJSON)
     const yamlState = convertYamlToState(yamlJSON, filePath);
     
     // Don't add a file that is already opened to the openFiles array
@@ -90,7 +91,7 @@ export const fileOpen: FileOpen = async (file: File, openFiles = []): Promise<an
     }else{
      window.d3State = setD3State(yamlState.services);
     }
-    console.log('this is the windowD3 state', window.d3State)
+    // console.log('this is the windowD3 state', window.d3State)
     
     // Store opened file state in localStorage under the current state item call "state" as well as an individual item using the filePath as the key.
     localStorage.setItem('state', JSON.stringify(yamlState));
