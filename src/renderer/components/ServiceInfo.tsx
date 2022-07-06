@@ -8,7 +8,8 @@
  *
  * ************************************
  */
- import React from 'react';
+//  import { select } from 'd3';
+import React from 'react';
  import { useAppSelector } from '../../hooks';
  
  
@@ -35,16 +36,13 @@
      ports: 'Ports: ',
    };
    
-   const selectedContainer = useAppSelector((state) => state.selectedContainer)
+  const selectedContainer = useAppSelector((state) => state.selectedContainer)
   let service: any = useAppSelector((state) => state.services[selectedContainer]); //not ideal solution but it works for now
-  // let services: any = useAppSelector((state) => state.services);
-  // let isKube: boolean = false;
 
-  // if(services.kubeBool){
-  //   service = services.kubeObj;
-  //   isKube = true;
-  // }
-  // if (isKube) console.log('service if its a kube: ', service);
+  let services: any = useAppSelector((state) => state.services);
+  let isKube: boolean = false;
+  console.log('this is the selected container', services);
+
    
    // Objects to hold filtered 1D service Commands
    const serviceOverview: ServiceOverview = {};
@@ -64,7 +62,7 @@
    // If it's an array, loop through the env_file values, and push them into the env_file "cache" on line 46
    // PORTS: if ports incorrectly is given a string, just set the key in serviceOverview equal to its value as passed down from state
    // Finally, for all commands with 1D values and no options (image and cmmand), just set the key in serviceOverview equal to its value as passed down from state
-   if (service) {
+   if (service && !isKube) {
      Object.keys(service).forEach((command) => {
        if (dockerComposeCommands[command]) {
          serviceOverview[command] = '';
