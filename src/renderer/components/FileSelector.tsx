@@ -43,8 +43,11 @@ const FileSelector: React.FC = () => {
         style={{ display: 'none' }}
         onChange={(event: React.SyntheticEvent<HTMLInputElement>) => {
           // make sure there was something selected
+
+          //make sure to clear fileOpenErrors when opening a new file
           dispatch(fileOpenError(['reset']));
           cacheErrors('reset');
+          
           if (event.currentTarget) {
             // make sure user opened a file
             if (event.currentTarget.files) {

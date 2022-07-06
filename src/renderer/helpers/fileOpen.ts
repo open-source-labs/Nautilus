@@ -7,12 +7,7 @@ import resolveEnvVariables from '../../common/resolveEnvVariables';
 import { runDockerComposeValidation } from "../../common/runShellTasks";
 
 import {
-    // State,
     FileOpen,
-    // UpdateOption,
-    // UpdateView,
-    // SelectNetwork,
-    // SwitchTab,
   } from '../App.d'
 
 const readFileAsync = (file:File) => {
@@ -35,15 +30,16 @@ export const fileOpen: FileOpen = async (file: File, openFiles = []): Promise<an
       // console.log('this is the file ', file);
       await runDockerComposeValidation(file.path).then( async (validationResults: any) => { 
         if (validationResults.error) {
-          
+          console.log('hit an error opening the file line 38 fileOpen');
           /** 
            * @MUSTDO
            * if validationResults.error is related to kubernetes yaml,
            * run a composeValidation for the kubernetes file  
            * if it succeeds, go to the else block;
            */
-          if (validationResults.error.message.includes('apiVersion') || validationResults.error.message.includes('kind') || validationResults.error.message.includes('spec') || validationResults.error.message.includes('metadata')){
-           let text:any = await readFileAsync(file);
+          if (validationResults.error.message.includes('apiVersion') || validationResults.error.message.includes('kind') || (validationResults.error.message.includes('spec') && !validationResults.error.message.includes('specify'))|| validationResults.error.message.includes('metadata')){
+           
+            let text:any = await readFileAsync(file);
            text = new TextDecoder().decode(text);
            const yamlText = convertAndStoreYamlJSON(text, file.path, openFiles);
            getCache(yamlText);
