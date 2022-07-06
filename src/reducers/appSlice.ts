@@ -96,44 +96,7 @@
  
            window.d3State = setD3State(state.services);
            console.log('this is the kubeObj in state', state.kubeObj)
-        
-
-        
-        console.log('SwitchTab payload', action.payload)
-        const tabState = JSON.parse(localStorage.getItem(action.payload.filePath) || '{}');
-         if (action.payload.openFiles && !state.openFiles.includes(action.payload.filePath)){
-          state = {
-            ...state,
-            ...tabState,
-            openFiles: state.openFiles.concat(action.payload.openFiles),
-            filePath: action.payload.filePath,
-          };
-
-        }
-        else {
-          // console.log('this is tabState in else', tabState)
-          state = {
-            ...state,
-            ...tabState
-          };
-          if (tabState.kubeBool){ 
-            console.log('kubeBool is true')
-            state.services = tabState.kubeObj;
-            state = {
-            ...state,
-            ...tabState,
-            kubeBool: true
-            }
-            state.filePath = action.payload.filePath;
-          }
-        }
-
-        // Set the 'state' item in localStorage to the tab state. This means that tab is the current tab, which would be used if the app got reloaded.
-        localStorage.setItem('state', JSON.stringify(tabState));
-        // Set the d3 state using the services extracted from the tabState and then setState
-
-          window.d3State = setD3State(state.services);
-       
+           
         return state;
       },
       closeTab (state: State, action: PayloadAction<SwitchTab>) {
