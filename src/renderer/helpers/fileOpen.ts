@@ -30,7 +30,9 @@ export const fileOpen: FileOpen = async (file: File, openFiles = []): Promise<an
       // console.log('this is the file ', file);
       await runDockerComposeValidation(file.path).then( async (validationResults: any) => { 
         if (validationResults.error) {
+
           console.log('hit an error opening the file line 38 fileOpen');
+
           /** 
            * @MUSTDO
            * if validationResults.error is related to kubernetes yaml,
