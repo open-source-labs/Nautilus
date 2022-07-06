@@ -84,7 +84,7 @@
              ...state,
              ...tabState,
              kubeBool: true,
-             selectedContainer: ''
+             selectedContainer: '',
              }
              state.filePath = action.payload.filePath;
            }
@@ -96,7 +96,7 @@
  
            window.d3State = setD3State(state.services);
            console.log('this is the kubeObj in state', state.kubeObj)
-           
+
         return state;
       },
       closeTab (state: State, action: PayloadAction<SwitchTab>) {

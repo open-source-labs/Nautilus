@@ -23,6 +23,7 @@ import { SNode, Services, Options } from '../App.d';
 import boxPath from '../../../static/boxPath';
 import { useDispatch } from 'react-redux';
 import { setSelectedContainers } from '../../reducers/appSlice';
+import { useAppSelector } from '../../hooks';
 
 // IMPORT COMPONENTS
 
@@ -89,6 +90,10 @@ const Nodes: React.FC<Props> = ({
   const [boxVolumesTexts, setBoxVolumesTexts] = useState<
     d3.Selection<SVGTextElement, SNode, any, any>[] | []
   >([]);
+
+  //bug when ports are selected and a kubernetes file is opened the app crashes
+  //need to check if kubeBool is true so ports can be false (line 210)
+  let kubeBool = useAppSelector((state) => state.kubeBool);
 
   /** HELPER FUNCTIONS */
   const removeVolumes = () => {
@@ -197,10 +202,12 @@ const Nodes: React.FC<Props> = ({
     const portText: d3.Selection<SVGTextElement, SNode, any, any>[] = [];
 
     // select all nodes with ports
+    
     nodesWithPorts = d3
       .select('.nodes')
       .selectAll<SVGGElement, SNode>('.node')
       .filter((d: SNode) => {
+        if (kubeBool) return false;
         return d.ports.length > 0;
       });
     // iterate through all nodes with ports
