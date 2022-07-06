@@ -75,8 +75,8 @@
      let title = '';
      // format select all title
      if (opt === 'selectAll') title = ' Select All';
-     else if (opt === 'ports') title = 'Ports |';
-     else if (opt === 'volumes') title = ' Volumes |';
+     else if (opt === 'ports') title = 'Ports ';
+     else if (opt === 'volumes') title = ' Volumes ';
      // otherwise set title to option name
      // else title = opt;
  

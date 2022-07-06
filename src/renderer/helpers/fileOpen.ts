@@ -35,6 +35,7 @@ export const fileOpen: FileOpen = async (file: File, openFiles = []): Promise<an
       // console.log('this is the file ', file);
       await runDockerComposeValidation(file.path).then( async (validationResults: any) => { 
         if (validationResults.error) {
+          console.log('this is the message' , validationResults.error.message);
           
           /** 
            * @MUSTDO
