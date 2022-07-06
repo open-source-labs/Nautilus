@@ -42,7 +42,7 @@ export const fileOpen: FileOpen = async (file: File, openFiles = []): Promise<an
            * run a composeValidation for the kubernetes file  
            * if it succeeds, go to the else block;
            */
-          if (validationResults.error.message.includes('apiVersion') || validationResults.error.message.includes('kind')){
+          if (validationResults.error.message.includes('apiVersion') || validationResults.error.message.includes('kind') || validationResults.error.message.includes('spec') || validationResults.error.message.includes('metadata')){
            let text:any = await readFileAsync(file);
            text = new TextDecoder().decode(text);
            const yamlText = convertAndStoreYamlJSON(text, file.path, openFiles);
