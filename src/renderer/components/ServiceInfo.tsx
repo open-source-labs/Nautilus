@@ -38,9 +38,11 @@ import React from 'react';
    
   const selectedContainer = useAppSelector((state) => state.selectedContainer)
   let service: any = useAppSelector((state) => state.services[selectedContainer]); //not ideal solution but it works for now
+
   let services: any = useAppSelector((state) => state.services);
   let isKube: boolean = false;
   console.log('this is the selected container', services);
+
    
    // Objects to hold filtered 1D service Commands
    const serviceOverview: ServiceOverview = {};

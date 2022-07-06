@@ -189,15 +189,16 @@ export const dagCreator: DagCreator = (nodes, links) => {
 
 
 
-const setD3State: SetD3State = (services:any) => {
+const setD3State: SetD3State = (services:any = {}) => {
   // if its a Kube Obj
   const links: Link[] = [];
   // console.log('these are the services when setD3State is called', services['p'])
-  console.log('theses are the services before rendering', services);
+
   if(services.containers){
     services.containers.forEach((sName: any) => {
     // if (services.container[sName].hasOwnProperty('depends_on')) {
       // services[sName].depends_on!.forEach((el: any) => {
+
           console.log(services.name, sName.name)
           links.push({ source: services.name, target: sName.name});
     //   });
@@ -206,6 +207,7 @@ const setD3State: SetD3State = (services:any) => {
   }
   else{
     console.log('services in Setd3 if not a kube file', services)
+
     Object.keys(services).forEach((sName: string) => {
       if (services[sName].hasOwnProperty('depends_on')) {
       services[sName].depends_on!.forEach((el:any) => {
@@ -245,7 +247,7 @@ const setD3State: SetD3State = (services:any) => {
       column: 0,
     };
     nodes[nodes.length] = node;
-    console.log('these are the nodes', nodes)
+    // console.log('these are the nodes', nodes)
   }else{
   nodes = Object.keys(services).map((sName: string, i) => {
     // extract ports data if available
@@ -291,7 +293,7 @@ const setD3State: SetD3State = (services:any) => {
     simulation: d3.forceSimulation<SNode>(nodes),
   };
   // console.log('these are the nodes', nodes)
-  console.log('this is the D3 state', d3State)
+  // console.log('this is the D3 state', d3State)
   return d3State;
 };
 

@@ -97,9 +97,46 @@
            window.d3State = setD3State(state.services);
            console.log('this is the kubeObj in state', state.kubeObj)
         
-         return state;
-       },
-       closeTab (state: State, action: PayloadAction<SwitchTab>) {
+
+        
+        console.log('SwitchTab payload', action.payload)
+        const tabState = JSON.parse(localStorage.getItem(action.payload.filePath) || '{}');
+         if (action.payload.openFiles && !state.openFiles.includes(action.payload.filePath)){
+          state = {
+            ...state,
+            ...tabState,
+            openFiles: state.openFiles.concat(action.payload.openFiles),
+            filePath: action.payload.filePath,
+          };
+
+        }
+        else {
+          // console.log('this is tabState in else', tabState)
+          state = {
+            ...state,
+            ...tabState
+          };
+          if (tabState.kubeBool){ 
+            console.log('kubeBool is true')
+            state.services = tabState.kubeObj;
+            state = {
+            ...state,
+            ...tabState,
+            kubeBool: true
+            }
+            state.filePath = action.payload.filePath;
+          }
+        }
+
+        // Set the 'state' item in localStorage to the tab state. This means that tab is the current tab, which would be used if the app got reloaded.
+        localStorage.setItem('state', JSON.stringify(tabState));
+        // Set the d3 state using the services extracted from the tabState and then setState
+
+          window.d3State = setD3State(state.services);
+       
+        return state;
+      },
+      closeTab (state: State, action: PayloadAction<SwitchTab>) {
          // Grab current open files and remove the file path of the tab to be closed, assign the
          // updated array to newOpenFiles
          console.log('action.payload in closeTab: ', action.payload)
@@ -144,53 +181,66 @@
          }
          return { ...state, openFiles: newOpenFiles };
          },
-         updateViewStore(state: State, action: PayloadAction<ViewAndSelectNetwork>){
-           state.view = action.payload.view;
-           state.selectedNetwork = '';
-           return state;
-         },
-         selectNetwork(state: State, action: PayloadAction<string>){
-           state.selectedNetwork = action.payload;
-           state.view = 'networks';
-           return state;
-         },
-         setSelectedContainers(state: State, action: PayloadAction<string>){
-           state.selectedContainer = action.payload;
-           return state;
-         },
-         fileOpenError (state: State, action: PayloadAction<string[]>) {
-           state.openErrors.concat(action.payload)
-           state.fileOpened = false;
-           return state;
-         },
-         openYamlFiles (state: State, action: PayloadAction<string[]> ) {
-           console.log('openYamlFiles dispatch received by reducer')
-           state.openFiles.concat(action.payload);
-           console.log(state);
-           return state;
-         },
-         updateOption (state: State, action: PayloadAction<string>) {
-           // let option = action.payload.option;
-           console.log('option clicked: ', action.payload);
-               // if (action.payload === 'ports') Object.assign(newState, newState[action.payload] = true)
-              // check if toggling select all on or off
-             if (action.payload === 'ports') state.options.ports = !state.options.ports;
-             if (action.payload === 'volumes') state.options.volumes = !state.options.volumes;
-             if (action.payload === 'selectAll') {
-                 state.options.ports = !state.options.ports;
-                 state.options.volumes = !state.options.volumes;
-             }else if (state.options.ports && state.options.volumes) {
-                   state.options.selectAll = true;
-             } else {
-               state.options.selectAll = false
-             }
-               
-                 
-             return state;
-         }
- 
-     }
- })
- 
- export const {yamlToState, switchTab, closeTab, updateViewStore, selectNetwork, openYamlFiles, setSelectedContainers, fileOpenError, updateOption} = appSlice.actions;
- export default appSlice.reducer;
+        updateViewStore(state: State, action: PayloadAction<ViewAndSelectNetwork>){
+          state.view = action.payload.view;
+          state.selectedNetwork = '';
+          return state;
+        },
+        selectNetwork(state: State, action: PayloadAction<string>){
+          state.selectedNetwork = action.payload;
+          state.view = 'networks';
+          return state;
+        },
+        setSelectedContainers(state: State, action: PayloadAction<string>){
+          state.selectedContainer = action.payload;
+          return state;
+        },
+        fileOpenError (state: State, action: PayloadAction<string[]>) {
+          if(action.payload[0] === 'reset'){
+            console.log('recognizes the reset call');
+            state = {...state, openErrors: []};
+            return state;
+          }
+          console.log('hit fileOpenError:', action.payload);
+          // state.openErrors.concat(action.payload)
+          let newOpenErrors = [];
+          newOpenErrors.push(action.payload[0]);
+          console.log('new open errors after adding action payload:', newOpenErrors);
+          // state.fileOpened = false;
+          
+          state = {...state, openErrors: newOpenErrors, fileOpened: false };
+          console.log('state after accounting for open errors:', JSON.stringify(state, undefined, 2));
+          return state;
+        },
+        openYamlFiles (state: State, action: PayloadAction<string[]> ) {
+          console.log('openYamlFiles dispatch received by reducer')
+          state.openFiles.concat(action.payload);
+          console.log(state);
+          return state;
+        },
+        updateOption (state: State, action: PayloadAction<string>) {
+          // let option = action.payload.option;
+          console.log('option clicked: ', action.payload);
+              // if (action.payload === 'ports') Object.assign(newState, newState[action.payload] = true)
+             // check if toggling select all on or off
+            if (action.payload === 'ports') state.options.ports = !state.options.ports;
+            if (action.payload === 'volumes') state.options.volumes = !state.options.volumes;
+            if (action.payload === 'selectAll') {
+                state.options.ports = !state.options.ports;
+                state.options.volumes = !state.options.volumes;
+            }else if (state.options.ports && state.options.volumes) {
+                  state.options.selectAll = true;
+            } else {
+              state.options.selectAll = false;
+            }
+              
+                
+            return state;
+        }
+
+    }
+})
+
+export const {yamlToState, switchTab, closeTab, updateViewStore, selectNetwork, openYamlFiles, setSelectedContainers, fileOpenError, updateOption} = appSlice.actions;
+export default appSlice.reducer;
+
