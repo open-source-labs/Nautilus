@@ -193,24 +193,26 @@ const setD3State: SetD3State = (services:any) => {
   // if its a Kube Obj
   const links: Link[] = [];
   // console.log('these are the services when setD3State is called', services['p'])
+  console.log('theses are the services before rendering', services);
   if(services.containers){
-  services.containers.forEach((sName: any) => {
+    services.containers.forEach((sName: any) => {
     // if (services.container[sName].hasOwnProperty('depends_on')) {
       // services[sName].depends_on!.forEach((el: any) => {
-        console.log(services.name, sName.name)
-        links.push({ source: services.name, target: sName.name});
+          console.log(services.name, sName.name)
+          links.push({ source: services.name, target: sName.name});
     //   });
     // }
   });
-  }else{
+  }
+  else{
     console.log('services in Setd3 if not a kube file', services)
     Object.keys(services).forEach((sName: string) => {
-    if (services[sName].hasOwnProperty('depends_on')) {
+      if (services[sName].hasOwnProperty('depends_on')) {
       services[sName].depends_on!.forEach((el:any) => {
         links.push({ source: el, target: sName });
       });
-    }
-  });
+      }
+    });
   }
   let nodes: any = [];
   if(services.containers){
