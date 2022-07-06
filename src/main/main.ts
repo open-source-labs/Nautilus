@@ -9,7 +9,7 @@ import path from 'path';
 import url from 'url';
 import createMenu from './menu';
 import installExtension, {
-  REACT_DEVELOPER_TOOLS
+  REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS
 } from 'electron-devtools-installer';
 import fixPath from 'fix-path';
 
@@ -48,6 +48,14 @@ const createWindow = () => {
     // install non-native dev tools
     window.webContents.on('did-frame-finish-load', () => {
       installExtension(REACT_DEVELOPER_TOOLS)
+        .then((name: string) => {
+          window.webContents.openDevTools();
+          console.log(`Added Extension: ${name}`);
+        })
+        .catch((err: Error) => console.log(`An error occurred hello: ${err}`));
+    });
+    window.webContents.on('did-frame-finish-load', () => {
+      installExtension(REDUX_DEVTOOLS)
         .then((name: string) => {
           window.webContents.openDevTools();
           console.log(`Added Extension: ${name}`);

@@ -33,6 +33,8 @@ const LeftNav: React.FC = ({
 
   
   const kubeBool = useAppSelector((state) => state.kubeBool);
+  const kubeObj = useAppSelector((state) => state.kubeObj)
+  console.log(kubeObj);
 
 
 
@@ -54,8 +56,8 @@ const LeftNav: React.FC = ({
     let title = '';
     // format select all title
     if (opt === 'selectAll') title = ' Select All';
-    else if (opt === 'ports') title = 'Ports |';
-    else if (opt === 'volumes') title = ' Volumes |';
+    else if (opt === 'ports') title = 'Ports ';
+    else if (opt === 'volumes') title = ' Volumes ';
     // otherwise set title to option name
     // else title = opt;
 
@@ -71,7 +73,7 @@ const LeftNav: React.FC = ({
         id={opt}
         onClick={handleOptionUpdate}
       >
-        {title}
+        {title} 
       </span>
     );
   });
@@ -81,23 +83,32 @@ const LeftNav: React.FC = ({
         <Title />
         {fileOpened ? <FileSelector  /> : null}
       </div>
-      <ServiceInfo  />
+      {!kubeBool ? <ServiceInfo  /> : null}
 
+      {kubeBool && kubeObj?.kind === 'Deployment' ? 
+        <div className='kubeData'>
+          <h2 className='kInfo'>Kubernetes Info:</h2>
+          <ol className='kInfo2'>
+            <ul>Name: {kubeObj.name}</ul>
+            <ul>Kind: {kubeObj.kind}</ul>
+            <ul>Replicas: {kubeObj.replica}</ul>
+          </ol>
+        </div> 
+        : null}
       {!kubeBool && fileOpened  ? <NetworksDropDown/> : null}
-      {!kubeBool && fileOpened ? <div className = 'views'>
-        
+      {!kubeBool && fileOpened ? <div>
         <span
           className={dependsOnClass}
           id="depends_on"
           onClick={handleViewUpdate}
         >
-          <p>Depends On</p>
+          Depends On
         </span>
         <div className="options-flex2">{optionsDisplay}</div> 
       </div> : null}
+      {!kubeBool && fileOpened  ? <ComposeDeployment/> : null}
+      {!kubeBool && fileOpened  ? <ClusterDeployment/> : null}
       
-      <ComposeDeployment/>
-      <ClusterDeployment/>
 
     </div>
   );

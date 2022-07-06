@@ -182,8 +182,9 @@ const View: React.FC<Props> = ({
             // if the node is part of a network
             if (d.networks) {
               // create one string of all networks sorted that node is a part
+              console.log('d.networks: ', d.networks)
               let networkString = '';
-              d.networks.sort();
+              // d.networks.sort();
               d.networks.forEach((network: string) => {
                 networkString += network;
               });
@@ -205,7 +206,7 @@ const View: React.FC<Props> = ({
               if (d.networks.length === 0) return width / 2;
               // create one string of all networks sorted that node is a part
               let networkString = '';
-              d.networks.sort();
+              // d.networks.sort();
               d.networks.forEach((network) => {
                 networkString += network;
               });
