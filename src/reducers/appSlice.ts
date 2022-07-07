@@ -65,9 +65,8 @@
              ...state,
              ...tabState,
              openFiles: state.openFiles.concat(action.payload.openFiles),
-             filePath: action.payload.filePath
+             filePath: action.payload.filePath,
            };
- 
          }
          else {
            state = {
@@ -80,13 +79,18 @@
              ...state,
              ...tabState,
              kubeBool: true,
-             selectedContainer: ''
+             selectedContainer: '',
+             networks: {}
              }
              state.filePath = action.payload.filePath;
            }
          }
          state.selectedNetwork = 'networks'
          state.view = 'depends_on'
+         if(state.kubeBool){
+          state.services = tabState.kubeObj;
+         }
+         console.log(tabState);
  
          // Set the 'state' item in localStorage to the tab state. This means that tab is the current tab, which would be used if the app got reloaded.
          localStorage.setItem('state', JSON.stringify(tabState));
