@@ -65,7 +65,7 @@
              ...state,
              ...tabState,
              openFiles: state.openFiles.concat(action.payload.openFiles),
-             filePath: action.payload.filePath,
+             filePath: action.payload.filePath
            };
          }
          else {
@@ -79,8 +79,7 @@
              ...state,
              ...tabState,
              kubeBool: true,
-             selectedContainer: '',
-             networks: {}
+             selectedContainer: ''
              }
              state.filePath = action.payload.filePath;
            }
