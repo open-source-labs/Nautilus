@@ -85,13 +85,11 @@
              state.filePath = action.payload.filePath;
            }
          }
-         state.selectedNetwork = 'networks'
-         state.view = 'depends_on'
+         state.selectedNetwork = 'networks';
+         state.view = 'depends_on';
          if(state.kubeBool){
           state.services = tabState.kubeObj;
          }
-         console.log(tabState);
- 
          // Set the 'state' item in localStorage to the tab state. This means that tab is the current tab, which would be used if the app got reloaded.
          localStorage.setItem('state', JSON.stringify(tabState));
          // Set the d3 state using the services extracted from the tabState and then setState
