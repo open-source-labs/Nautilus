@@ -2,9 +2,9 @@
  * ************************************
  *
  * @module  App.tsx
- * @author Joshua Nordstrom
- * @date 3/7/20
- * @description start of the application, initializes state
+ * @author Joshua Nordstrom - edited by Nathan Lovell, Michael Villamor, Giovanni Rodriguez, Jordan Long
+ * @date 3/7/20 - edited 6/30/22
+ * @description start of the application
  *
  * ************************************
  */
@@ -52,7 +52,6 @@ const App: React.FC = ({/**state to be loaded for App */}) => {
       const stateJS = JSON.parse(stateJSON);
       // set d3 state
       window.d3State = setD3State(stateJS.services);
-      console.log('d3state completed in App')
       //Create openFile state array from items in localStorage
       const openFiles = [];
       const keys = Object.keys(localStorage);
@@ -70,7 +69,6 @@ const App: React.FC = ({/**state to be loaded for App */}) => {
           }
         }
       }
-      console.log('local storage check in App complete')
       dispatch(openYamlFiles(openFiles));
     }
     return () => {

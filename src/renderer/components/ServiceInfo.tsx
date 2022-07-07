@@ -2,9 +2,9 @@
  * ************************************
  *
  * @module  ServiceInfo.tsx
- * @author Danny Scheiner & Josh Nordstrom
- * @date 3/11/20
- * @description Dropdown display to show categories of service info
+ * @author Danny Scheiner & Josh Nordstrom, Michael Villamor, Nathan Lovell, Jordan Long, Giovanni Rodriguez
+ * @date 3/11/20 edited 7/7/22
+ * @description Dropdown display to show categories of service info; changed state management to redux
  *
  * ************************************
  */
@@ -38,10 +38,7 @@ import React from 'react';
    
   const selectedContainer = useAppSelector((state) => state.selectedContainer)
   let service: any = useAppSelector((state) => state.services[selectedContainer]); //not ideal solution but it works for now
-
-  let services: any = useAppSelector((state) => state.services);
   let isKube: boolean = false;
-  console.log('this is the selected container', services);
 
    
    // Objects to hold filtered 1D service Commands

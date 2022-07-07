@@ -2,9 +2,9 @@
  * ************************************
  *
  * @module  LeftNav.tsx
- * @author
+ * @author Michael Villamor
  * @date 3/11/20 edited 6/30/22
- * @description container for the title, the service info and the file open
+ * @description container for the title, the service info and the file open; hides elements if it is a kubernetes file
  *
  * ************************************
  */
@@ -26,18 +26,15 @@
  
  const LeftNav: React.FC = ({
  }) => {
+
    const dispatch = useAppDispatch();
-   const fileOpened = useAppSelector(state => state.fileOpened)
+   const fileOpened = useAppSelector(state => state.fileOpened);
    const options = useAppSelector((state) => state.options);
    const view = useAppSelector((state) => state.view);
    const selectedContainer = useAppSelector((state) => state.selectedContainer)
    const kubeBool = useAppSelector((state) => state.kubeBool);
-   const kubeObj = useAppSelector((state) => state.kubeObj)
-  //  console.log('these are the services in leftNav', services);
-   console.log('this is the kube object', kubeObj);
+   const kubeObj = useAppSelector((state) => state.kubeObj);
 
-   
-  
   let kubeDepoloyInfo: any = [];
   if (kubeBool){
     if(kubeObj?.containers){
@@ -51,12 +48,6 @@
     })
   }
   };
-
-
-  //  const kubeObj = useAppSelector((state) => state.kubeObj)
- 
- 
- 
    const dependsOnClass = view === 'depends_on' ? 'option selected' : 'option';
  
    const handleViewUpdate: Handler = (e) => {

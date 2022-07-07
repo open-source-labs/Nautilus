@@ -17,7 +17,6 @@ const resolveEnvVariables = (yamlText: string, filePath: string) => {
     return yamlText;
   }
   let yamlTextCopy = yamlText;
-  console.log(envString);
   //split by line
   const envArray = envString.split('\n');
   //remove empty last element

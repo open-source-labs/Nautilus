@@ -2,8 +2,8 @@
  * ************************************
  *
  * @module  D3Wrapper.tsx
- * @author
- * @date 3/11/20
+ * @author Michael Villamor, Nathan Lovell, Jordan Long, Giovanni Rodriguez
+ * @date 3/11/20 edited 7/7/22
  * @description Container to hold all the d3 visualation components
  *
  * ************************************
@@ -20,44 +20,7 @@ import colorSchemeIndex from '../helpers/colorSchemeIndex';
 import { useAppSelector } from '../../hooks';
 
 
-// IMPORT TYPES
-// import {
-//   FileOpen,
-//   Services,
-//   SetSelectedContainer,
-//   Options,
-//   ReadOnlyObj,
-//   ViewT,
-// } from '../App.d';
-
-// type Props = {
-//   fileOpen: FileOpen;
-//   setSelectedContainer: SetSelectedContainer;
-//   fileOpened: boolean;
-//   services: Services;
-//   options: Options;
-//   volumes: ReadOnlyObj;
-//   bindMounts: Array<string>;
-//   view: ViewT;
-//   networks: ReadOnlyObj;
-//   selectedNetwork: string;
-//   openErrors: string[];
-// };
-
-const D3Wrapper: React.FC= (
-  // fileOpened,
-  // fileOpen,
-  // services,
-  // setSelectedContainer,
-  // options,
-  // volumes,
-  // bindMounts,
-  // view,
-  // networks,
-  // selectedNetwork,
-  // openErrors,
-) => {
-  // console.log('this is state in d3Wrapper', state);
+const D3Wrapper: React.FC= () => {
   const fileOpened = useAppSelector((state) => state.fileOpened);
   const services = useAppSelector((state) => state.services);
   const options = useAppSelector((state) => state.options);
@@ -68,10 +31,7 @@ const D3Wrapper: React.FC= (
   const openErrors = useAppSelector((state) => state.openErrors);
   const view = useAppSelector((state) => state.view);
   const kubeBool = useAppSelector((state) => state.kubeBool);
-  console.log('errors in d3wrapper: ', openErrors);
 
-  //  console.log('services in d3wrapper: ', services)
-  //  console.log('fileOpened', fileOpened);
   // invoke function that returns a function with the closure object for tracking colors
   const getColor = colorSchemeIndex();
 

@@ -5,7 +5,7 @@ import { getStatic } from '../helpers/static';
 
 const Title: React.FC<{}> = (props) => (
   <div className="title">
-    <img src={getStatic('nautilus_logo.svg')} />
+    <img src={getStatic('nautilx_logo.png')} width='190px' />
     <h1>NautilX</h1>
   </div>
 );
