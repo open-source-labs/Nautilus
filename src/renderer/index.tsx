@@ -23,13 +23,6 @@ import './styles/app.scss';
 if (module.hot) {
   module.hot.accept();
 }
-// if (module.hot) {
-//   module.hot.accept('./App', () => {
-//     const NextRootContainer = require('./App').default;
-//     render(<NextRootContainer />, document.getElementById('app'));
-//   });
-// }
-
 //boilerplate code for setting up D3 in TS
 declare global {
   interface Window { //defining that 'Window' is an object with a property, d3State which is based on the D3State object literal defined in App.d.ts

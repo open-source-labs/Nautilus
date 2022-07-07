@@ -2,9 +2,9 @@
  * ************************************
  *
  * @module  Nodes.tsx
- * @author
- * @date 3/23/20
- * @description Rendering of the nodes in d3 simulation
+ * @author Giovanni Rodriguez, Michael Villamor, Nathan Lovell, Jordan Long
+ * @date 3/23/20 edited 7/7/22
+ * @description Rendering of the nodes in d3 simulation, changes svg if it is a kubernetes file
  *
  * ************************************
  */
@@ -23,6 +23,7 @@ import { SNode, Services, Options } from '../App.d';
 import boxPath from '../../../static/boxPath';
 import { useDispatch } from 'react-redux';
 import { setSelectedContainers } from '../../reducers/appSlice';
+import { useAppSelector } from '../../hooks';
 
 // IMPORT COMPONENTS
 
@@ -89,6 +90,10 @@ const Nodes: React.FC<Props> = ({
   const [boxVolumesTexts, setBoxVolumesTexts] = useState<
     d3.Selection<SVGTextElement, SNode, any, any>[] | []
   >([]);
+
+  //bug when ports are selected and a kubernetes file is opened the app crashes
+  //need to check if kubeBool is true so ports can be false (line 210)
+  let kubeBool = useAppSelector((state) => state.kubeBool);
 
   /** HELPER FUNCTIONS */
   const removeVolumes = () => {
@@ -191,16 +196,17 @@ const Nodes: React.FC<Props> = ({
     const dx = x + 21; // center of text element because of text-anchor
     const dy = y + pHeight;
     // PORTS VARIABLES
-    console.log('adding ports');
     let nodesWithPorts: d3.Selection<SVGGElement, SNode, any, any>;
     const ports: d3.Selection<SVGRectElement, SNode, any, any>[] = [];
     const portText: d3.Selection<SVGTextElement, SNode, any, any>[] = [];
 
     // select all nodes with ports
+    
     nodesWithPorts = d3
       .select('.nodes')
       .selectAll<SVGGElement, SNode>('.node')
       .filter((d: SNode) => {
+        if (kubeBool) return false;
         return d.ports.length > 0;
       });
     // iterate through all nodes with ports
@@ -314,7 +320,11 @@ const Nodes: React.FC<Props> = ({
     nodeContainers
       .append('svg:image')
       .attr('xlink:href', (d: SNode) => {
-        return getStatic('box.svg');
+        if (kubeBool){
+          return getStatic('kubernetes-icon-color.png');
+        } else {
+          return getStatic('box.svg');
+        }
       })
       .attr('height', 133)
       .attr('width', 133)

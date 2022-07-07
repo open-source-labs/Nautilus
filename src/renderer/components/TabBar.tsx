@@ -3,9 +3,9 @@
  *
  * @module  TabBar.tsx
 
- * @author David Soerensen and Linda Everswick
- * @date 5/30/20
- * @description Used to display tabs of all open docker-compose files
+ * @author David Soerensen and Linda Everswick, Jordan Long, Michael Villamor, Nathan Lovell, Giovanni Rodriguez
+ * @date 5/30/20 edited 7/7/22
+ * @description Used to display tabs of all open docker-compose files; added redux state management
  *
  * ************************************
  */
