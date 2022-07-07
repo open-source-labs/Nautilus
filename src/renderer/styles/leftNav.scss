@@ -42,9 +42,14 @@ $info-background: rgb(224, 233, 241);
       }
 
       h1 {
-        color: rgb(12, 142, 255);
-        font-size: 3em;
+        color: rgb(251, 251, 251); //original: rgb(12, 142, 255)
+        font-size: 3.5em;
         margin-top: 0;
+      }
+      span {
+        font-family: 'Sen-Bold';
+        color: #0C8EFF; 
+        font-size: 55px;
       }
     }
 
