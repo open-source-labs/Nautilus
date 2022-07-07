@@ -65,10 +65,8 @@
              ...state,
              ...tabState,
              openFiles: state.openFiles.concat(action.payload.openFiles),
-             filePath: action.payload.filePath,
-             view: 'depends_on'
+             filePath: action.payload.filePath
            };
- 
          }
          else {
            state = {
@@ -81,13 +79,16 @@
              ...state,
              ...tabState,
              kubeBool: true,
-             selectedContainer: '',
-             view: 'depends_on'
+             selectedContainer: ''
              }
              state.filePath = action.payload.filePath;
            }
          }
- 
+         state.selectedNetwork = 'networks';
+         state.view = 'depends_on';
+         if(state.kubeBool){
+          state.services = tabState.kubeObj;
+         }
          // Set the 'state' item in localStorage to the tab state. This means that tab is the current tab, which would be used if the app got reloaded.
          localStorage.setItem('state', JSON.stringify(tabState));
          // Set the d3 state using the services extracted from the tabState and then setState
@@ -108,6 +109,7 @@
          localStorage.removeItem(action.payload.filePath);
          // If the tab to be closed is the active tab, reset d3 and delete "state" object from local
          // storage and set state to the initial state with the updated open files array included.
+      
          if (action.payload.filePath === state.filePath) {
            // Remove the 'state' localStorage item, which represents the
            // services of the currently opened file.
@@ -124,7 +126,7 @@
              if (tabState.kubeBool) tabState.filePath = newFilePath;
              localStorage.setItem('state', JSON.stringify(tabState));
              // appSlice.caseReducers.switchTab(state, {payload: {filePath: newFilePath, openFiles: newOpenFiles, closeTab: true}, type: 'switchTab'});
-             state = {...state, ...tabState, openFiles: newOpenFiles, selectedContainer: ''};
+             state = {...state, ...tabState, openFiles: newOpenFiles, selectedContainer: '', view: 'depends_on'};
              if (tabState.kubeBool){
                state.services = tabState.kubeObj;
              }
