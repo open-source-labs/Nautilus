@@ -1,3 +1,13 @@
+/**
+ * ************************************
+ *
+ * @module  fileOpen.tsx
+ * @author Michael Villamor, Nathan Lovell, Jordan Long, Giovanni Rodriguez
+ * @date 7/7/22
+ * @description created a fileOpen helper function 
+ * ************************************
+ */
+
 
 import yaml from 'js-yaml';
 import convertYamlToState from './yamlParser';
@@ -6,14 +16,7 @@ import parseOpenError from './parseOpenError';
 import resolveEnvVariables from '../../common/resolveEnvVariables';
 import { runDockerComposeValidation } from "../../common/runShellTasks";
 
-import {
-    // State,
-    FileOpen,
-    // UpdateOption,
-    // UpdateView,
-    // SelectNetwork,
-    // SwitchTab,
-  } from '../App.d'
+import { FileOpen } from '../App.d'
 
 const readFileAsync = (file:File) => {
   return new Promise((resolve, reject) => {
@@ -32,10 +35,8 @@ const readFileAsync = (file:File) => {
 export const fileOpen: FileOpen = async (file: File, openFiles = []): Promise<any> => {
     // check for valid file path
     if (file.path) {
-      // console.log('this is the file ', file);
       await runDockerComposeValidation(file.path).then( async (validationResults: any) => { 
         if (validationResults.error) {
-          console.log('this is the message' , validationResults.error.message);
           
           /** 
            * @MUSTDO
@@ -99,9 +100,7 @@ export const fileOpen: FileOpen = async (file: File, openFiles = []): Promise<an
 
   export const convertAndStoreYamlJSON = (yamlText: string, filePath: string, openFiles: string[] = []) => {
     // Convert Yaml to state object.
-    // console.log('yaml text that went to cAndStoreYamlJson', yamlText)
     const yamlJSON = yaml.safeLoad(yamlText);
-    // console.log(yamlJSON)
     const yamlState = convertYamlToState(yamlJSON, filePath);
     
     // Don't add a file that is already opened to the openFiles array
@@ -110,10 +109,10 @@ export const fileOpen: FileOpen = async (file: File, openFiles = []): Promise<an
     // Set global variables for d3 simulation
     if(yamlState.kubeObj){
       window.d3State = setD3State(yamlState.kubeObj);
-    }else{
-     window.d3State = setD3State(yamlState.services);
     }
-    // console.log('this is the windowD3 state', window.d3State)
+    else{
+     window.d3State = setD3State(yamlState.services);
+    };
     
     // Store opened file state in localStorage under the current state item call "state" as well as an individual item using the filePath as the key.
     localStorage.setItem('state', JSON.stringify(yamlState));
@@ -133,7 +132,6 @@ export const fileOpen: FileOpen = async (file: File, openFiles = []): Promise<an
     simulation.stop();
     // Grab the current openFiles array so that we don't lose them when setting state.
     const openErrors = parseOpenError(errorText);
-    console.log('openError in handleFileOpenError: ', openErrors);
     cacheErrors(openErrors);
     return openErrors;
   };

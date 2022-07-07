@@ -2,9 +2,9 @@
  * ************************************
  *
  * @module  Nodes.tsx
- * @author
- * @date 3/23/20
- * @description Rendering of the nodes in d3 simulation
+ * @author Giovanni Rodriguez, Michael Villamor, Nathan Lovell, Jordan Long
+ * @date 3/23/20 edited 7/7/22
+ * @description Rendering of the nodes in d3 simulation, changes svg if it is a kubernetes file
  *
  * ************************************
  */
@@ -196,7 +196,6 @@ const Nodes: React.FC<Props> = ({
     const dx = x + 21; // center of text element because of text-anchor
     const dy = y + pHeight;
     // PORTS VARIABLES
-    console.log('adding ports');
     let nodesWithPorts: d3.Selection<SVGGElement, SNode, any, any>;
     const ports: d3.Selection<SVGRectElement, SNode, any, any>[] = [];
     const portText: d3.Selection<SVGTextElement, SNode, any, any>[] = [];
@@ -321,7 +320,11 @@ const Nodes: React.FC<Props> = ({
     nodeContainers
       .append('svg:image')
       .attr('xlink:href', (d: SNode) => {
-        return getStatic('box.svg');
+        if (kubeBool){
+          return getStatic('kubernetes-icon-color.png');
+        } else {
+          return getStatic('box.svg');
+        }
       })
       .attr('height', 133)
       .attr('width', 133)

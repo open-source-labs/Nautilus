@@ -177,12 +177,10 @@ const View: React.FC<Props> = ({
          */
         const getSpacing = (): number => {
           // iterate through each node
-          console.log('spacing', d3Nodes);
           d3Nodes.each((d: any) => {
             // if the node is part of a network
             if (d.networks) {
               // create one string of all networks sorted that node is a part
-              console.log('d.networks: ', d.networks)
               let networkString = '';
               // d.networks.sort();
               d.networks.forEach((network: string) => {
@@ -277,8 +275,6 @@ const View: React.FC<Props> = ({
         .on('tick', ticked)
         .restart();
     }
-
-    console.log('services in view', services)
     return () => {
       // clear window resize if changing away from depends view
       if (view === 'depends_on') {

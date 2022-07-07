@@ -59,8 +59,6 @@
        switchTab (state: State, action: PayloadAction<SwitchTab>) {
          
          
-         
-         console.log('SwitchTab payload', action.payload)
          const tabState = JSON.parse(localStorage.getItem(action.payload.filePath) || '{}');
           if (action.payload.openFiles && !state.openFiles.includes(action.payload.filePath)){
            state = {
@@ -68,23 +66,23 @@
              ...tabState,
              openFiles: state.openFiles.concat(action.payload.openFiles),
              filePath: action.payload.filePath,
+             view: 'depends_on'
            };
  
          }
          else {
-           // console.log('this is tabState in else', tabState)
            state = {
              ...state,
              ...tabState
            };
            if (tabState.kubeBool){ 
-            //  console.log('kubeBool is true this is kubeObj', state.kubeObj )
              state.services = tabState.kubeObj;
              state = {
              ...state,
              ...tabState,
              kubeBool: true,
              selectedContainer: '',
+             view: 'depends_on'
              }
              state.filePath = action.payload.filePath;
            }
@@ -93,24 +91,23 @@
          // Set the 'state' item in localStorage to the tab state. This means that tab is the current tab, which would be used if the app got reloaded.
          localStorage.setItem('state', JSON.stringify(tabState));
          // Set the d3 state using the services extracted from the tabState and then setState
- 
+         if(state.kubeBool){
+           window.d3State = setD3State(state.kubeObj || {})
+         }else{
            window.d3State = setD3State(state.services);
-           console.log('this is the kubeObj in state', state.kubeObj)
+         }
         return state;
       },
       closeTab (state: State, action: PayloadAction<SwitchTab>) {
          // Grab current open files and remove the file path of the tab to be closed, assign the
          // updated array to newOpenFiles
-         console.log('action.payload in closeTab: ', action.payload)
          const { openFiles } = state;
-         console.log('openFiles before filtering: ', openFiles);
          const newOpenFiles = openFiles.filter((file: string) => file != action.payload.filePath);
          // Remove the state object associated with the file path in localStorage
          
          localStorage.removeItem(action.payload.filePath);
          // If the tab to be closed is the active tab, reset d3 and delete "state" object from local
          // storage and set state to the initial state with the updated open files array included.
-         // console.log(`APaylod: ${action.payload.filePath} and stateFP: ${state.filePath}`); //to determine if the filepaths are the same
          if (action.payload.filePath === state.filePath) {
            // Remove the 'state' localStorage item, which represents the
            // services of the currently opened file.
@@ -126,9 +123,6 @@
              const tabState = JSON.parse(localStorage.getItem(newFilePath) || '{}');
              if (tabState.kubeBool) tabState.filePath = newFilePath;
              localStorage.setItem('state', JSON.stringify(tabState));
-             console.log('tabState in closeTab: ', tabState);
-             console.log('new open files: ', newOpenFiles);
-             console.log('new file path: ', newFilePath);
              // appSlice.caseReducers.switchTab(state, {payload: {filePath: newFilePath, openFiles: newOpenFiles, closeTab: true}, type: 'switchTab'});
              state = {...state, ...tabState, openFiles: newOpenFiles, selectedContainer: ''};
              if (tabState.kubeBool){
@@ -139,7 +133,6 @@
            }
            // else this.setState({ ...initialState, options });
            else return {...initialState };
-           console.log('newOpenFiles: ', newOpenFiles);
          }
          return { ...state, openFiles: newOpenFiles };
          },
@@ -159,30 +152,23 @@
         },
         fileOpenError (state: State, action: PayloadAction<string[]>) {
           if(action.payload[0] === 'reset'){
-            console.log('recognizes the reset call');
             state = {...state, openErrors: []};
             return state;
           }
-          console.log('hit fileOpenError:', action.payload);
           // state.openErrors.concat(action.payload)
           let newOpenErrors = [];
           newOpenErrors.push(action.payload[0]);
-          console.log('new open errors after adding action payload:', newOpenErrors);
           // state.fileOpened = false;
           
           state = {...state, openErrors: newOpenErrors, fileOpened: false };
-          console.log('state after accounting for open errors:', JSON.stringify(state, undefined, 2));
           return state;
         },
         openYamlFiles (state: State, action: PayloadAction<string[]> ) {
-          console.log('openYamlFiles dispatch received by reducer')
           state.openFiles.concat(action.payload);
-          console.log(state);
           return state;
         },
         updateOption (state: State, action: PayloadAction<string>) {
           // let option = action.payload.option;
-          console.log('option clicked: ', action.payload);
               // if (action.payload === 'ports') Object.assign(newState, newState[action.payload] = true)
              // check if toggling select all on or off
             if (action.payload === 'ports') state.options.ports = !state.options.ports;

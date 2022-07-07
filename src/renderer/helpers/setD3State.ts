@@ -118,9 +118,9 @@
   This means that it is impossible to traverse the entire graph starting at one edge. The edges of the directed graph only go one way.
   */
   interface DagCreator {
-    (nodesObject: SNode[], Links: Link[]): number;
+    (nodesObject: SNode[], Links: Link[], kubeBool: boolean): number;
   }
-  export const dagCreator: DagCreator = (nodes, links) => {
+  export const dagCreator: DagCreator = (nodes, links, kubeBool) => {
     //roots object creation, needs to be a deep copy or else deletion of non-roots will remove from nodesObject
     const nodesObject: NodesObject = {};
     nodes.forEach((node) => {
@@ -129,7 +129,9 @@
     });
   
     const roots = JSON.parse(JSON.stringify(nodesObject));
+   
     //iterate through links and find if the roots object contains any of the link targets
+    
     links.forEach((link: Link) => {
       if (roots[link.target]) {
         //filter the roots
@@ -153,6 +155,7 @@
     //traverse tree and create object outlining the rows/columns in each tree
     const treeMap: TreeMap = {};
     const createTreeMap = (node: NodesObject, height: number = 0) => {
+
       if (!treeMap[height] && Object.keys(node).length > 0) treeMap[height] = [];
       Object.keys(node).forEach((sName: string) => {
         treeMap[height].push(sName);
@@ -163,6 +166,12 @@
   
     // populate nodesObject with column, row, and rowLength
     const storePositionLocation = (treeHierarchy: TreeMap) => {
+      if(treeHierarchy[0] && kubeBool){
+      let sorted = treeHierarchy[0].sort();
+      let copy = {...treeHierarchy, '0': sorted};
+      treeHierarchy = copy;
+      }
+      
       Object.keys(treeHierarchy).forEach((row: string) => {
         treeHierarchy[row].forEach((sName: string, column: number) => {
           nodesObject[sName].row = Number(row);
@@ -170,11 +179,13 @@
           nodesObject[sName].rowLength = treeHierarchy[row].length;
         });
       });
-    };
+  }
     storePositionLocation(treeMap);
-  
     return Object.keys(treeMap).length;
+
   };
+
+  
   
   /**
    * ********************
@@ -190,7 +201,6 @@
   
   
   const setD3State: SetD3State = (services:any = {}) => {
-    // if its a Kube Obj
    
     let nodes: any = [];
     if(services.containers){
@@ -207,8 +217,6 @@
             rowLength: 0,
             column: 0,
           };
-          console.log('nodes in setd3state: ', node)
-          // nodes[nodes.length-1] = 
           
           return node;
     
@@ -228,13 +236,10 @@
       nodes[nodes.length] = node;
       let newNodesArr = [];
       
-      console.log('nodes before loop: ', nodes)
       let counter = 0;
       while(counter < services.replica - 1){
         for(let i = 0; i < services.replica - 1; i++){
           let newNode = nodes[i];
-          console.log('this is nodes name', newNode.name);
-          console.log('this is count', counter)
           if (newNode.name === node.name) continue;
           else {
             if(counter === 0){
@@ -246,13 +251,11 @@
             
            newNodesArr.push(newNode);
           }
-          // counter += 1;
         }
         counter += 1;
       }
       
       nodes = nodes.concat(newNodesArr);
-      console.log('these are the nodes', nodes)
       
     }else{
     nodes = Object.keys(services).map((sName: string, i) => {
@@ -284,47 +287,21 @@
     });
   }
   const links: Link[] = [];
-  // console.log('these are the services when setD3State is called', services['p'])
   
   if(services.containers){
-    // services.containers.forEach((sName: any) => {
-    // // if (services.container[sName].hasOwnProperty('depends_on')) {
-    //   // services[sName].depends_on!.forEach((el: any) => {
-        
-    //       console.log('services: ', services)
-    //       console.log(services.name, sName.name)
-          
-    //       links.push({ source: services.name, target: sName.name});
-  
-    /*
-    nodes = [ng]
-    */
      
     nodes.forEach((node:any) => {
-      if (!node.name.includes('replica')) links.push({source: services.name, target: node.name});
+      if (!node.name.includes('replica') && services.name !== node.name) links.push({source: node.name, target: services.name});
     });
-  
-    // for(let i = 0; i < services.replica - 1; i++){
-    //   links.push({source: 'nginx', target: `nginx replica ${i}`})
-    // }
-    console.log('these are the containers', services.containers)
-  
+
     for(let i = 0 ; i < services.containers.length; i++){
       for(let j = 0; j < services.replica - 1; j++){
-        console.log('hit this line 312 in setD3')
-        links.push({source: `${services.containers[i].name}`, target: `${services.containers[i].name} replica ${j + 1}`})
+        links.push({target: `${services.containers[i].name}`, source: `${services.containers[i].name} replica ${j + 1}`})
       }
     }
-    // console.log('these are the links: ', links);
-          
-          
-    //   });
-    // }
-  // });
   }
   else{
-    console.log('services in Setd3 if not a kube file', services)
-  
+    
     Object.keys(services).forEach((sName: string) => {
       if (services[sName].hasOwnProperty('depends_on')) {
       services[sName].depends_on!.forEach((el:any) => {
@@ -333,13 +310,20 @@
       }
     });
   }
-  
-    const treeDepth = dagCreator(nodes, links);
+    let kubeBool = false;
+    if(services.kind){
+      kubeBool = true;
+    }
+
+    const treeDepth = dagCreator(nodes, links, kubeBool);
     /**
      *********************
      * Variables for d3 visualizer
      *********************
      */
+    nodes = nodes.sort((a:any,b:any) => {
+      return a.id - b.id
+    })
     const d3State: D3State = {
       treeDepth,
       serviceGraph: {
@@ -348,8 +332,6 @@
       },
       simulation: d3.forceSimulation<SNode>(nodes),
     };
-    // console.log('these are the nodes', nodes)
-    // console.log('this is the D3 state', d3State)
     return d3State;
   };
   

@@ -33,7 +33,7 @@
           cursor: pointer;
           .nodeLabel {
             font-family: 'Sen-Bold';
-            fill: $fourth-color;
+            fill: rgb(1, 133, 177);
             font-size: 16px;
             text-anchor: middle;
           }
@@ -41,7 +41,7 @@
             font-family: 'Sen-Bold';
             stroke: #006896; //original: #006896
             stroke-width: 4;
-            font-size: 16px;
+            font-size: 14px;
             text-anchor: middle;
           }
           .port {

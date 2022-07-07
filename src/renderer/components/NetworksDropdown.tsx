@@ -1,3 +1,16 @@
+/**
+ * ************************************
+ *
+ * @module  Links.tsx
+ * @author Giovanni Rodriguez
+ * @date 7/7/22
+ * @description Rendering of the nodes in d3 simulation
+ *
+ * ************************************
+ */
+
+
+
 import React from 'react';
 import {  Handler } from '../App.d';
 import { selectNetwork } from '../../reducers/appSlice';
