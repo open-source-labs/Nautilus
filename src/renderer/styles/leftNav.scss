@@ -1,216 +1,129 @@
-.left-nav {
-  display: grid;
-  grid-template-columns: 238px;
-  grid-template-rows: 320px 1fr;
-  grid-template-areas: 'top-half' 'info';
-  background-color: $primary-color;
-  min-height: 650px;
-  max-height: 100vh;
+/**
+ * ************************************
+ *
+ * @module  LeftNav.tsx
+ * @author Michael Villamor
+ * @date 3/11/20 edited 6/30/22
+ * @description container for the title, the service info and the file open; hides elements if it is a kubernetes file
+ *
+ * ************************************
+ */
+ import React from 'react';
 
-  //Nautilus logo and "Open" button
-  .top-half {
-    grid-area: top-half;
+ // IMPORT REACT COMPONENTS
+ import ServiceInfo from './ServiceInfo';
+ import FileSelector from './FileSelector';
+ import ComposeDeployment from './ComposeDeployment';
+ import ClusterDeployment from './ClusterDeployment';
+ import Title from './Title';
+ import NetworksDropDown from './NetworksDropdown';
+ 
+ import { useAppDispatch, useAppSelector } from '../../hooks';
+ import { updateOption, updateViewStore } from '../../reducers/appSlice';
+ import { Handler } from '../App.d';
+ 
+ 
+ 
+ const LeftNav: React.FC = ({
+ }) => {
 
-    .title {
-      margin: 12% 10% 2% 10%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      -webkit-user-select: none;
-      .cls-1 {
-        isolation: isolate;
-      }
-      .cls-2 {
-        opacity: 0.75;
-        mix-blend-mode: multiply;
-      }
-      .cls-3 {
-        fill: none;
-        stroke-linecap: round;
-        stroke-miterlimit: 10;
-        stroke-width: 15px;
-        stroke: url(#linear-gradient);
-      }
-      .logo {
-        width: 100%;
-        padding-right: 0.5em;
-        margin-left: 1.5em;
-      }
+   const dispatch = useAppDispatch();
+   const fileOpened = useAppSelector(state => state.fileOpened);
+   const options = useAppSelector((state) => state.options);
+   const view = useAppSelector((state) => state.view);
+   const selectedContainer = useAppSelector((state) => state.selectedContainer)
+   const kubeBool = useAppSelector((state) => state.kubeBool);
+   const kubeObj = useAppSelector((state) => state.kubeObj);
 
-      h1 {
-        color: rgb(12, 142, 255);
-        font-size: 3em;
-        margin-top: 0;
+  let kubeDepoloyInfo: any = [];
+  if (kubeBool){
+    if(kubeObj?.containers){
+    kubeObj.containers.forEach((el: any, i: any) => {
+      let key = `randomKey${i}`
+      let key2 = `randomKey2${i}`
+      if(el.name === selectedContainer){
+      kubeDepoloyInfo.push(<div key = {key} > Image: {el.image}</div>)
+      kubeDepoloyInfo.push(<div key = {key2} > Port: {el.ports[0].containerPort}</div>)
       }
-    }
-
-    .file-open {
-      margin: 10%;
-      background: none;
-      color: white;
-      font-size: 1em;
-      display: flex;
-      justify-content: center;
-
-      h5 {
-        font-size: 1em;
-        align-self: center;
-        padding-left: 0.5em;
-        margin: 0;
-      }
-
-      .open-flex {
-        display: flex;
-        justify-content: center;
-        padding: 0.3em;
-      }
-
-      .select-file-button:hover {
-        cursor: hand;
-        cursor: pointer;
-        color: $fifth-color;
-      }
-
-      button {
-        background: none;
-        color: inherit;
-        border: none;
-        padding: 0;
-        font: inherit;
-        cursor: hand;
-        cursor: pointer;
-        opacity: 0.9;
-        outline: inherit;
-      }
-    }
+    })
   }
-
-  //"Please select a container with details to display"
-  .info-dropdown {
-    padding: 0 1em 1em 1em;
-    grid-area: info;
-    max-height: 100%;
-    min-height: 0;
-    display: grid;
-    grid-template-columns: 100%;
-    grid-template-rows: auto 1fr;
-    grid-template-areas: 'name' 'card';
-    max-width: 100%;
-
-    h3 {
-      grid-area: name;
-      text-align: center;
-      color: white;
-      margin-bottom: 0.5em;
-      font-size: 16px;
-    }
-
-    .content-wrapper {
-      grid-area: card;
-      height: 100%;
-      max-width: 100%;
-
-      display: flex;
-      flex: 1;
-      min-height: 0;
-      .overflow-container {
-        flex: 1;
-        overflow-y: auto;
-        scroll-behavior: smooth;
-
-        .overview {
-          min-height: min-content;
-          flex-direction: column;
-          padding: 1em;
-          background-color: rgb(224, 233, 241);
-          font-size: 1em;
-          overflow-wrap: break-word;
-          border-radius: 0.25em;
-
-          div {
-            padding-bottom: 0.5em;
-          }
-
-          .command {
-            color: $secondary-color;
-            font-weight: 800;
-          }
-
-          .options {
-            padding: 0;
-
-            div {
-              padding-left: 1em;
-              padding-bottom: 0;
-
-              ul {
-                padding: 0;
-                padding-inline-start: 1.3em;
-
-                li {
-                  span {
-                    font-weight: 600;
-                  }
-                }
-              }
-
-              .option-key {
-                font-weight: 600;
-              }
-            }
-          }
-
-          .second-level {
-            span {
-              font-weight: 600;
-            }
-          }
-
-          ul {
-            padding-inline-start: 1.3em;
-            margin: 0;
-          }
-        }
-      }
-    }
-  }
-
-  .card-header {
-    position: sticky;
-    background: none;
-    color: $fourth-color;
-    background-color: $primary-color;
-    padding: 1em;
-  }
-
-  .leftNavContainerTitle {
-    text-align: center;
-    color: $fifth-color;
-  }
-
-  .options-flex2 {
-    font-size: 16px;
-    color: white;
-    padding: 0em .5em !important;
-    margin: 5% 5%;
-    margin-left: auto;
-  }
-  .option:hover {
-    background-color: $hover-color;
-    cursor: pointer;
-  }
-  p {
-    font-size: 18px;
-    color: white;
-    display: flex;
-    justify-content: center;
-  }
-  .selected {
-    background-color: $hover-color !important;
-    border: 1px solid #c1d3e0 !important;
-    font-weight: bolder;
-  }
-  
-  
-}
+  };
+   const dependsOnClass = view === 'depends_on' ? 'option selected' : 'option';
+ 
+   const handleViewUpdate: Handler = (e) => {
+     const view = e.currentTarget.id as 'networks' | 'depends_on';
+     
+     dispatch(updateViewStore({view:view}))
+   };
+ 
+   const handleOptionUpdate: Handler = (e) => {
+     const option = e.currentTarget.id as 'ports' | 'volumes' | 'selectAll';
+     dispatch(updateOption(option));
+   };
+ 
+   // creates an array of jsx elements for each option
+   const optionsDisplay = Object.keys(options).map((opt, i) => {
+     let title = '';
+     // format select all title
+     if (opt === 'selectAll') title = ' Select All';
+     else if (opt === 'ports') title = 'Ports ';
+     else if (opt === 'volumes') title = ' Volumes ';
+     // otherwise set title to option name
+     // else title = opt;
+ 
+     return (
+       <span
+         key={`opt${i}`}
+         // if the current option is selected, give it the 'selected' class
+         className={
+           options[opt as 'selectAll' | 'ports' | 'volumes']
+             ? 'option selected'
+             : 'option'
+         }
+         id={opt}
+         onClick={handleOptionUpdate}
+       >
+         {title}
+       </span>
+     );
+   });
+   return (
+     <div className="left-nav">
+       <div className="top-half">
+         <Title />
+         {fileOpened ? <FileSelector  /> : null}
+       </div>
+       {!kubeBool ? <ServiceInfo  /> : null}
+ 
+       {kubeBool && kubeObj?.kind === 'Deployment' ? 
+         <div className='kubeData'>
+           <h2 className='kInfo'>Kubernetes Info:</h2>
+           <ol className='kInfo2'>
+             <ul>Name: {kubeObj.name}</ul>
+             <ul>Kind: {kubeObj.kind}</ul>
+             <ul>Replicas: {kubeObj.replica}</ul>
+             <h2 className='kInfo'>Container Info:</h2>
+             <ul>{kubeDepoloyInfo}</ul>
+           </ol>
+         </div> 
+         : null}
+       {!kubeBool && fileOpened  ? <NetworksDropDown/> : null}
+       {!kubeBool && fileOpened ? <div>
+         <span
+           className={dependsOnClass}
+           id="depends_on"
+           onClick={handleViewUpdate}
+         >
+           Depends On
+         </span>
+         <div className="options-flex2">{optionsDisplay}</div> 
+       </div> : null}
+       {!kubeBool && fileOpened  ? <ComposeDeployment/> : null}
+       {!kubeBool && fileOpened  ? <ClusterDeployment/> : null}
+       
+ 
+     </div>
+   );
+ };
+ 
+ export default LeftNav;

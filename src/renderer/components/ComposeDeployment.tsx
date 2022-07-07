@@ -319,7 +319,7 @@ const Deployment: React.FC = () => {
     onClick = deployKill;
   }
 
-  let inputButton = (
+  const inputButton = (
     <input
       type="file"
       name="yaml"

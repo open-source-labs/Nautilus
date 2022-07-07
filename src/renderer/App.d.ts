@@ -58,7 +58,7 @@ export interface KubeObj {
 }
 
 export type Services = {
-  [service: string]: Service;
+  [service: string]: any;
 };
 
 export type Service = {
@@ -122,7 +122,7 @@ export type Options = {
  */
 
  export type SwitchTab = {
-  filePath: string, openFiles?: any;
+  filePath: string, openFiles?: any, closeTab?: boolean;
 };
 
 export type FileOpen = {
@@ -172,7 +172,7 @@ interface SNode extends SimulationNodeDatum {
   id: number;
   name: string;
   ports: string[];
-  volumes: string[];
+  volumes?: string[];
   networks?: string[];
   row: number;
   column: number;

@@ -41,10 +41,13 @@ const FileSelector: React.FC = () => {
         name="yaml"
         accept=".yml,.yaml"
         style={{ display: 'none' }}
-        onChange={async (event: React.SyntheticEvent<HTMLInputElement>) => {
+        onChange={(event: React.SyntheticEvent<HTMLInputElement>) => {
           // make sure there was something selected
+
+          //make sure to clear fileOpenErrors when opening a new file
           dispatch(fileOpenError(['reset']));
           cacheErrors('reset');
+          
           if (event.currentTarget) {
             // make sure user opened a file
             if (event.currentTarget.files) {
@@ -54,25 +57,8 @@ const FileSelector: React.FC = () => {
                * If it's an array, than it's outputting a string of error messages and calling error reducer
                * If it's an object, dispatch yamlState and switchTab reducers with object properties
                */
-<<<<<<< HEAD
-
-<<<<<<< HEAD
-              // const fetchInfoFromFile = createAsyncThunk(
-              //   'File',
-              //   async (file: File, thunkAPI)
-              // );
-
-            fileOpen(event.currentTarget.files[0]);
-              
-             
-              
-              
-=======
-=======
             
->>>>>>> 0e56383... added file error functionality
             fileOpen(event.currentTarget.files[0]); //goes to helper function to process
->>>>>>> a56fe83... cleaned up fileSelector, LeftNav, NetworksDropdown and Store
               
 
             /*
@@ -81,52 +67,28 @@ const FileSelector: React.FC = () => {
               Result from file open and subsequent parsing is added to a cache function
               the setTimeout waits for the file to be read and grabs data from the cache
               
+              
             */
               setTimeout(() => {
+                
+                //The cache functions use closure and can be accessed by calling the function with string '123'
                 let result = getCache('123');
                 let errors = cacheErrors('123');
                 
                 let openedFile = result[0];
-<<<<<<< HEAD
-                if (openedFile !== undefined){
-                  if (Array.isArray(openedFile)){
-                      dispatch(fileOpenError(openedFile))
-                    }
-                    else{
-                      console.log('openedfile', openedFile);
-                      dispatch(yamlToState(openedFile.yamlState))
-                      dispatch(switchTab({filePath: openedFile.filePath, openFiles: openedFile.openFiles}))
-                  };
-=======
                 let dispatchError;
+                
                 if(errors.length){
                    dispatchError = errors[0];
                 }
-                // console.log('result from the cache: ', openedFile.openFiles)
-                console.log('result from errors: ', errors);
+                
                 if (openedFile !== undefined && !errors.length){
                   Array.isArray(openedFile) ? dispatch(fileOpenError(openedFile)) : dispatch(yamlToState(openedFile.yamlState)), dispatch(switchTab({filePath: openedFile.filePath, openFiles: openedFile.openFiles, closeTab: false}));
->>>>>>> 0e56383... added file error functionality
                 }
                 else if (dispatchError) {
-                  console.log('error opening file, try again');
                   dispatch(fileOpenError(dispatchError));
                 }
               }, 500)
-<<<<<<< HEAD
-              
-              
-              
-              
-             
-              
-
-
-              // const openedFile = await fileOpen(event.currentTarget.files[0]);
-              // console.log('after file open, we get this far', openedFile);
-              // Array.isArray(openedFile) ? dispatch(fileOpenError(openedFile)) : dispatch(yamlToState(openedFile.yamlState)), dispatch(switchTab({filePath: openedFile.filePath, openFiles: openedFile.openFiles}));
-=======
->>>>>>> a56fe83... cleaned up fileSelector, LeftNav, NetworksDropdown and Store
             }
           }
         }}

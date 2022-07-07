@@ -2,9 +2,9 @@
  * ************************************
  *
  * @module  ComposeDeployment.tsx
- * @author David Soerensen
- * @date 3/11/20
- * @description container for the title, the service info and the file open
+ * @author David Soerensen, Michael Villamor
+ * @date 3/11/20 edited 7/7/22
+ * @description container for hte swarm deployment. 
  *
  * ************************************
  */
@@ -17,6 +17,9 @@ const ClusterDeployment: React.FC = () => {
   return (
     <div>
       <SwarmDeployment  />
+
+      {/*planned feature */}
+
       {/* <KubeDeployment currentFilePath={currentFilePath} /> */}
     </div>
   );

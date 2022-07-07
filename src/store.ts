@@ -3,7 +3,7 @@
  *
  * @module  store.ts
  * @author Jordan Long, Michael Villamor, Nathan Lovell, Giovanni Rodriguez
- * @date 6/16/2020
+ * @date 6/16/2022
  * @description Redux 'single source of truth'
  *
  * ************************************

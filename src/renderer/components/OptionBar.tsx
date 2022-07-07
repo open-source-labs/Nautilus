@@ -3,9 +3,9 @@
  *
  * @module  OptionBar.tsx
 
- * @author Tyler Hurtt
- * @date 3/11/20
- * @description Used to display toggle options
+ * @author Tyler Hurtt, Michael Villamor
+ * @date 3/11/20 edited 7/7/22
+ * @description Used to display toggle options. Refactored into a draggable bar, moved all buttons to left nav
  *
  * ************************************
  */

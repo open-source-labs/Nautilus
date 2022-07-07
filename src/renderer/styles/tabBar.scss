@@ -1,10 +1,8 @@
 .tab-bar {
   display: flex;
-<<<<<<< HEAD
+
   background-color: rgb(56, 69, 79);
-=======
-  background-color: rgb(52, 56, 60); //original color: rgb(0, 50, 92);
->>>>>>> c493fe1... added base styling
+
   height: 2.2em;
   align-items: bottom;
   overflow-y: hidden;
@@ -13,11 +11,9 @@
     width: auto;
     height: 2.2em;
     color: darken($secondary-color, 10%);
-<<<<<<< HEAD
+
     background-color: rgb(25, 46, 30);
-=======
-    background-color: rgb(102, 106, 110); //original color: rgb(0, 50, 92)
->>>>>>> c493fe1... added base styling
+
     color: white;
     overflow: hidden;
     display: flex;
@@ -43,11 +39,9 @@
     }
   }
   .active-tab {
-<<<<<<< HEAD
+
     background-color: rgb(40, 141, 249);
-=======
-    background-color: rgb(11, 94, 181); //original color: rgb(11, 94, 181);
->>>>>>> c493fe1... added base styling
+
     color: white;
   }
 }

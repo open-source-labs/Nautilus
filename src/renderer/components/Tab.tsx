@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import React from 'react';
-=======
 import React from 'react'
->>>>>>> 036ec09... cleaned up app.d, option bar, service info, tab, tab bar, yamlParser
 import { useDispatch } from 'react-redux';
 import { switchTab, closeTab } from '../../reducers/appSlice';
 
@@ -17,6 +13,9 @@ const Tab: React.FC<Props> = ({
   activePath,
 }) => {
   const dispatch = useDispatch();
+
+  
+
   let fileSplit;
   if (process.platform === 'win32') fileSplit = filePath.split('\\');
   else fileSplit = filePath.split('/');

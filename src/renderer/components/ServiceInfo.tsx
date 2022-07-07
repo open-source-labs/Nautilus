@@ -2,13 +2,14 @@
  * ************************************
  *
  * @module  ServiceInfo.tsx
- * @author Danny Scheiner & Josh Nordstrom
- * @date 3/11/20
- * @description Dropdown display to show categories of service info
+ * @author Danny Scheiner & Josh Nordstrom, Michael Villamor, Nathan Lovell, Jordan Long, Giovanni Rodriguez
+ * @date 3/11/20 edited 7/7/22
+ * @description Dropdown display to show categories of service info; changed state management to redux
  *
  * ************************************
  */
- import React from 'react';
+//  import { select } from 'd3';
+import React from 'react';
  import { useAppSelector } from '../../hooks';
  
  
@@ -35,145 +36,10 @@
      ports: 'Ports: ',
    };
    
-   const selectedContainer = useAppSelector((state) => state.selectedContainer)
-  let service: any = useAppSelector((state) => state.services[selectedContainer]); //not ideal solution but it works for now
-  // let services: any = useAppSelector((state) => state.services);
-  // let isKube: boolean = false;
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-type DockerComposeCommands = {
-  [prop: string]: string;
-};
-
-type ServiceOverview = {
-  [prop: string]: any;
-};
-
-type TwoDimension = {
-  [prop: string]: any;
-};
-
-const ServiceInfo: React.FC= () => {
-  // Create an object to house text intros for each docker-compose property
-  const dockerComposeCommands: DockerComposeCommands = {
-    build: 'Build: ',
-    image: 'Image: ',
-    command: 'Command: ',
-    environment: 'Environment: ',
-    env_file: 'Env_file: ',
-    ports: 'Ports: ',
-  };
-  
   const selectedContainer = useAppSelector((state) => state.selectedContainer)
-  const service: any = useAppSelector((state) => state.services[selectedContainer]); //not ideal solution but it works for now
-  const kubeService: any = useAppSelector((state) => state.services);
+  let service: any = useAppSelector((state) => state.services[selectedContainer]); //not ideal solution but it works for now
+  let isKube: boolean = false;
 
-  console.log('this is kube service', kubeService)
-  console.log('this is selectedContainer', selectedContainer)
-  
-  // Objects to hold filtered 1D service Commands
-  const serviceOverview: ServiceOverview = {};
-
-  // Arrays/Objects to hold filtered 2D service Commands
-  const environmentVariables: TwoDimension = {};
-  const env_file: string[] = [];
-  const portsArray: string[] = [];
-
-  // loop through each command in the selected container,
-  // if the command exists in the DC properties, correspond it to an empty string in the serviceOverview object
-  // also, do the following for each of the specific commands with 2D values, as well as the "build" command because it has options:
-  // ENVIRONMENT: we want to take an environment variable such as: "JACOCO=${REPORT_COVERAGE}" and set the 2d line to look like - JACOCO: $(REPORT_COVERAGE)
-  // Thus, if its value is an array, loop through it, split the value at the the '=', and set the key in the environmentVariables cache to the first half, and the value to the second half
-  // Otherwise, if it's an object, it's already split for you, so set the serviceOverview key to the environment variable's key, and the serviceOverview value to the environment's value
-  // ENV_FILE: an env file can have a 1D string, so if it does, just set the key in serviceOverview equal to its value as passed down from state
-  // If it's an array, loop through the env_file values, and push them into the env_file "cache" on line 46
-  // PORTS: if ports incorrectly is given a string, just set the key in serviceOverview equal to its value as passed down from state
-  // Finally, for all commands with 1D values and no options (image and cmmand), just set the key in serviceOverview equal to its value as passed down from state
-
-  if (service) {
-    console.log('this is the service', service);
-    Object.keys(service).forEach((command) => {
-      console.log('these are the commands', command)
-      if (dockerComposeCommands[command]) {
-        serviceOverview[command] = '';
-        //  *********************
-        //  * Environment
-        //  *********************
-        if (command === 'environment') {
-          if (Array.isArray(service[command])) {
-            service[command].forEach((value: string) => {
-              const valueArray = value.split('=');
-              environmentVariables[valueArray[0]] = valueArray[1];
-            });
-          } else {
-            const environment = service[command];
-            Object.keys(environment).forEach((key) => {
-              environmentVariables[key] = environment[key];
-            });
-          }
-          //  *********************
-          //  Env_File
-          //  *********************
-        } else if (command === 'env_file') {
-          if (typeof service[command] === 'string') {
-            serviceOverview[command] = service[command];
-          } else {
-            for (let i = 0; i < service[command].length; i += 1) {
-              env_file.push(service[command][i]);
-            }
-          }
-          //  *********************
-          //  Ports
-          //  *********************
-        } else if (command === 'ports') {
-          for (let i = 0; i < service[command].length; i += 1) {
-            if (typeof service[command][i] === 'object') {
-              portsArray.push(
-                `${service[command][i].published}:${
-                  service[command][i].target
-                } - ${service[command][i].protocol.toUpperCase()} : ${
-                  service[command][i].mode
-                }`,
-              );
-            } else if (!service[command][i].includes(':')) {
-              portsArray.push(`Auto-assigned:${service[command][i]}`);
-            } else portsArray.push(service[command][i]);
-          }
-          //  *********************
-          //  * Build
-          //  *********************
-        } else if (
-          command === 'build' &&
-          typeof service[command] !== 'string'
-        ) {
-          //  *********************
-          //  * Command
-          //  *********************
-        } else if (command === 'command' && Array.isArray(service[command])) {
-          //  *********************
-          //  * General 1D Objects
-          //  *********************
-        } else {
-          serviceOverview[command] = service[command];
-        }
-      }
-    });
-=======
-  if(services.kubeBool){
-    service = services.kubeObj;
-    isKube = true;
->>>>>>> 0927d85... removed rendering of unnecessary buttons for kube files
-  }
-  if (isKube) console.log('service if its a kube: ', service);
-=======
-  // if(services.kubeBool){
-  //   service = services.kubeObj;
-  //   isKube = true;
-  // }
-  // if (isKube) console.log('service if its a kube: ', service);
->>>>>>> 73a352c... fixed bugs related to closing a kubernetes tab and app crashing upon load of kubernetes file
    
    // Objects to hold filtered 1D service Commands
    const serviceOverview: ServiceOverview = {};
@@ -193,7 +59,7 @@ const ServiceInfo: React.FC= () => {
    // If it's an array, loop through the env_file values, and push them into the env_file "cache" on line 46
    // PORTS: if ports incorrectly is given a string, just set the key in serviceOverview equal to its value as passed down from state
    // Finally, for all commands with 1D values and no options (image and cmmand), just set the key in serviceOverview equal to its value as passed down from state
-   if (service) {
+   if (service && !isKube) {
      Object.keys(service).forEach((command) => {
        if (dockerComposeCommands[command]) {
          serviceOverview[command] = '';
