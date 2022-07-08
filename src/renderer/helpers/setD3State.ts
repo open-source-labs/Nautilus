@@ -238,7 +238,7 @@
       
       let counter = 0;
       while(counter < services.replica - 1){
-        for(let i = 0; i < services.containers.length; i++){
+        for(let i = 0; i < services.replica - 1; i++){
           let newNode = nodes[i];
           if (newNode.name === node.name) continue;
           else {
