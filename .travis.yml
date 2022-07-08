@@ -20,7 +20,8 @@ before-script:
   - yarn
 
 # on PRs and merges to master and prod run tests and build the app - REMOVED DUE TO BROKEN TESTING - To restore add script: yarn test
-
+script: 
+  - yarn test
 # only run this script on pull requests and merges into
 # the 'master' branches
 branches:
