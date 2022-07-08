@@ -15,16 +15,6 @@
     "test-f": "bash ./scripts/run-test.sh",
     "up-snap": "jest --updateSnapshot"
   },
-  "jest": {
-    "setupFilesAfterEnv": [
-      "./src/setupTests.ts"
-    ],
-    "testEnvironment": "enzyme",
-    "testPathIgnorePatterns": [
-      "/node_modules/",
-      "/samples/"
-    ]
-  },
   "build": {
     "appId": "com.nautilus.app",
     "productName": "Nautilus",
