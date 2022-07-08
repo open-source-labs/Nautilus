@@ -238,7 +238,7 @@
       
       let counter = 0;
       while(counter < services.replica - 1){
-        for(let i = 0; i < services.replica - 1; i++){
+        for(let i = 0; i < services.containers.length; i++){
           let newNode = nodes[i];
           if (newNode.name === node.name) continue;
           else {
@@ -248,7 +248,6 @@
             else {
               newNode = {...nodes[i], id: nodes[i].id + counter + i, name: nodes[i].name + ` replica ${counter + 1}`};
             }
-            
            newNodesArr.push(newNode);
           }
         }
