@@ -13,7 +13,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { FaUpload, FaRegPlayCircle } from 'react-icons/fa';
 import { GiHeartPlus } from 'react-icons/gi';
 import Draggable from 'react-draggable';
-
+import { useAppSelector } from '../../hooks';
 import {
   runDockerSwarmDeployment,
   runLeaveSwarm,
@@ -22,11 +22,10 @@ import {
 } from '../../common/runShellTasks';
 import { Void } from '../App.d';
 
-type Props = {
-  currentFilePath: string;
-};
 
-const SwarmDeployment: React.FC<Props> = ({ currentFilePath }) => {
+
+const SwarmDeployment: React.FC = () => {
+  const currentFilePath = useAppSelector((state) => state.filePath);
   // Create React hooks to hold onto state
   const [success, setSuccess] = useState(false);
   const [swarmExists, setSwarmExists] = useState(false);

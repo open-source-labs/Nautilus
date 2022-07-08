@@ -11,6 +11,9 @@
 
 import React, { useState, useEffect } from 'react';
 import * as d3 from 'd3';
+import { fileOpen } from '../helpers/fileOpen';
+import { useAppSelector, useAppDispatch } from '../../hooks';
+import { yamlToState, fileOpenError } from "../../reducers/appSlice";
 
 import {
   FaUpload,
@@ -18,7 +21,7 @@ import {
   FaRegPlayCircle,
   FaRegStopCircle,
 } from 'react-icons/fa';
-import { remote } from 'electron';
+const remote = require('@electron/remote');
 import { GiHeartPlus } from 'react-icons/gi';
 
 import {
@@ -28,7 +31,7 @@ import {
   runDockerStats,
 } from '../../common/runShellTasks';
 
-import { FileOpen, Void } from '../App.d';
+import {  Void } from '../App.d';
 
 enum DeploymentStatus {
   OpeningFile = 0,
@@ -48,12 +51,10 @@ enum HealthCheck {
   On,
 }
 
-type Props = {
-  currentFilePath: string;
-  fileOpen: FileOpen;
-};
-
-const Deployment: React.FC<Props> = ({ currentFilePath, fileOpen }) => {
+const Deployment: React.FC = () => {
+  const currentFilePath = useAppSelector((state) => state.filePath);
+  const dispatch = useAppDispatch();
+  
   const [deployState, setDeployState] = useState(DeploymentStatus.NoFile);
   const [errorMessage, setErrorMessage] = useState('');
   const [healthCheck, setHealthCheck] = useState(HealthCheck.Off);
@@ -318,7 +319,7 @@ const Deployment: React.FC<Props> = ({ currentFilePath, fileOpen }) => {
     onClick = deployKill;
   }
 
-  let inputButton = (
+  const inputButton = (
     <input
       type="file"
       name="yaml"
@@ -331,7 +332,8 @@ const Deployment: React.FC<Props> = ({ currentFilePath, fileOpen }) => {
           if (event.currentTarget.files) {
             // fire fileOpen function on first file opened
             setDeployState(DeploymentStatus.OpeningFile);
-            fileOpen(event.currentTarget.files[0]);
+            const openedFile = fileOpen(event.currentTarget.files[0]);
+            Array.isArray(openedFile) ? dispatch(fileOpenError(openedFile)) : dispatch(yamlToState(openedFile.yamlState));
           }
         }
       }}
