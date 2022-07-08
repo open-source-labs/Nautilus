@@ -14,6 +14,7 @@ import * as d3 from 'd3';
 // IMPORT COMPONENTS
 import Nodes from './Nodes';
 import Links from './Links';
+import { useAppSelector } from '../../hooks';
 
 //IMPORT HELPER FNS
 import {
@@ -25,7 +26,6 @@ import {
 import {
   Services,
   SNode,
-  SetSelectedContainer,
   Options,
   ReadOnlyObj,
   ViewT,
@@ -33,7 +33,7 @@ import {
 
 type Props = {
   services: Services;
-  setSelectedContainer: SetSelectedContainer;
+  // setSelectedContainer: SetSelectedContainer;
   options: Options;
   networks: ReadOnlyObj;
   view: ViewT;
@@ -43,7 +43,6 @@ type Props = {
 
 const View: React.FC<Props> = ({
   services,
-  setSelectedContainer,
   options,
   view,
   networks,
@@ -51,7 +50,7 @@ const View: React.FC<Props> = ({
   getColor,
 }) => {
   const { treeDepth, simulation } = window.d3State;
-
+  const kubeBool = useAppSelector((state) => state.kubeBool);
   /**
    *********************
    * Depends On View
@@ -178,13 +177,12 @@ const View: React.FC<Props> = ({
          */
         const getSpacing = (): number => {
           // iterate through each node
-          console.log('spacing', d3Nodes);
           d3Nodes.each((d: any) => {
             // if the node is part of a network
             if (d.networks) {
               // create one string of all networks sorted that node is a part
               let networkString = '';
-              d.networks.sort();
+              // d.networks.sort();
               d.networks.forEach((network: string) => {
                 networkString += network;
               });
@@ -206,7 +204,7 @@ const View: React.FC<Props> = ({
               if (d.networks.length === 0) return width / 2;
               // create one string of all networks sorted that node is a part
               let networkString = '';
-              d.networks.sort();
+              // d.networks.sort();
               d.networks.forEach((network) => {
                 networkString += network;
               });
@@ -277,22 +275,20 @@ const View: React.FC<Props> = ({
         .on('tick', ticked)
         .restart();
     }
-
-    console.log('view d3 render line 281 View.tsx');
     return () => {
       // clear window resize if changing away from depends view
       if (view === 'depends_on') {
         window.onresize = null;
       }
     };
-  }, [view, services, selectedNetwork]);
+  }, [view, services, selectedNetwork,kubeBool]);
 
   return (
     <>
       <div className="view-wrapper">
         <svg className="graph">
           <Nodes
-            setSelectedContainer={setSelectedContainer}
+            // setSelectedContainer={setSelectedContainer}
             services={services}
             options={options}
             getColor={getColor}

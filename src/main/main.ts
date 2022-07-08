@@ -9,7 +9,7 @@ import path from 'path';
 import url from 'url';
 import createMenu from './menu';
 import installExtension, {
-  REACT_DEVELOPER_TOOLS,
+  REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS
 } from 'electron-devtools-installer';
 import fixPath from 'fix-path';
 
@@ -34,6 +34,7 @@ const createWindow = () => {
     titleBarStyle: 'hidden',
     webPreferences: {
       nodeIntegration: true,
+      contextIsolation: false
     },
   });
 
@@ -51,7 +52,15 @@ const createWindow = () => {
           window.webContents.openDevTools();
           console.log(`Added Extension: ${name}`);
         })
-        .catch((err: Error) => console.log(`An error occurred: ${err}`));
+        .catch((err: Error) => console.log(`An error occurred hello: ${err}`));
+    });
+    window.webContents.on('did-frame-finish-load', () => {
+      installExtension(REDUX_DEVTOOLS)
+        .then((name: string) => {
+          window.webContents.openDevTools();
+          console.log(`Added Extension: ${name}`);
+        })
+        .catch((err: Error) => console.log(`An error occurred hello: ${err}`));
     });
   } else {
     // in production, load content from electron application files

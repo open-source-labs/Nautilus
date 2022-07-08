@@ -33,15 +33,15 @@
           cursor: pointer;
           .nodeLabel {
             font-family: 'Sen-Bold';
-            fill: $fourth-color;
+            fill: rgb(1, 133, 177);
             font-size: 16px;
             text-anchor: middle;
           }
           .nodeLabelStroke {
             font-family: 'Sen-Bold';
-            stroke: #006896;
+            stroke: #006896; //original: #006896
             stroke-width: 4;
-            font-size: 16px;
+            font-size: 14px;
             text-anchor: middle;
           }
           .port {
@@ -88,7 +88,7 @@
       width: 100%;
       height: 90%;
       background-color: $primary-color;
-      border-radius: 2em;
+      border-radius: .5em;
       display: flex;
       flex-direction: column;
       align-items: stretch;

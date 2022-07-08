@@ -3,7 +3,7 @@ import fs from 'fs';
 type EnvObject = {
   [variableName: string]: string;
 };
-
+//env variables in docker: https://docs.docker.com/compose/environment-variables/
 //this function replaces all env variables within the docker compose yaml string with their values in the env file
 const resolveEnvVariables = (yamlText: string, filePath: string) => {
   const envFileArray = filePath.split('/');
@@ -17,7 +17,6 @@ const resolveEnvVariables = (yamlText: string, filePath: string) => {
     return yamlText;
   }
   let yamlTextCopy = yamlText;
-  console.log(envString);
   //split by line
   const envArray = envString.split('\n');
   //remove empty last element
