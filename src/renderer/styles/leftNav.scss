@@ -1,3 +1,5 @@
+$info-background: rgb(224, 233, 241);
+
 .left-nav {
   display: grid;
   grid-template-columns: 238px;
@@ -6,6 +8,7 @@
   background-color: $primary-color;
   min-height: 650px;
   max-height: 100vh;
+  
 
   //Nautilus logo and "Open" button
   .top-half {
@@ -39,16 +42,21 @@
       }
 
       h1 {
-        color: $fourth-color;
-        font-size: 3em;
+        color: rgb(251, 251, 251); //original: rgb(12, 142, 255)
+        font-size: 3.5em;
         margin-top: 0;
+      }
+      span {
+        font-family: 'Sen-Bold';
+        color: #0C8EFF; 
+        font-size: 53px;
       }
     }
 
     .file-open {
       margin: 10%;
       background: none;
-      color: $fourth-color;
+      color: white;
       font-size: 1em;
       display: flex;
       justify-content: center;
@@ -101,7 +109,7 @@
     h3 {
       grid-area: name;
       text-align: center;
-      color: $fourth-color;
+      color: white;
       margin-bottom: 0.5em;
       font-size: 16px;
     }
@@ -123,7 +131,7 @@
           min-height: min-content;
           flex-direction: column;
           padding: 1em;
-          background-color: rgb(224, 233, 241);
+          background-color: $info-background;
           font-size: 1em;
           overflow-wrap: break-word;
           border-radius: 0.25em;
@@ -188,4 +196,77 @@
     text-align: center;
     color: $fifth-color;
   }
+  #depends_on {
+    padding: 0em .5em !important;
+    margin: 5% 5%;
+    margin-left: auto;
+    font-size: 18px;
+    color: white;
+    display: flex;
+    justify-content: center;
+  }
+  #depends_on:hover {
+    color: $hover-color;
+    cursor: pointer;
+  }
+
+  .options-flex2 {
+    font-size: 16px;
+    color: white;
+    padding: .5em 1em !important;
+    margin: 5% 5%;
+  }
+  .option {
+    
+  }
+  .option:hover {
+    color: $hover-color;
+    cursor: pointer;
+  }
+  p {
+    font-size: 18px;
+    color: white;
+    display: flex;
+    justify-content: center;
+  }
+  .selected {
+    color: $hover-color !important;
+    // border: 1px solid #c1d3e0 !important;
+    font-weight: bolder;
+  }
+
+
+  .kubeData{
+    font-size: 12px;
+    background-color: $info-background;
+    margin-top: 10%;
+    margin-bottom: 200%;
+    margin-left: 5%;
+    margin-right: 5%;
+    border-radius: .25em;
+    padding: 1em;
+    
+    
+  
+
+    h2 {
+      font-size: 18px;
+      color: #08a5ff;
+      
+    }
+  }
+  .kInfo {
+    color: black;
+    font-size: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .kInfo2 {
+    font-size: 16px;
+    padding-left: 0%;
+    padding-right: 0%;
+    
+  }
+  
 }

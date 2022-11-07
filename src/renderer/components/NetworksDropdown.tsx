@@ -1,21 +1,32 @@
+/**
+ * ************************************
+ *
+ * @module  Links.tsx
+ * @author Giovanni Rodriguez
+ * @date 7/7/22
+ * @description Rendering of the nodes in d3 simulation
+ *
+ * ************************************
+ */
+
+
+
 import React from 'react';
-import { ReadOnlyObj, SelectNetwork, Handler } from '../App.d';
+import {  Handler } from '../App.d';
+import { selectNetwork } from '../../reducers/appSlice';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 
-type Props = {
-  networks: ReadOnlyObj;
-  selectNetwork: SelectNetwork;
-  selectedNetwork: string;
-};
 
-const NetworksDropDown: React.FC<Props> = ({
-  networks,
-  selectNetwork,
-  selectedNetwork,
+const NetworksDropDown: React.FC = ({
+
 }) => {
+  const dispatch = useAppDispatch();
+  const networks = useAppSelector(state => state.networks)
+  const selectedNetwork = useAppSelector(state => state.selectedNetwork)
   const handleNetworkUpdate: Handler = e => {
     const network = (e as React.ChangeEvent<HTMLSelectElement>).currentTarget
       .value;
-    selectNetwork(network);
+    dispatch(selectNetwork(network));
   };
 
   const groupNetworks = (): JSX.Element | void => {

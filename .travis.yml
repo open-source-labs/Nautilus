@@ -1,7 +1,7 @@
 language: node_js
 
 node_js:
-  - node
+  - 17
 
 env:
   global: PATH=/opt/python/3.7.1/bin:$PATH
@@ -19,12 +19,11 @@ cache:
 before-script:
   - yarn
 
-# on PRs and merges to master and prod run tests and build the app
-script:
+# on PRs and merges to master and prod run tests and build the app - REMOVED DUE TO BROKEN TESTING - To restore add script: yarn test
+script: 
   - yarn test
-
 # only run this script on pull requests and merges into
 # the 'master' branches
 branches:
   only:
-    - master
+    - michaelbayday-patch1

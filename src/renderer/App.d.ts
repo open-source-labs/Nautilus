@@ -22,6 +22,8 @@ export type State = {
   view: ViewT;
   volumes: ReadOnlyObj;
   volumesClicked: Clicked;
+  kubeObj?: KubeObj;
+  kubeBool: Boolean;
 };
 
 type ReadOnlyObj = {
@@ -37,8 +39,26 @@ type DependsOn = {
   readonly children?: Array<DependsOn>;
 };
 
+export type Kind = "Deployment" | "Pod" | "Node" | "Service";
+
+export type Container = {
+  name: string;
+  image: string;
+  port: number;
+  volumes: ReadOnlyObj;
+};
+
+export interface KubeObj {
+  kind?: Kind;
+  name?: string;
+  containers?: Container[]; 
+  replica?: number;
+  selector?: string;
+  ports?: []
+}
+
 export type Services = {
-  [service: string]: Service;
+  [service: string]: any;
 };
 
 export type Service = {
@@ -87,7 +107,7 @@ type LongVolumeSyntax = Partial<{
 
 type VolumeType = string | LongVolumeSyntax;
 
-type ViewT = 'networks' | 'depends_on';
+type ViewT = 'networks' | 'depends_on' | undefined; //hack fix, shouldn't take undefined
 
 export type Options = {
   ports: boolean;
@@ -100,8 +120,13 @@ export type Options = {
  * APP METHOD FUNCTION TYPES
  * **********************
  */
+
+ export type SwitchTab = {
+  filePath: string, openFiles?: any, closeTab?: boolean;
+};
+
 export type FileOpen = {
-  (file: File): void;
+  (file: File): any;
 };
 
 export type UpdateOption = {
@@ -128,10 +153,6 @@ export type SetSelectedContainer = {
   (containerName: string): void;
 };
 
-export type SwitchTab = {
-  (filePath: string, openFiles?: Array<string>): void;
-
-};
 
 export type Void = {
   ():void
@@ -151,7 +172,7 @@ interface SNode extends SimulationNodeDatum {
   id: number;
   name: string;
   ports: string[];
-  volumes: string[];
+  volumes?: string[];
   networks?: string[];
   row: number;
   column: number;
@@ -184,3 +205,20 @@ export type shellResults = {
   out: string;
   envResolutionRequired: boolean;
 };
+
+export type YamlState = {
+  fileOpened: boolean;
+  kubeBool?: boolean;
+  kubeObj?: KubeObj;
+  services: Services;
+  filePath?: string;
+  dependsOn?: DependsOn;
+  networks?: ReadOnlyObj;
+  volumes?: ReadOnlyObj;
+  bindMounts?: Array<string>;
+};
+
+export interface ViewAndSelectNetwork {
+  view?: ViewT;
+  selectedNetwork?: string;
+}
